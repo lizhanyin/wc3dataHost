@@ -3,10 +3,12 @@
 #include "common.h"
 #include <string>
 #include <memory>
+
 #ifndef NO_SYSTEM
 #include <filesystem>  
 namespace fs = std::filesystem; 
 #endif
+
 class FileBuffer {
 public:
   virtual ~FileBuffer() {}

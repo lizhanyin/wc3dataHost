@@ -346,7 +346,7 @@ struct MpqBuildData : public BuildData {
       if (fs::is_regular_file(entry.status()) &&
           entry.path().string().find("Deprecated.mpq") == -1) {
         if (entry.path().extension() == this->extension) {
-          File file(entry.path());
+          File file(entry.path().string());
           auto arc = std::make_shared<mpq::Archive>(file);
           loader.add(arc);
           this->mpqFound = true;
@@ -369,13 +369,16 @@ struct MpqBuildData : public BuildData {
     if (!this->mpqFound) {
       return;
     }
-
+#ifdef _DEBUG
+    File listf(path::appbase() / "../../listfile.txt", "rb");
+#else
     File listf(path::appbase() / "listfile.txt", "rb");
-    std::string line;
     if (!File::exists(path::appbase() / "listfile.txt")) {
-      throw new Exception(
-          "E: listfile.txt is with this app but does not exists.");
+      throw std::exception("E: listfile.txt is with this app but does not exists.");
     }
+#endif // DEBUG
+
+    std::string line;
     while (listf.getline(line)) {
       names.insert(trim(line));
     }
@@ -388,6 +391,7 @@ struct MpqBuildData : public BuildData {
 
 namespace fs = std::filesystem;
 const std::string DEFAULT_OUTPUT_DIR = "./workout"; // 默认输出目录
+
 int main(int argc, char *argv[]) {
   std::string mpqPath;
   std::string versionStr;
@@ -457,7 +461,7 @@ int main(int argc, char *argv[]) {
               << std::endl;
     return EXIT_FAILURE;
   }
-
+  
   std::cout << "War3 files location: " << mpqPath << std::endl;
 
   if (!versionStr.empty()) {
@@ -504,6 +508,7 @@ int main(int argc, char *argv[]) {
     // CdnBuildData data(build);
     path::root(outputPath);
     Logger::remove();
+    Logger::begin(-1);
     MpqBuildData mpqdat(mpqPath, build, versionStr);
     if (!mpqdat.mpqFound) {
       std::cout << fmtstring("E: No mpq files found in path `%s, please check.",
@@ -542,7 +547,7 @@ int main(int argc, char *argv[]) {
     //  //File(path::root() / "war3map.j", "wb").copy(mf);
     //#endif
     //
-  } catch (const Exception &e) {
+  } catch (const Exception e) {
     // 处理异常
     std::cerr << "Caught an Exception: " << e.what() << std::endl;
   } catch (const std::exception &e) {

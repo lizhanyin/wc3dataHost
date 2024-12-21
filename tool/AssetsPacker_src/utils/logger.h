@@ -4,7 +4,13 @@
 #include <list>
 #include <string>
 #include <vector>
+
+#ifdef ERROR
+#undef ERROR
+#endif // ERROR
 enum class LogLevel { DEBUG, INFO, WARN, ERROR, ALL };
+#define ERROR 0
+
 class Logger {
 public:
   struct Task;
@@ -31,6 +37,7 @@ public:
   static int menu(char const *title,
                   std::map<char, std::string> const &options);
   static void log(LogLevel level, char const *fmt, ...);
+  static void log(char const* fmt, ...);
   static void debug(char const *fmt, ...);
   static void info(char const *fmt, ...);
   static void warn(char const *fmt, ...);

@@ -226,9 +226,11 @@ struct LoadDXT4 {
             Image::color_t color = c[lookup & 3];
             int alpha = a[amap & 7];
             if (alpha) {
-              color = Image::color_t(color.red * 255 / alpha,
-                                     color.green * 255 / alpha,
-                                     color.blue * 255 / alpha);
+                color = Image::color_t(
+                  color.red * 255 / alpha,
+                  color.green * 255 / alpha,
+                  color.blue * 255 / alpha
+                );
             } else {
               color.alpha = alpha;
             }

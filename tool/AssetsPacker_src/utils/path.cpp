@@ -1,16 +1,16 @@
 #include "path.h"
 #include "common.h"
 #include "file.h"
-using namespace std;
 
-string path::name(string const &path) {
+
+std::string path::name(std::string const &path) {
   int pos = path.length();
   while (pos > 0 && path[pos - 1] != '/' && path[pos - 1] != '\\') {
     --pos;
   }
   return path.substr(pos);
 }
-string path::title(string const &path) {
+std::string path::title(std::string const &path) {
   size_t pos = path.length();
   size_t dot = path.length();
   while (pos && path[pos - 1] != '/' && path[pos - 1] != '\\') {
@@ -25,14 +25,14 @@ string path::title(string const &path) {
     return path.substr(pos, dot - pos);
   }
 }
-string path::path(string const &path) {
+std::string path::path(std::string const &path) {
   int pos = path.length();
   while (pos > 0 && path[pos - 1] != '/' && path[pos - 1] != '\\') {
     --pos;
   }
   return path.substr(0, pos ? pos - 1 : 0);
 }
-string path::ext(string const &path) {
+std::string path::ext(std::string const &path) {
   size_t pos = path.length();
   size_t dot = path.length();
   while (pos && path[pos - 1] != '/' && path[pos - 1] != '\\') {
@@ -48,19 +48,28 @@ string path::ext(string const &path) {
   }
 }
 
-#ifdef _MSC_VER
+
+#ifdef _WIN32
 #include <windows.h>
 #endif
+
 #ifndef NO_SYSTEM
 #include <limits.h> // 对于 PATH_MAX
 #include <string>
 #include <sys/types.h>
+#ifdef _WIN32
+#include <win32/unistd.h>
+#else
 #include <unistd.h>
+#endif // _WIN32
 
-using namespace std;
 
 std::string get_parent_directory(const std::string &path) {
-  size_t last_slash = path.rfind('/'); // 查找最后一个 '/'
+  // 查找最后一个 '/'
+  size_t last_slash = path.rfind("\\");
+  if (last_slash == -1)
+      last_slash = path.rfind("/");
+
   if (last_slash == std::string::npos) {
     // 如果没有找到 '/'，可能是一个相对路径（如 "." 或 ".."）或空字符串
     // 在这种情况下，我们可以返回 "." 作为父目录（尽管严格来说可能不准确）
@@ -91,26 +100,33 @@ void path::root(std::string const &path) {
     perror("chdir");
   }
 }
-string path::root() {
+std::string path::root() {
   if (!_root.empty()) {
     return _root;
   }
   return path::appbase();
 }
-string path::appbase() {
+std::string path::appbase() {
   std::string rp;
   if (rp.empty()) {
-    char buffer[PATH_MAX]; // 使用 PATH_MAX 以确保缓冲区足够大
 
+#ifdef _WIN32
+      char buffer[MAX_PATH]; // Windows 下的最大路径常量是 MAX_PATH
+      // 获取当前可执行文件的路径
+      DWORD bytesRead = GetModuleFileNameA(NULL, buffer, sizeof(buffer) - 1);
+#else
+    char buffer[PATH_MAX]; // 使用 PATH_MAX 以确保缓冲区足够大
     // 获取当前可执行文件的路径
     ssize_t bytesRead = readlink("/proc/self/exe", buffer, sizeof(buffer) - 1);
+#endif // _WIN32
+
     if (bytesRead == -1) {
       perror("readlink");
       // 这里可以处理错误，比如返回一个默认路径
       rp = "~/wc3data";
     } else {
       buffer[bytesRead] = '\0'; // 添加 null 终止符
-      rp = string(buffer);
+      rp = std::string(buffer);
       rp = get_parent_directory(rp);
       // rp = rp + "/work"; // 假设你想要的是可执行文件所在的目录下的 work
       // 子目录 std::string rpstr = "root path: " + rp; throw
@@ -127,13 +143,13 @@ string path::appbase() {
   return rp;
 }
 #endif
-string operator/(string const &lhs, string const &rhs) {
+std::string operator / (std::string const &lhs, std::string const &rhs) {
   if (lhs.empty() || rhs.empty())
     return lhs + rhs;
   bool left = (lhs.back() == '\\' || lhs.back() == '/');
   bool right = (rhs.front() == '\\' || rhs.front() == '/');
   if (left && right) {
-    string res = lhs;
+    std::string res = lhs;
     res.pop_back();
     return res + rhs;
   } else if (!left && !right) {

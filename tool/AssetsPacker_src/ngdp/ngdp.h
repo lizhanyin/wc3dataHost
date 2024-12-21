@@ -5,10 +5,18 @@
 #include <unordered_map>
 
 #include <sys/stat.h>
-#include <dirent.h>
-#include <unistd.h>
 #include <string>
 #include <vector>
+
+#ifdef _WIN32
+#define NOMINMAX
+#include <windows.h>
+#include <iostream>
+#else
+#include <dirent.h>
+#include <unistd.h>
+#endif // 
+
 
 namespace NGDP {
 
@@ -134,35 +142,77 @@ namespace NGDP {
     File getArchive(std::string const& hash);
 
   private:
-    void createDirectory(const std::string &subdir) {
-      std::string path = root_ + "/" + subdir;
-      mode_t mode = S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH;
-      if (mkdir(path.c_str(), mode) != 0 && errno != EEXIST) {
-        perror("mkdir failed");
-      }
-    }
 
-    void listFilesInDirectory(const std::string &subdir,
-                              std::vector<std::string> &names) {
-      DIR *dir;
-      struct dirent *ent;
-      if ((dir = opendir((root_ + "/" + subdir).c_str())) != NULL) {
-        while ((ent = readdir(dir)) != NULL) {
-          if (ent->d_type != DT_DIR) {
-            names.push_back(ent->d_name);
+#ifdef _WIN32
+      // 创建目录
+      void createDirectory(const std::string& subdir) {
+          std::string path = root_ + "\\" + subdir;
+          if (CreateDirectory(path.c_str(), NULL) == 0 && GetLastError() != ERROR_ALREADY_EXISTS) {
+              std::cerr << "CreateDirectory failed with error: " << GetLastError() << std::endl;
           }
-        }
-        closedir(dir);
-      } else {
-        perror("opendir failed");
       }
+
+      // 列出目录中的文件
+      void listFilesInDirectory(const std::string& subdir, std::vector<std::string>& names) {
+          std::string path = root_ + "\\" + subdir + "\\*"; // 通配符 '*' 用于列出文件
+
+          WIN32_FIND_DATA findFileData;
+          HANDLE hFind = FindFirstFile(path.c_str(), &findFileData);
+          if (hFind == INVALID_HANDLE_VALUE) {
+              std::cerr << "FindFirstFile failed with error: " << GetLastError() << std::endl;
+              return;
+          }
+          else {
+              do {
+                  if (!(findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
+                      names.push_back(findFileData.cFileName); // 只添加文件，不是目录
+                  }
+              } while (FindNextFile(hFind, &findFileData) != 0);
+              FindClose(hFind);
+          }
+      }
+
+      // 删除文件
+      void removeFile(const std::string& filename) {
+          std::string path = root_ + "\\" + filename;
+          if (DeleteFile(path.c_str()) == 0) {
+              std::cerr << "DeleteFile failed with error: " << GetLastError() << std::endl;
+          }
+      }
+#else
+    void createDirectory(const std::string& subdir) {
+        std::string path = root_ + "/" + subdir;
+        mode_t mode = S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH;
+        if (mkdir(path.c_str(), mode) != 0 && errno != EEXIST) {
+            perror("mkdir failed");
+        }
     }
 
-    void removeFile(const std::string &filename) {
-      if (unlink((root_ + "/" + filename).c_str()) != 0) {
-        perror("unlink failed");
-      }
+    void listFilesInDirectory(const std::string& subdir,
+        std::vector<std::string>& names) {
+        DIR* dir;
+        struct dirent* ent;
+        if ((dir = opendir((root_ + "/" + subdir).c_str())) != NULL) {
+            while ((ent = readdir(dir)) != NULL) {
+                if (ent->d_type != DT_DIR) {
+                    names.push_back(ent->d_name);
+                }
+            }
+            closedir(dir);
+        }
+        else {
+            perror("opendir failed");
+        }
     }
+
+    void removeFile(const std::string& filename) {
+        if (unlink((root_ + "/" + filename).c_str()) != 0) {
+            perror("unlink failed");
+        }
+    }
+#endif // _WIND32
+
+
     std::string root_;
   };
 
