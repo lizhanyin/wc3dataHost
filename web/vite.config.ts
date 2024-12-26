@@ -15,6 +15,13 @@ export default defineConfig({
 
   plugins: [react()],
 
+  resolve: {
+    // 添加路径别名
+    alias: {
+      events: 'eventemitter3'
+    }
+  },
+
   esbuild: {
     loader: 'jsx',
     include: /.*\.jsx?$/,

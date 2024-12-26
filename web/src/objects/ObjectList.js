@@ -33,7 +33,7 @@ const ObjectLink = ({object}) => (
         {type => (
           <IdCtx.Consumer>
             {id => (
-              <Link to={`/${build}/${type}/${object.id}`} className={classNames("ObjectLink", {selected: id === object.id})}>
+              <Link to={`/${build}/${type}/${object.id}`} className={classNames("ObjectLink", { selected: id === object.id, searched: object.searched })}>
                 <ObjectIcon object={object}/>
                 <span className="ObjectName"><ObjectName object={object}/></span>
               </Link>
@@ -46,10 +46,24 @@ const ObjectLink = ({object}) => (
 );
 
 class ObjectItem {
-  constructor(object) {
+  constructor(object, parent) {
     this.object = object;
+    this.object.parent = this;
+    this.object.upVisit = (fn) => {
+      fn(this.object);
+      this.object.parent.upVisit(fn);
+  }
+    this.parent = parent;
   }
   height = 1;
+  upVisit(fn) {
+    fn(this);
+    this.parent.upVisit(fn);
+  }
+  downVisit(fn) {
+    fn(this);
+    fn(this.object);
+  }
   render() {
     return <ObjectLink object={this.object}/>;
   }
@@ -63,9 +77,11 @@ class ObjectGroup {
     this.parent = parent;
     this.level = (parent ? parent.level + 1 : 0);
     this.count = objects.length;
+    this._title = title;
     if (title) {
       this.title = `${title} (${this.count})`;
     }
+
     if (filters && filters.length) {
       this.filter = filters[0];
       const subs = {};
@@ -80,7 +96,7 @@ class ObjectGroup {
         return this.childrenByName[cat] = new ObjectGroup(subs[cat] || [], rest, this, cat);
       });
     } else {
-      this.children = objects.map(obj => new ObjectItem(obj)).sort((a, b) => a.object.name.localeCompare(b.object.name));
+      this.children = objects.map(obj => new ObjectItem(obj, this)).sort((a, b) => a.object.name.localeCompare(b.object.name));
     }
     this.openHeight = parent ? 1 : 0;
     this.children.forEach(c => {
@@ -95,7 +111,15 @@ class ObjectGroup {
       this.expanded = this.count > 0;
     }
   }
+  upVisit(fn) {
+    fn(this);
+    this.parent && this.parent.upVisit(fn);
+  }
+  downVisit(fn) {
+    fn(this);
+    this.children.forEach(x => x.downVisit(fn));
 
+  }
   modHeight(delta, child) {
     let index = child ? this.children.indexOf(child) : -1;
     if (index >= 0) {
@@ -157,17 +181,38 @@ class ObjectGroup {
   }
 
   render() {
+    let n = 0;
+    this.downVisit(node => n += ((node.__proto__.constructor.name == 'ObjectItem' && node.searched) ? 1 : 0));
+    if (n) {
+      this.title = `${this._title} (${n}/${this.count})`;
+    }
     if (!this.parent) {
       return null;
     }
     return (
-      <div className={classNames("ObjectGroup", {expanded: this.expanded})}>
+      <div className={classNames("ObjectGroup", { expanded: this.expanded, searched: this.searched })}>
         <span className="toggle" onClick={this.toggle}/>
-        <span onDoubleClick={this.toggle}><span className="Icon"/>{this.title}</span>
+        <span onDoubleClick={this.toggle}><span className="Icon" />
+          <span className='title'>{this.title}</span>
+        </span>
       </div>
     );
   }
-
+  firstLevelChild(index) {
+    if (this.expanded) {
+      let left = 0, right = this.children.length - 1;
+      while (left < right) {
+        const mid = (left + right + 1) >> 1;
+        if (this.children[mid].top > index) {
+          right = mid - 1;
+        } else {
+          left = mid;
+        }
+      }
+      return this.children[left]
+    }
+    return null;
+  }
   renderLine(index) {
     if (this.parent && !index) {
       return this.render();
@@ -215,21 +260,52 @@ export class ObjectList extends React.PureComponent {
   onSearchKeyDown = (e) => {
     if (e.which === 27) {
       this.setState({search: "", searchResults: null});
+      if (this._list) {
+        this._list.forceUpdateGrid();
     }
+  }
   }
   onSearch = (e) => {
     const {data, type} = this.props;
     const search = e.target.value.trim();
-    let found = null;
+    console.log(search)
+    let found = 0;
+
+     // reset
+     this.group.downVisit((node) => {
+      node.searched = false;
+    });
     if (search) {
       const re = new RegExp("\\b" + search.replace(/[|\\{}()[\]^$+*?.]/g, "\\$&"), "i");
-      found = data.objects.filter(obj => {
+      const isMatch = obj => {
         if (obj.type !== type) return false;
         if (this.context && obj.id.match(re)) return true;
         if (obj.name.match(re)) return true;
         if (obj.data.propernames && obj.data.propernames.match(re)) return true;
+        if (obj.name.indexOf(search) != -1) {
+          // console.log('matching', search, obj)
+          return true;
+        }
         return false;
-      }).sort((a, b) => a.name.localeCompare(b.name));
+      };
+
+      data.objects.forEach(obj => {
+        const matched = isMatch(obj);
+        if (matched) {
+          obj.upVisit((node) => {
+            node.searched = node.searched | matched;
+            if (node.searched) {
+              found++;
+              // console.log('found', found, node);
+    }
+          })
+        }
+      });
+
+    }
+    // console.log('forceUpdateGrid')
+    if (this._list) {
+      this._list.forceUpdateGrid();
     }
     this.setState({search: e.target.value, searchResults: found});
   }
@@ -240,18 +316,10 @@ export class ObjectList extends React.PureComponent {
 
   rowRenderer = ({index, ...options}) => {
     const {key, style} = options;
+    const flNode = this.group.firstLevelChild(index);
     return (
-      <div className="TreeRow" key={key} style={style}>
+      <div className={classNames("TreeRow", { searched: flNode && flNode.searched })} key={key} style={style}>
         {this.group.renderLine(index)}
-      </div>
-    );
-  }
-  rowRendererSearch = ({index, ...options}) => {
-    const {key, style} = options;
-    const object = this.state.searchResults[index];
-    return (
-      <div className="TreeRow" key={key} style={style}>
-        <ObjectLink object={object}/>
       </div>
     );
   }
@@ -311,16 +379,7 @@ export class ObjectList extends React.PureComponent {
         </div>
         <div className="ObjectListItems">
           <AutoSizer>
-            {({width, height}) => (searchResults ?
-              <List className="ObjectLines"
-                    key="search"
-                    ref={node => this._list2 = node}
-                    width={width}
-                    height={height}
-                    rowCount={searchResults.length}
-                    rowHeight={18}
-                    rowRenderer={this.rowRendererSearch}
-              /> :
+            {({ width, height }) => (
               <List className="ObjectLines"
                     ref={node => this._list = node}
                     width={width}

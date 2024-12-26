@@ -57,7 +57,7 @@ const FileLink = ({file}) => (
     {data => (
       <IdCtx.Consumer>
         {id => (
-          <Link to={`/${data.id}/files/${makeUid(file.key)}`} className={classNames("ObjectLink", {selected: equalUid(id, file.key)})}>
+          <Link to={`/${data.id}/files/${makeUid(file.key)}`} className={classNames("ObjectLink", { searched: file.searched, selected: equalUid(id, file.key) })}>
             <span className={"Icon file-icon file-" + file.ext}/>
             <span className="ObjectName">{file.name}</span>
           </Link>
@@ -68,8 +68,14 @@ const FileLink = ({file}) => (
 );
 
 class FileItem {
-  constructor(file) {
+  constructor(file, parent) {
     this.file = file;
+    this.file.parent = this;
+    this.parent = parent;
+    this.file.upSearchVisit = (fn) => {
+      fn(this.file);
+      this.upSearchVisit(fn);
+    }
   }
   height = 1;
   render() {
@@ -78,13 +84,21 @@ class FileItem {
   renderLine(index) {
     return this.render();
   }
+  upSearchVisit(fn) {
+    fn(this);
+    this.parent && this.parent.upSearchVisit(fn);
+  }
+  downSearchVisit(fn) {
+    fn(this);
+    fn(this.file);
+  }
 }
 
 class FileDirectory {
   constructor(dir, parent) {
     this.parent = parent;
     this.level = (parent ? parent.level + 1 : 0);
-    this.title = dir.name;
+    this.title = dir.name || '__ROOT__';
     this.count = dir.files.length;
     this.dirs = {};
     this.children = [];
@@ -95,7 +109,7 @@ class FileDirectory {
       this.count += sub.count;
     });
     dir.files.forEach(subFile => {
-      this.children.push(new FileItem(subFile));
+      this.children.push(new FileItem(subFile, this));
     });
     this.openHeight = parent ? 1 : 0;
     this.children.forEach(c => {
@@ -107,8 +121,17 @@ class FileDirectory {
     } else {
       this.expanded = false;
     }
+    this.searched = false;
   }
 
+  upSearchVisit(fn) {
+    fn(this);
+    this.parent && this.parent.upSearchVisit(fn);
+  }
+  downSearchVisit(fn) {
+    fn(this);
+    this.children.forEach(x => x.downSearchVisit(fn));
+  }
   modHeight(delta, child) {
     let index = child ? this.children.indexOf(child) : -1;
     if (index >= 0) {
@@ -174,16 +197,35 @@ class FileDirectory {
 
   render() {
     if (!this.parent) {
-      return null;
+      return <span>no-parent-dir</span>;
     }
     return (
-      <div className={classNames("ObjectGroup", {expanded: this.expanded})}>
+      <div onClick={this.preSelect} className={classNames("ObjectGroup", { expanded: this.expanded, searched: this.searched })}>
         <span className="toggle" onClick={this.toggle}/>
-        <span onDoubleClick={this.toggle}><span className="Icon"/>{this.title}</span>
+        <span onDoubleClick={this.toggle}><span className="Icon" />
+          <span className='title'>
+            {this.title}
+          </span>
+        </span>
       </div>
     );
   }
 
+  firstLevelNode(index) {
+    if (this.expanded) {
+      let left = 0, right = this.children.length - 1;
+      while (left < right) {
+        const mid = (left + right + 1) >> 1;
+        if (this.children[mid].top > index) {
+          right = mid - 1;
+        } else {
+          left = mid;
+        }
+      }
+      return this.children[left];
+    }
+    return null;
+  }
   renderLine(index) {
     if (this.parent && !index) {
       return this.render();
@@ -198,6 +240,7 @@ class FileDirectory {
           left = mid;
         }
       }
+      const child = this.children[left];
       const subIndex = index - this.children[left].top;
       const line = this.children[left].renderLine(subIndex);
       let lineStyle = null;
@@ -213,7 +256,7 @@ class FileDirectory {
         }
       }
       return (
-        <div className={classNames("indent", lineStyle)}>
+        <div className={classNames("indent", lineStyle, { searched: child.searched })}>
           {line}
         </div>
       );
@@ -222,7 +265,7 @@ class FileDirectory {
 }
 
 class FileListInner extends React.PureComponent {
-  state = {search: "", searchResults: null};
+  state = { search: "", searchResults: null, searched: false };
 
   constructor(props) {
     super(props);
@@ -236,16 +279,37 @@ class FileListInner extends React.PureComponent {
   onSearchKeyDown = (e) => {
     if (e.which === 27) {
       this.setState({search: "", searchResults: null});
+      this.stateChanged = true;
     }
   }
   onSearch = (e) => {
     const search = e.target.value.trim();
-    let found = null;
-    if (search && this.files) {
+    let found = [];
+    let hasSearchResult = false;
+    //reset
+    this.root.downSearchVisit(node => node.searched = false);
+    if (search != '' && this.files) {
       const re = new RegExp(search.replace(/[|\\{}()[\]^$+*?.]/g, "\\$&"), "i");
-      found = this.files.filter(file => file.path.match(re));
+      this.files.forEach((file, i) => {
+        let searched = !!file.path.match(re);
+        file.upSearchVisit((node) => {
+          node.searched = node.searched || searched;
+          if (node.searched) {
+            hasSearchResult = true;
     }
-    this.setState({search: e.target.value, searchResults: found});
+        })
+      });
+      this.setState({ search: e.target.value, searchResults: found, searched: hasSearchResult });
+  }
+    else {
+      this.root.downSearchVisit(node => node.searched = false);
+      this.setState({ search: e.target.value, searchResults: null, searched: hasSearchResult });
+    }
+     // console.log('forceUpdateGrid')
+     if (this._list) {
+      this._list.forceUpdateGrid();
+    }
+    this.stateChanged = true;
   }
 
   onResize = () => {
@@ -254,25 +318,27 @@ class FileListInner extends React.PureComponent {
 
   rowRenderer = ({index, ...options}) => {
     const {key, style} = options;
+    const node = this.root.children[index];
+
+    const flNode = this.root.firstLevelNode(index);
     return (
-      <div className="TreeRow" key={key} style={style}>
+      <div className={classNames("TreeRow", { searched: flNode && flNode.searched })} key={key} style={style}>
         {this.root.renderLine(index)}
       </div>
     );
   }
   rowRendererSearch = ({index, ...options}) => {
     const {key, style} = options;
-    const file = this.state.searchResults[index];
     return (
-      <div className="TreeRow" key={key} style={style}>
-        <FileLink file={file}/>
+      <div className={"TreeRow"} key={key}>
+        {this.root.renderLine(index)}
       </div>
     );
   }
 
   render() {
     const {listFile, id, className, isMap, ...props} = this.props;
-    const {search, searchResults} = this.state;
+    const { search, searchResults, searched } = this.state;
 
     if (!this.root) {
       return null;
@@ -293,22 +359,15 @@ class FileListInner extends React.PureComponent {
       }
     }
     return (
-      <Panel className={classNames(className, "ObjectList")} {...props}>
+      <Panel ref={
+        node=>this._panel=node
+      } className={classNames(className, "ObjectList")} {...props}>
         <div className="search-box">
           <FormControl type="text" value={search} placeholder="Search" onKeyDown={this.onSearchKeyDown} onChange={this.onSearch}/>
         </div>
-        <div className="ObjectListItems">
+        <div className={classNames("ObjectListItems", searched)}>
           <AutoSizer>
-            {({width, height}) => (searchResults ?
-              <List className="ObjectLines"
-                    key="search"
-                    ref={node => this._list2 = node}
-                    width={width}
-                    height={height}
-                    rowCount={searchResults.length}
-                    rowHeight={18}
-                    rowRenderer={this.rowRendererSearch}
-              /> :
+            {({ width, height }) => (
               <List className="ObjectLines"
                     ref={node => this._list = node}
                     width={width}

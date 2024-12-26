@@ -1,4 +1,4 @@
-import EventEmitter from 'eventemitter3';
+import EventEmitter from 'events';
 import {vec3, quat, mat4} from 'gl-matrix';
 import {VEC3_ZERO, VEC3_ONE, QUAT_DEFAULT} from '../common/gl-matrix-addon';
 

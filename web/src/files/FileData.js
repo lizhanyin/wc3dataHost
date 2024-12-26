@@ -39,7 +39,7 @@ const gameFileTypes = {
   "war3map.wtg": Formats.wtg.File,
   "war3map.wts": Formats.wts.File,
 };
-    
+
 // const nodeRenderer = ({ depth, name, data, isNonenumerable, expanded }) => {
 //   if (depth === 0) {
 //     if (typeof name === 'string') {
@@ -113,6 +113,7 @@ export class FileData extends React.Component {
           this.data = new gameFileTypes[name](this.binary.buffer);
           state.panel = "data";
         } catch (e) {
+          console.error(name,'Unable to decoding map content. ',e);
         }
       }
     }

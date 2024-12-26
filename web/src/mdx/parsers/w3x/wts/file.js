@@ -36,12 +36,8 @@ export default class War3MapWts {
         let index = stream.readInt();
 
         stream.read(); // {
-
-        let end = buffer.indexOf('}', stream.index);
-
-        this.stringMap.set(index, buffer.slice(stream.index, end).trim());
-
-        stream.index = end;
+        let content = stream.readUntil('}',stream.index).trim();
+        this.stringMap.set(index, content);
       }
     }
   }
