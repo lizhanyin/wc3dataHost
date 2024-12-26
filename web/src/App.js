@@ -118,15 +118,16 @@ class App extends React.PureComponent {
         <Navbar className="app-navbar" fluid>
           <Navbar.Header>
             <Navbar.Brand>
-              <Link to="/"><span className="AppIcon"/>WC3 Data</Link>
+              <Link to="/"><span className="AppIcon" />
+                {!build ? <span style={{padding:"5px 10px"}}>WC3 Data</span> : <span></span>}
+              </Link>
             </Navbar.Brand>
-            <Navbar.Toggle/>
+            {!!build && <Navbar.Collapse>
+              <WithData id={build}>
+                <DataMenu/>
+              </WithData>
+            </Navbar.Collapse>}
           </Navbar.Header>
-          {!!build && <Navbar.Collapse>
-            <WithData id={build}>
-              <DataMenu/>
-            </WithData>
-          </Navbar.Collapse>}
         </Navbar>
         {build ? (
           <WithData id={build}>
@@ -237,7 +238,7 @@ class Root extends React.Component {
     const { mapLoadName, mapLoadProgress, mapLoadStatus, mapLoadError } = this.state;
     return (
       <Router basename="/" ref={e => this.router = e}>
-        <Title title="WC3 Data">
+        <Title title="Warcraft III Data Viewer">
           <Options>
             <AppCache.Context.Provider value={this.cache}>
               <AppCache.MapsContext.Provider value={this.cache.maps}>

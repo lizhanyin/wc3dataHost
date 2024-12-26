@@ -1,4 +1,4 @@
-import EventEmitter from 'events';
+import { EventEmitter } from './node';
 import {createTextureAtlas} from '../common/canvas';
 import fetchDataType from '../common/fetchdatatype';
 import WebGL from './gl/gl';

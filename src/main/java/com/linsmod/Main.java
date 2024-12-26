@@ -14,7 +14,8 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         try {
             Log.d("main", "Wc3dataHost is starting...");
-            App.Initialize(new Wc3DataHome());
+            String path = args.length > 0 ? args[0] : null;
+            App.Initialize(new Wc3DataHome(path));
             startHttpd(App.getContext(), false);
         } catch (Exception e) {
             Log.e("ERROR", e);

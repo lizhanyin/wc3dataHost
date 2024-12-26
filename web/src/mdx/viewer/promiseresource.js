@@ -1,4 +1,4 @@
-import EventEmitter from 'events';
+import { EventEmitter } from './node';
 
 /**
  * This object is used to promise about future resource loads, in case they are not yet known.
@@ -12,6 +12,7 @@ import EventEmitter from 'events';
  * Note that you can create a promise resource with viewer.promise(), which returns an already active promise.
  */
 export default class PromiseResource extends EventEmitter {
+
   /**
    * Immitates a promise.
    */
