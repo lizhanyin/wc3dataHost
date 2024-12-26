@@ -1,4 +1,4 @@
-import { EventEmitter } from './node';
+import EventEmitter from 'events';
 
 /**
  * This object is used to promise about future resource loads, in case they are not yet known.

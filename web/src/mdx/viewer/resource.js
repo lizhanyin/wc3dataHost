@@ -1,4 +1,4 @@
-import { EventEmitter } from './node';
+import EventEmitter from 'events';
 
 /**
  * A viewer resource.
