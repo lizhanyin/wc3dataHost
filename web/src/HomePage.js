@@ -24,7 +24,7 @@ class MapList extends React.Component {
   render() {
     const {level=0, name, items, paths, descs, Comp = "div"} = this.props;
     const {collapsed} = this.state;
-    const Header = (level ? "h4" : "h3");
+    const Header = (level ? "h5" : "h4");
     const subLists = {};
     const freeItems = [];
     Object.keys(items).forEach(id => {
@@ -85,7 +85,7 @@ export default class HomePage extends React.Component {
             <Panel.Heading><Panel.Title>{this.state.message}</Panel.Title></Panel.Heading>
           </Panel>
         )}
-        <h3>Warcraft III Data</h3>
+        <h4>Warcraft III Data</h4>
         <ul>
           {Object.entries(cache.versions).sort((a, b) => parseInt(b[0], 10) - parseInt(a[0], 10)).map(([id, name]) => (
             <li key={id}><Link to={`/${id}`}>Patch {name}</Link></li>
@@ -96,7 +96,7 @@ export default class HomePage extends React.Component {
             <MapList name="Standard Maps" items={maps} paths={cache.custom || {}} descs={cache.customDesc || {}}/>
           )}
         </AppCache.MapsContext.Consumer>
-        <h3>Custom Maps</h3>
+        <h4>Custom Maps</h4>
         <AppCache.MapsContext.Consumer>
           {maps => (
             <ul>

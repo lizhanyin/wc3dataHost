@@ -20,7 +20,7 @@ export default class MapHome extends React.Component {
     }
     return (
       <div className="HomePage">
-        <h3>{data.core ? "Warcraft III Patch " : ""}{data.name}</h3>
+        <h4>{data.core ? "Warcraft III Patch " : ""}{data.name}</h4>
         {info != null && (
           <ul className="mapInfo">
             <li><b>Name:</b> <span>{tagString(info.name)}</span></li>

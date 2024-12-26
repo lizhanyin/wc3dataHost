@@ -183,9 +183,9 @@ export default class AppCache extends Cache {
         this.root.forceUpdate();
       }
 
+      this.custom = this.custom || {};
+      this.customDesc = this.customDesc || {};
       if (versions.custom) {
-        this.custom = {};
-        this.customDesc = {};
         Object.entries(versions.custom).forEach(([id, info]) => {
           this.maps[id] = info.name;
           this.custom[id] = info.data;

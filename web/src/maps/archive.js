@@ -112,7 +112,7 @@ export default function loadArchive(data) {
   if (u32[0] !== 0x31585A47) {
     return Promise.reject("Outdated archive format. Try parsing the map again.");
   }
-  return LoaderModule(/*{locateFile(name) {if (name === "ArchiveLoader.wasm") {return LoaderBinary;} else {return name;}}}*/).ready.then(wasm => {
+  return LoaderModule().then(wasm => {
     const array = new Uint8Array(data);
     const addr = wasm._malloc(array.length);
     wasm.HEAPU8.set(array, addr);

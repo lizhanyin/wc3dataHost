@@ -2,7 +2,7 @@ import ParserModule from './MapParser';
 
 /* eslint-disable-next-line no-restricted-globals */
 self.onmessage = function(e) {
-  ParserModule(/*{locateFile(name) {if (name === "MapParser.wasm") {return ParserBinary;} else {return name;}}}*/).ready.then(wasm => {
+  ParserModule().then(wasm => {
     try {
       const meta = new Uint8Array(e.data.meta);
       const map = new Uint8Array(e.data.map);
