@@ -1,0 +1,38 @@
+{
+    "compilerOptions": {
+      "forceConsistentCasingInFileNames": true,
+      "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+      
+      "target": "ES2022",
+      "useDefineForClassFields": true,
+      "lib": ["ES2022", "DOM", "DOM.Iterable"],
+      "module": "ESNext",
+      "skipLibCheck": true,
+  
+      /* Bundler mode */
+      "moduleResolution": "bundler",
+      "allowImportingTsExtensions": true,
+      "isolatedModules": true,
+      "moduleDetection": "force",
+      "noEmit": true,
+      "jsx": "react-jsx",
+      "allowJs": true, // 支持 JavaScript 文件
+      "checkJs": true, // 检查 JS 文件中的错误
+  
+      /* Linting */
+      "strict": true,
+      "noImplicitAny": false, // 允许隐式 any
+      "noUnusedLocals": false,
+      "noUnusedParameters": false,
+      "noFallthroughCasesInSwitch": false,
+      "noUncheckedSideEffectImports": false,
+      "noPropertyAccessFromIndexSignature": false, // 允许通过索引访问未知属性
+      "useUnknownInCatchVariables": false, // 放宽对 catch 变量的类型限制
+
+      "paths": {
+        "@/*": ["./src/*"],
+      }
+    },
+    "include": ["src"]
+  }
+  
