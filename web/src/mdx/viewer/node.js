@@ -828,5 +828,3 @@ export function createSkeletalNodes(count, Node) {
     worldMatrices,
   };
 }
-
-export { EventEmitter }
