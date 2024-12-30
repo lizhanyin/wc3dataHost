@@ -1,0 +1,44 @@
+
+.home-text{
+    @apply font-Inter font-semibold text-[28px] sm:text-[48px] md:text-[72px];
+}
+
+.logo-text{
+    @apply font-SairaItalic text-4xl font-semibold italic;
+}
+
+.book-button{
+    @apply bg-blue-800 shadow-lg w-full aspect-h-4 aspect-w-3;
+}
+
+.book-space{
+    @apply md:px-[60px] px-[30px];
+}
+
+.book-left{
+    @apply mr-[30px] ml-auto md:m-auto;
+}
+
+.book-right{
+    @apply ml-[30px] mr-auto md:m-auto;
+}
+
+.top-half-book{
+    @apply absolute bg-white w-[80%] h-[35%] z-10 flex items-center justify-center top-[20%] left-1/2 transform -translate-x-1/2 -translate-y-1/4;
+}
+
+.book-text{
+    @apply text-sky-400 font-Inter font-semibold text-center my-auto sm:text-2xl text-xs flex items-end justify-center sm:mb-[50px] mb-[25px];
+}
+
+.book-hover{
+    @apply hover:bg-gray-100 transition duration-200 ease-in-out cursor-pointer;
+}
+
+.book-group-hover{
+    @apply  group-hover:text-blue-800 transition duration-200 ease-in-out;
+}
+
+.logo-book{
+    @apply top-[22%] left-1/2 -translate-x-1/2 -translate-y-1/4 sm:w-[80px] w-[30px] h-auto;
+}
