@@ -17,8 +17,8 @@ public class Wc3DataHome extends Context {
         return wc3dataHome;
     }
 
-    public Wc3DataHome() {
-        String wc3DATAHome = System.getenv("WC3DATA_HOME");
+    public Wc3DataHome(String home) {
+        String wc3DATAHome = home == null ? System.getenv("WC3DATA_HOME") : home;
         if (!Strings.isNullOrEmpty(wc3DATAHome)) {
             Path p = Paths.get(wc3DATAHome);
             if (!p.toFile().exists()) {
