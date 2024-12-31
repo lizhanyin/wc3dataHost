@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Navbar from "./components/navbar";
 import Home from './webpages/Home.jsx';
-import Bottombar from './components/bottombar.jsx';
 import './App.scss';
 
 function App() {
@@ -14,7 +13,7 @@ function App() {
         <Route path="/" element={<Home />} />
       </Routes>
   
-      <Bottombar />
+      {/* <Bottombar /> */}
     </Router>
   )
 }

@@ -13,6 +13,13 @@ import {
 
 import './navbar.css';
 import '../index.scss';
+import UnitImg from "./objects/assets/objecteditor-customunit.png";
+import ItemImg from "./objects/assets/objecteditor-customitem.png";
+import DestructibleImg from "./objects/assets/objecteditor-customdestructible.png";
+import DoodadImg from "./objects/assets/objecteditor-customdoodad.png";
+import AbilityImg from "./objects/assets/objecteditor-customability.png";
+import BuffImg from "./objects/assets/objecteditor-customability.png";
+import UpgradeImg from "./objects/assets/objecteditor-customupgrade.png";
 
 // const products = [
 //   { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
@@ -23,17 +30,20 @@ import '../index.scss';
 // ]
 
 const objects = {
-  unit: { name: 'Units', description: 'Units are the characters that players control in the game.', href: '/unit' },
-  item: { name: 'Items', description: 'Items are objects that can be picked up and used by units.', href: '/item' },
-  destructible: { name: 'Destructibles', description: 'Destructibles are objects that can be destroyed.', href: '/destructible' },
-  doodad: { name: 'Doodads', description: 'Doodads are objects that are purely decorative.', href: '/doodad' },
-  ability: { name: 'Abilities', description: 'Abilities are the actions that units can perform.', href: '/abilitie' },
-  buff: { name: 'Buffs/Effects', description: 'Buffs and effects are temporary changes to units.', href: '/buff' },
-  upgrade: { name: 'Upgrades', description: 'Upgrades are permanent changes to units.', href: '/upgrade' },
+  unit: { name: 'Units', description: 'Units are the characters that players control in the game.', href: '/unit', img: UnitImg },
+  item: { name: 'Items', description: 'Items are objects that can be picked up and used by units.', href: '/item', img: ItemImg },
+  destructible: { name: 'Destructibles', description: 'Destructibles are objects that can be destroyed.', href: '/destructible', img: DestructibleImg },
+  doodad: { name: 'Doodads', description: 'Doodads are objects that are purely decorative.', href: '/doodad', img: DoodadImg },
+  ability: { name: 'Abilities', description: 'Abilities are the actions that units can perform.', href: '/abilitie', img: AbilityImg }, 
+  buff: { name: 'Buffs/Effects', description: 'Buffs and effects are temporary changes to units.', href: '/buff', img: BuffImg },
+  upgrade: { name: 'Upgrades', description: 'Upgrades are permanent changes to units.', href: '/upgrade', img: UpgradeImg },
 }
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const [title, setTitle] = useState("");
+  
 
   const toggleMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -95,19 +105,39 @@ export default function Navbar() {
             </PopoverPanel>
           </Popover>
           */}
-          {Object.keys(objects).map((key) => (
-            // <a key={key} href={objects[key].href} className="text-sm/6 font-semibold text-gray-900">
-            //   {objects[key].name}
-            // </a>
-            <Link
-              key={key}
-              to={objects[key].href}
-              className="nav-link block md:inline-block py-4 md:py-0 px-4 md:px-0"
-              onClick={() => toggleMenu(false)}
-            >
-              {objects[key].name}
-            </Link>
-          ))}
+
+          { title ? (
+              <>
+                <Link
+                  to="/"
+                  className="nav-link block md:inline-block py-4 md:py-0 px-4 md:px-0"
+                  onClick={() => toggleMenu(false)}
+                >
+                  {title}
+                </Link>
+
+                {Object.keys(objects).map((key) => (
+                  <div key={key} className="group relative flex items-center gap-x-1 rounded-lg">
+                    <div className="flex size-6 flex-none items-center justify-center rounded-lg bg-gray-50">
+                      <img alt="" src={objects[key].img} className="size-5 text-gray-600 group-hover:text-indigo-600"/>
+                    </div>
+                    <div className="flex-auto">
+                      <Link
+                        key={key}
+                        to={objects[key].href}
+                        className="nav-link block md:inline-block py-4 md:py-0 px-4 md:px-0"
+                        onClick={() => toggleMenu(false)}
+                      >
+                        {objects[key].name}
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </>
+            ) : (
+              "WC3 Data"
+            )
+          }
         </PopoverGroup>
       </nav>
       <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
@@ -147,14 +177,21 @@ export default function Navbar() {
                 </Disclosure>
                 */}
                 {Object.keys(objects).map((key) => (
-                  <Link
-                    key={key}
-                    to={objects[key].href}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {objects[key].name}
-                  </Link>
+                  <div key={key} className="group relative flex items-center gap-x-1 rounded-lg">
+                  <div className="flex size-6 flex-none items-center justify-center rounded-lg bg-gray-50">
+                    <img alt="" src={objects[key].img} className="size-5 text-gray-600 group-hover:text-indigo-600"/>
+                  </div>
+                  <div className="flex-auto">
+                    <Link
+                      key={key}
+                      to={objects[key].href}
+                      className="nav-link block md:inline-block py-4 md:py-0 px-4 md:px-0"
+                      onClick={() => toggleMenu(false)}
+                    >
+                      {objects[key].name}
+                    </Link>
+                  </div>
+                </div>
                 ))}
               </div>
             </div>
