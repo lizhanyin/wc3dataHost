@@ -1,18 +1,77 @@
+import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
+import Title from './data/title';
+import Options from './data/options';
+import AppData from './data/cache';
 import Navbar from "./components/navbar";
-import Home from './webpages/Home.jsx';
+import MapDialog from "./components/mapdialog";
+import Home from './webpages/Home';
 import './App.scss';
+import withAsync from './utils/withAsync';
 
 function App() {
+  const [mapLoadName, setMapLoadName] = useState(""); 
+  const [mapLoadProgress, setMapLoadProgress] = useState(-1);
+  const [mapLoadStatus, setMapLoadStatus] = useState(-1);
+  const [mapLoadError, setMapLoadError] = useState(null);
+
+  useEffect(() => {
+    if (mapLoadError) {
+      setMapLoadStatus(0);
+    }
+  }, [mapLoadError]);
+
+  const beginMapLoad = (name) => {
+    setMapLoadName(name);
+    setMapLoadProgress(-1);
+    setMapLoadStatus(-1);
+    setMapLoadError(null);
+  }
+
+  const onMapProgress = (progress) => {
+    setMapLoadProgress(progress);
+  }
+  
+  const finishMapLoad = (id) => {
+    setMapLoadStatus(id);
+  }
+
+  const failMapLoad = (error) => {
+    setMapLoadStatus(-1); // 
+    setMapLoadError(error);
+  }
+
+  const cache = new AppData({
+    beginMapLoad,
+    onMapProgress,
+    finishMapLoad,
+    failMapLoad
+  });
+
+  const onCloseMapDialog = () => {
+  }
+
+  const AppLoader = withAsync({
+    ready: (props, cache) => cache.ready,
+  }, Home, undefined, undefined, AppData.Context);
+  
   return (
     <Router basename='/'>
-      <Navbar />
-      
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
-  
+      <Title title="WC3 Data Viewer">
+        <Options>
+          <AppData.Context.Provider value={cache}>
+            <AppData.MapsContext.Provider value={cache.maps}>
+              <div className="App">
+                <Navbar />
+                <Routes>
+                  <Route path="/:build?" element={<AppLoader />} />
+                </Routes>
+                <MapDialog name={mapLoadName} status={mapLoadStatus} progress={mapLoadProgress} error={mapLoadError} onHide={onCloseMapDialog}/>
+              </div>
+            </AppData.MapsContext.Provider>
+          </AppData.Context.Provider>
+        </Options>
+      </Title>
       {/* <Bottombar /> */}
     </Router>
   )

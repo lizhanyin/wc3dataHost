@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from "react-redux";
 import LogoMain from '../assets/icon.png';
 
 import {
@@ -41,16 +42,16 @@ const objects = {
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const [title, setTitle] = useState("");
   
+  const globalState = useSelector((state) => state.global);
+  const navTitle = globalState.navTitle || {name: "WC3 Data", href: "/"};
 
   const toggleMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
   return (
-    <header className="bg-white">
+    <header className="bg-sky-50">
       <nav aria-label="Global" className="fixed flex top-0 left-0 z-50 h-12 w-full bg-white items-center shadow-md">
         <div className="flex">
           <Link
@@ -106,26 +107,34 @@ export default function Navbar() {
           </Popover>
           */}
 
-          { title ? (
+          { navTitle.href === '/' ? (
+            <Link
+              to="/"
+              className="block md:inline-block py-4 md:py-0 px-4 md:px-0"
+              onClick={() => toggleMenu(false)}
+            >
+              {navTitle.name}
+          </Link>
+            ) : (
               <>
                 <Link
                   to="/"
-                  className="nav-link block md:inline-block py-4 md:py-0 px-4 md:px-0"
+                  className="block md:inline-block py-4 md:py-0 px-4 md:px-0"
                   onClick={() => toggleMenu(false)}
                 >
-                  {title}
+                  {navTitle.name}
                 </Link>
 
                 {Object.keys(objects).map((key) => (
                   <div key={key} className="group relative flex items-center gap-x-1 rounded-lg">
                     <div className="flex size-6 flex-none items-center justify-center rounded-lg bg-gray-50">
-                      <img alt="" src={objects[key].img} className="size-5 text-gray-600 group-hover:text-indigo-600"/>
+                      <img alt="" src={objects[key].img} className="size-5 group-hover:text-indigo-600"/>
                     </div>
                     <div className="flex-auto">
                       <Link
                         key={key}
                         to={objects[key].href}
-                        className="nav-link block md:inline-block py-4 md:py-0 px-4 md:px-0"
+                        className="nav-link block text-blue-400 md:inline-block py-4 md:py-0 px-4 md:px-0"
                         onClick={() => toggleMenu(false)}
                       >
                         {objects[key].name}
@@ -134,8 +143,6 @@ export default function Navbar() {
                   </div>
                 ))}
               </>
-            ) : (
-              "WC3 Data"
             )
           }
         </PopoverGroup>
