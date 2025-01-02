@@ -24,11 +24,15 @@ export function withAsync(requests, Component, Loading, Error) {
         if (this.state[name].request !== request) {
           if (request.then) {
             this.setState({[name]: {request}}, () => {
-              request.then(result => this.setStateChecked(prevState => {
+
+              request.then(
+              result => this.setStateChecked(prevState => {
                 if (prevState[name].request === request) return {[name]: {request, result}};
-              }), error => this.setStateChecked(prevState => {
+              }), 
+              error => this.setStateChecked(prevState => {
                 if (prevState[name].request === request) return {[name]: {request, error}};
               }));
+
             });
           } else {
             this.setState({[name]: {request, result: request}});

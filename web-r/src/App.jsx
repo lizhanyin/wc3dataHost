@@ -3,11 +3,12 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Title from './data/title';
 import Options from './data/options';
 import AppData from './data/cache';
+import { withRouter } from './utils/withRouter';
+import './App.scss';
+
 import Navbar from "./components/navbar";
 import MapDialog from "./components/mapdialog";
-import { withRouter } from './utils/withRouter';
 import Home from './webpages/Home';
-import './App.scss';
 
 function App() {
   const [mapLoadName, setMapLoadName] = useState(""); 
@@ -51,7 +52,7 @@ function App() {
   const onCloseMapDialog = () => {
   }
 
-  const HomeWithRouter = withRouter(Home);
+  const HomeWithRouter =  withRouter(Home);
   return (
     <Router basename='/'>
       <Title title="WC3 Data Viewer">

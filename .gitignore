@@ -3,6 +3,7 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+!**/node_modules/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
@@ -37,10 +38,13 @@ bin/
 
 ### VS Code ###
 .vscode/
+target/
 
 ### Mac OS ###
 .DS_Store
 
-!**/node_modules/
+
 
 .codegpt
+
+web-r18/
