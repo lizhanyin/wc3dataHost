@@ -5,9 +5,9 @@ import Options from './data/options';
 import AppData from './data/cache';
 import Navbar from "./components/navbar";
 import MapDialog from "./components/mapdialog";
+import { withRouter } from './utils/withRouter';
 import Home from './webpages/Home';
 import './App.scss';
-import withAsync from './utils/withAsync';
 
 function App() {
   const [mapLoadName, setMapLoadName] = useState(""); 
@@ -51,10 +51,7 @@ function App() {
   const onCloseMapDialog = () => {
   }
 
-  const AppLoader = withAsync({
-    ready: (props, cache) => cache.ready,
-  }, Home, undefined, undefined, AppData.Context);
-  
+  const HomeWithRouter = withRouter(Home);
   return (
     <Router basename='/'>
       <Title title="WC3 Data Viewer">
@@ -64,7 +61,7 @@ function App() {
               <div className="App">
                 <Navbar />
                 <Routes>
-                  <Route path="/:build?" element={<AppLoader />} />
+                  <Route path="/:build?" element={<HomeWithRouter/>} />
                 </Routes>
                 <MapDialog name={mapLoadName} status={mapLoadStatus} progress={mapLoadProgress} error={mapLoadError} onHide={onCloseMapDialog}/>
               </div>

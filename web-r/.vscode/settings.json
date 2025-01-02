@@ -6,6 +6,7 @@
         "customitem",
         "customunit",
         "customupgrade",
+        "mapdialog",
         "objecteditor"
     ]
 }
