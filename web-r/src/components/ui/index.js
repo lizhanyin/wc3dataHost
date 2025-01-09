@@ -3,6 +3,7 @@ export * from '@/components/ui/card';
 export * from "@/components/ui/container";
 export * from '@/components/ui/dropdown-menu';
 export * from "@/components/ui/label";
+export * from "@/components/ui/nav";
 export * from '@/components/ui/select';
 export * from "@/components/ui/tabs";
 export * from '@/components/ui/toast';
