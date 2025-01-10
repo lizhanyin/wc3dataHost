@@ -10,7 +10,7 @@ function App() {
   return (
     <BrowserRouter basename="/">
       <main className={cn(
-        "flex flex-col min-h-screen bg-background font-sans antialiased gap-1",
+        "flex flex-col min-h-screen bg-background font-sans antialiased gap-1 bg-blue-app",
         // min-h-full p-3 gap-1 flex flex-col
         // fontSans.variable
       )}>

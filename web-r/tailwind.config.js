@@ -1,7 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 import plugin from "tailwindcss/plugin";
 import animate from "tailwindcss-animate";
-import { blackA, mauve, violet, indigo, purple } from "@radix-ui/colors";
+import tailwindcssRadixColors from "tailwindcss-radix-colors";
+import { blackA, mauve, blue, indigo, indigo } from "@radix-ui/colors";
 
 export default {
     darkMode: ["class"],
@@ -60,8 +61,8 @@ export default {
 
 			...blackA,
 			...mauve,
-			...violet,
-			...purple,
+			...blue,
+			...indigo,
 			...indigo,
   		},
       keyframes: {
@@ -119,7 +120,8 @@ export default {
         }),
       });
     }),
-    animate
+    animate,
+    tailwindcssRadixColors
   ],
 }
 

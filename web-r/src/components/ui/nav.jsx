@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Link as RLink } from 'react-router-dom';
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
+import { CaretDownIcon } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils"
 
 const Root = ({ ref, className, children, ...props }) => (
@@ -21,7 +22,7 @@ const List = ({ ref, className, children, ...props }) => (
   <NavigationMenu.List 
     ref={ref}
     className={cn(
-      "center m-0 flex list-none rounded-md bg-white p-1", // shadow-[0_2px_10px] shadow-blackA4
+      "center m-0 flex list-none rounded-md p-1", // shadow-[0_2px_10px] shadow-blackA4
       className,
     )}
     {...props}
@@ -45,16 +46,25 @@ const Item = ({ ref, className, children, ...props }) => (
 );
 Item.displayName = NavigationMenu.Item.displayName
 
-const Trigger = ({ ref, className, children, ...props }) => (
+const Trigger = ({ ref, className, icon, iconClassName, children, ...props }) => (
   <NavigationMenu.Trigger 
     ref={ref}
     className={cn(
-      "group flex select-none items-center justify-between gap-0.5 rounded mx-1 px-3 py-2 text-[15px] font-medium leading-none text-violet11 outline-none hover:bg-violet3 focus:shadow-[0_0_0_2px] focus:shadow-violet7",
+      "group flex select-none items-center justify-between gap-0.5 rounded mx-1 px-3 py-2 text-[15px] font-medium leading-none text-blue11 outline-none hover:bg-blue3 focus:shadow-[0_0_0_2px] focus:shadow-blue7",
       className,
     )}
     {...props}
   >
     {children}
+    {icon &&
+      <CaretDownIcon
+        className={cn(
+          "relative top-px text-blue10 transition-transform duration-[250] ease-in group-data-[state=open]:-rotate-180",
+          iconClassName,
+        )}
+        aria-hidden
+      />
+    }
   </NavigationMenu.Trigger>
 );
 Trigger.displayName = NavigationMenu.Trigger.displayName
@@ -115,12 +125,26 @@ const Viewport = ({ ref, className, ...props }) => (
 );
 Viewport.displayName = NavigationMenu.Viewport.displayName
 
+const DropMenuList = ({ ref, className, children, ...props }) => (
+  <ul
+    ref={ref}
+    className={cn(
+      "m-0 grid list-none gap-x-2.5 p-[22px] sm:w-[600px] sm:grid-flow-col sm:grid-rows-3",
+      className,
+    )}
+    {...props}
+  >
+    {children}
+  </ul>
+);
+DropMenuList.displayName = "DropMenuList"
+
 const DropMenu = ({ ref, className, children, ...props }) => (
   <li>
     <RLink
       ref={ref}
       className={cn(
-        "block select-none rounded-md p-3 text-[15px] leading-none no-underline outline-none transition-colors hover:bg-mauve3 focus:shadow-[0_0_0_2px] focus:shadow-violet7",
+        "block select-none rounded-md p-3 text-[15px] leading-none no-underline outline-none transition-colors hover:bg-mauve3 focus:shadow-[0_0_0_2px] focus:shadow-blue7",
         className,
       )}
       {...props}
@@ -135,7 +159,7 @@ const DropMenuTitle = ({ ref, className, children, ...props }) => (
   <div 
     ref={ref}
     className={cn(
-      "mb-[5px] font-medium leading-[1.2] text-violet12",
+      "mb-[5px] font-medium leading-[1.2] text-blue12",
       className,
     )}
     {...props}
@@ -168,7 +192,18 @@ export {
   List, 
   Indicator, 
   Viewport, 
+  DropMenuList,
   DropMenu, 
   DropMenuTitle, 
   DropMenuDesc 
 };
+
+Root.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.node,
+  ref: PropTypes.oneOfType([
+    PropTypes.func, 
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+  ]),
+}
+

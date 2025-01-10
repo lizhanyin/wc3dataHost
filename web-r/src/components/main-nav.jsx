@@ -39,7 +39,7 @@ export function MainNav({ items }) {
         ) : null}
         */}
       </div>
-      <Nav.Root className="">
+      <Nav.Root className="flex gap-2 md:gap-2">
         <Nav.List className=""> {/* shadow-[0_2px_10px] shadow-blackA4 */}
           <Nav.Item>
             <Nav.Trigger className="">
@@ -50,15 +50,11 @@ export function MainNav({ items }) {
           </Nav.Item>
 
           <Nav.Item>
-            <Nav.Trigger className="">
+            <Nav.Trigger className="" icon={true} iconClassName={""}>
               Objects{" "}
-              <CaretDownIcon
-                className="relative top-px text-violet10 transition-transform duration-[250] ease-in group-data-[state=open]:-rotate-180"
-                aria-hidden
-              />
             </Nav.Trigger>
             <Nav.Content className="">
-              <ul className="m-0 grid list-none gap-x-2.5 p-[22px] sm:w-[600px] sm:grid-flow-col sm:grid-rows-3">
+              <Nav.DropMenuList className="">
                 <Nav.DropMenu to="/">
                   <Nav.DropMenuTitle>Introduction</Nav.DropMenuTitle>
                   <Nav.DropMenuDesc>Build high-quality, accessible design systems and web apps.</Nav.DropMenuDesc>
@@ -68,7 +64,7 @@ export function MainNav({ items }) {
                   <Nav.DropMenuTitle>Getting started</Nav.DropMenuTitle>
                   <Nav.DropMenuDesc>A quick tutorial to get you up and running with Radix Primitives.</Nav.DropMenuDesc>
                 </Nav.DropMenu>
-              </ul>
+              </Nav.DropMenuList>
             </Nav.Content>
           </Nav.Item>
 
