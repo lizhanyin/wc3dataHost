@@ -1,4 +1,4 @@
-export const siteConfig = {
+const siteConfig = {
   name: "WC3 Data",
   description: "Beautifully designed components built with Radix UI and Tailwind CSS.",
   mainNav: [
@@ -11,3 +11,5 @@ export const siteConfig = {
     github: "https://github.com/lizhanyin/WebCodeEditor"
   },
 }
+
+export { siteConfig };

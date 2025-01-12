@@ -1,12 +1,14 @@
-
 import { BrowserRouter } from 'react-router-dom';
 // import { fontSans } from "@/lib/fonts"
+import { setMainNav, useAppDispatch } from "@/store/store";
 import { cn } from "@/lib/utils"
 import { MainHeader } from "@/components/main-header"
 import { RootLayout } from "@/components/app/layout"
 
 function App() {
 
+  const dispatch = useAppDispatch();
+  dispatch(setMainNav([]))
   return (
     <BrowserRouter basename="/">
       <main className={cn(

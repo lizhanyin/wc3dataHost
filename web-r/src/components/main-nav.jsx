@@ -1,22 +1,15 @@
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { CaretDownIcon } from "@radix-ui/react-icons";
-
+import store from "@/store/store";
 import * as Nav from "@/components/ui"
-import { Icons } from "@/components/icons"
-import { siteConfig } from "@/config/site"
+export function MainNav() {
+  
+  const globalState = useSelector((state) => state.global);
+  console.log(globalState.mainNav);
 
-export function MainNav({ items }) {
-  console.log(items);
   return (
     <>
-      <div className="flex gap-2 md:gap-2">
-        <Nav.Link to="/" className="text-xl">
-          <Icons.logo className="size-9" />
-        </Nav.Link>
-        <Nav.Link to="/" className="text-xl">
-          {siteConfig.name}
-        </Nav.Link>
+
   {/* 
         {items?.length ? (
           <nav className="flex gap-6 px-3">
@@ -38,11 +31,10 @@ export function MainNav({ items }) {
           </nav>
         ) : null}
         */}
-      </div>
       <Nav.Root className="flex gap-2 md:gap-2">
         <Nav.List className=""> {/* shadow-[0_2px_10px] shadow-blackA4 */}
           <Nav.Item>
-            <Nav.Trigger className="">
+            <Nav.Trigger className="bg-blue-ghost">
               <Nav.Link to="/" className="">
                 Home
               </Nav.Link>
@@ -50,7 +42,7 @@ export function MainNav({ items }) {
           </Nav.Item>
 
           <Nav.Item>
-            <Nav.Trigger className="" icon={true} iconClassName={""}>
+            <Nav.Trigger className="bg-blue-ghost	" icon={true} iconClassName={""}>
               Objects{" "}
             </Nav.Trigger>
             <Nav.Content className="">
@@ -69,7 +61,7 @@ export function MainNav({ items }) {
           </Nav.Item>
 
           <Nav.Item>
-            <Nav.Trigger className="">
+            <Nav.Trigger className="bg-blue-ghost	">
               <Nav.Link to="/" className="">
                 Script
               </Nav.Link>
@@ -79,7 +71,7 @@ export function MainNav({ items }) {
           <Nav.Indicator className=""/> 
         </Nav.List>
 
-        <Nav.Viewport className=""/>
+        <Nav.Viewport className="bg-blue-app"/>
       </Nav.Root>
     </>
   )

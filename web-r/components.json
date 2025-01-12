@@ -15,6 +15,7 @@
     "hooks": "@/hooks",
     "config": "@/config",
     "components": "@/components",
+    "store": "@/store",
     "ui": "@/components/ui",
     "lib": "@/lib",
     "utils": "@/lib/utils"

@@ -40,9 +40,11 @@ export function ThemeProvider({
   }
 
   return (
-    (<ThemeProviderContext {...props} value={value}>
-      {children}
-    </ThemeProviderContext>)
+    (
+      <ThemeProviderContext {...props} value={value}>
+        {children}
+      </ThemeProviderContext>
+    )
   );
 }
 

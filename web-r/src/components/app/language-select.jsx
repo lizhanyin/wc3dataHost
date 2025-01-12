@@ -19,11 +19,11 @@ export function LanguageSelect({ language, setLanguage, languageList, setValue, 
       setLanguage(value)
       localStorage.setItem("language", value);
     }}>
-      <SelectTrigger>
+      <SelectTrigger className="">
         <SelectValue placeholder={language.toUpperCase() || "JAVASCRIPT"}/>
       </SelectTrigger>
       <SelectContent>
-    {languageList.map((x, i) => 
+      {languageList.map((x, i) => 
         <SelectItem key={i} value={x.language} >{x.language.toUpperCase()} {x.version}</SelectItem>)}
       </SelectContent>
     </Select>

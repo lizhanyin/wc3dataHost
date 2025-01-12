@@ -50,7 +50,7 @@ const Trigger = ({ ref, className, icon, iconClassName, children, ...props }) =>
   <NavigationMenu.Trigger 
     ref={ref}
     className={cn(
-      "group flex select-none items-center justify-between gap-0.5 rounded mx-1 px-3 py-2 text-[15px] font-medium leading-none text-blue11 outline-none hover:bg-blue3 focus:shadow-[0_0_0_2px] focus:shadow-blue7",
+      "group flex select-none items-center justify-between gap-0.5 rounded mx-1 px-3 py-2 text-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]",
       className,
     )}
     {...props}
@@ -59,7 +59,7 @@ const Trigger = ({ ref, className, icon, iconClassName, children, ...props }) =>
     {icon &&
       <CaretDownIcon
         className={cn(
-          "relative top-px text-blue10 transition-transform duration-[250] ease-in group-data-[state=open]:-rotate-180",
+          "relative top-px transition-transform duration-[250] ease-in group-data-[state=open]:-rotate-180",
           iconClassName,
         )}
         aria-hidden

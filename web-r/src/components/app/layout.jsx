@@ -28,8 +28,8 @@ export function RootLayout() {
       </section>
       <Tabs defaultValue="editor" className="w-full">
         <TabsList>
-          <TabsTrigger value="editor">Editor</TabsTrigger>
-          <TabsTrigger value="output">Run Code</TabsTrigger>
+          <TabsTrigger value="editor" className="bg-blue-ghost">Editor</TabsTrigger>
+          <TabsTrigger value="output" className="bg-blue-ghost">Run Code</TabsTrigger>
         </TabsList>
         <TabsContent value="editor">
           <EditorComponent value={value} setValue={setValue} editorRef={editorRef} language={language}/>
