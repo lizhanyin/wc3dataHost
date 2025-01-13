@@ -26,10 +26,12 @@ class Cache {
   
   fetch(url, opt) {
     opt = opt || {};
+
     const type = opt.type || "json";
     let curl = `${url}$${type}`;
     if (opt.info) curl += "$info";
     if (!opt.refresh && this.cache[curl]) return this.cache[curl];
+    
     const get = (this.cache[curl] = fetch(url).then((response) => {
       if (response.ok) {
         if (type === "binary") {
@@ -54,6 +56,7 @@ class Cache {
         return response.json().then((err) => Promise.reject(err));
       }
     }));
+
     if (opt.global) {
       this._start();
       get.then(
@@ -63,6 +66,7 @@ class Cache {
     }
     return get;
   }
+
   refresh(url, opt) {
     return this.fetch(url, { ...opt, refresh: true });
   }

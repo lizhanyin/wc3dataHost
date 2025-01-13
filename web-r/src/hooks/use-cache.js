@@ -1,21 +1,19 @@
-import { createContext, use } from "react";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, use, useEffect, useState } from "react";
 import { IdbKvStore } from "idb-kv-store";
-import { BaseData, fileId } from "@/hooks/useCache/base-data";
-import { Cache } from "@/hooks/useCache/cache";
+import { BaseData, Cache, fileId } from "@/hooks/useCache";
 import { makeUid, pathHash } from "@/utils/hash";
 import { notifyMessage } from "@/utils/notify";
-import { loadArchive } from "./utils"; // 假设这些工具函数是从另一个文件导入的
+import loadArchive from "@/components/maps/archive";
 
-const AppCacheContext = createContext(null);
+const CacheContext = createContext(null);
 const DataContext = createContext(null);
 const MapsContext = createContext({});
 
-export const useAppCache = () => useContext(AppCacheContext);
-export const useDataContext = () => useContext(DataContext);
-export const useMapsContext = () => useContext(MapsContext);
+export const useAppCache = () => use(CacheContext);
+export const useDataContext = () => use(DataContext);
+export const useMapsContext = () => use(MapsContext);
 
-export const AppCacheProvider = ({ children, root }) => {
+export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finishMapLoad, forceUpdate }) => {
   const [cache] = useState(new Cache());
   const [dataStore, setDataStore] = useState(null);
   const [nameStore, setNameStore] = useState(null);
@@ -170,8 +168,8 @@ export const AppCacheProvider = ({ children, root }) => {
     const meta = metaRaw();
     readFile(file).then(map => {
       const newParser = new MapParser();
-      newParser.onProgress = stage => root.onMapProgress(stage);
-      root.beginMapLoad(file.name);
+      newParser.onProgress = stage => onMapProgress(stage);
+      beginMapLoad(file.name);
       newParser.parse(meta, map)
         .then(data => {
           setParser(null);
@@ -198,12 +196,12 @@ export const AppCacheProvider = ({ children, root }) => {
           const newMapData = { ...mapData, [sid]: loadArchive(data).then(arc => new MapData(cache, arc, sid, file.name)) };
           setMapData(newMapData);
 
-          root.finishMapLoad(sid);
+          finishMapLoad(sid);
         })
         .catch(err => {
           setParser(null);
 
-          root.failMapLoad(typeof err === "string" ? err : false);
+          failMapLoad(typeof err === "string" ? err : false);
           console.error(err);
         });
     });
@@ -229,14 +227,20 @@ export const AppCacheProvider = ({ children, root }) => {
           dataStore.remove(id);
           nameStore.remove(id);
         }
-        root.forceUpdate();
+        forceUpdate();
       }
     }
   };
 
+  const value = {
+    cache, dataStore, nameStore, icons, versions, maps, custom, customDesc, baseData, mapData, meta, parser, 
+    metaRaw, fetchMeta, isLocal, fetchData, hasData, fetchIcon, fetchIconByName, fetchImage, fetchBinary, loadMap, abortMap, unloadMap 
+  };
   return (
-    <AppCacheContext.Provider value={{ cache, dataStore, nameStore, icons, versions, maps, custom, customDesc, baseData, mapData, meta, parser, metaRaw, fetchMeta, isLocal, fetchData, hasData, fetchIcon, fetchIconByName, fetchImage, fetchBinary, loadMap, abortMap, unloadMap }}>
-      {children}
-    </AppCacheContext.Provider>
+    <CacheContext value={value}>
+      <MapsContext value={maps}>
+        {children}
+      </MapsContext>
+    </CacheContext>
   );
 };

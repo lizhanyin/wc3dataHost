@@ -1,5 +1,4 @@
-import {pathHash, postProcess} from "@/utils/hash";
-
+import { postProcess } from "@/utils/hash";
 class BaseData {
   constructor(cache, build, name) {
     this.cache = cache;
@@ -48,17 +47,4 @@ class BaseData {
   }
 }
 
-const fileId = (name, imExt) => {
-  if (typeof name === 'string') {
-    return pathHash(name, imExt);
-  } else if (name != null && typeof name[0] === 'number') {
-    return name;
-  } else {
-    return null;
-  }
-};
-
-export {
-  BaseData,
-  fileId
-}
+export { BaseData }

@@ -1,4 +1,5 @@
 import {pathHash, postProcess} from "@/utils/hash";
+import { fileId } from "./utils";
 
 class MapData {
   files_ = {};
