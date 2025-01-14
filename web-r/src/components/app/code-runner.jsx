@@ -35,13 +35,13 @@ export function CodeRunner({ language, version, data }){
   
   return(
     // className="min-h-[85vh]"
-    <Card style={{height: "calc(100vh - 175px)"}}>
+    <Card style={{height: "calc(100vh - 310px)"}}>
       <CardHeader>
         <CardTitle>{language.toUpperCase()}</CardTitle>
         <CardDescription>Code Output</CardDescription>
       </CardHeader>
       <CardContent className="overflow-hidden overflow-y-scroll scrollbar h-full">
-        {result ? error ? <div className="text-md text-red-11 font-bold font-mono break-words  whitespace-pre-wrap">{result.output}</div> : <div className="text-md font-bold font-mono break-words  whitespace-pre-wrap">{result.output}</div> : <p className="text-md font-bold animate-pulse text-green-500">Executing...</p>}
+        {result ? error ? <div className="text-md text-red-11 font-bold font-mono break-words  whitespace-pre-wrap">{result.output}</div> : <div className="text-md font-bold font-mono break-words  whitespace-pre-wrap">{result.output}</div> : <p className="text-md font-bold animate-pulse text-[#22c55e]">Executing...</p>}
       </CardContent>
       <CardFooter>
         <p>Version: {version}</p>
