@@ -9,6 +9,15 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   base: "/",
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:5200',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '/api')
+      }
+    }
+  },
   plugins: [
     react(),
     Inspect(),
