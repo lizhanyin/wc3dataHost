@@ -70,6 +70,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      events: 'eventemitter3',
+      
       "@": path.resolve(__dirname, "./src")
     },
     extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],

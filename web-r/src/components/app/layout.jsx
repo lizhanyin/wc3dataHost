@@ -1,20 +1,27 @@
 import { useState, useRef, useEffect } from "react";
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
+import { setBuild } from "@/store/store";
 // import { fontSans } from "@/lib/fonts"
+import { MainHeader } from "@/components/main-header";
 import { Container } from "@/components/ui";
-import { EditorComponent } from "@/components/app";
+import { Home, EditorComponent } from "@/components/app";
 import { useAppCache } from "@/hooks/use-cache";
 
-export function RootLayout() {
-  const { versions } = useAppCache();
-  if (Object.keys(versions).length === 0){
-    return;
-  }
-  console.log(versions);
+export function RootLayout({ build }) {
+
+  const dispatch = useDispatch();
+  dispatch(setBuild(build));
 
   return (
     <Container className="flex-col flex-1">
-      <EditorComponent/>
+      <MainHeader/>
+      {build ? 
+        <div></div>
+        : <Home></Home>
+
+      }
+      {/* <EditorComponent/> */}
     </Container>
   )
 }

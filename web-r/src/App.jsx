@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 // import { fontSans } from "@/lib/fonts"
 import { setMainNav, useAppDispatch } from "@/store/store";
-import { MainHeader } from "@/components/main-header";
 import { RootLayout } from "@/components/app/layout";
 import { AppCacheProvider } from "@/hooks/use-cache";
 
@@ -27,7 +26,6 @@ function App() {
               // min-h-full p-3 gap-1 flex flex-col
               // fontSans.variable
             )}>
-              <MainHeader />
               <Routes>
                 <Route path="/:build?" element={<RootLayout/>}/>
               </Routes>
