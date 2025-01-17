@@ -14,7 +14,7 @@ export function RootLayout({ build }) {
   dispatch(setBuild(build));
 
   return (
-    <Container className="flex-col flex-1">
+    <Container className="flex-col flex-1 p-0">
       <MainHeader/>
       {build ? 
         <div></div>

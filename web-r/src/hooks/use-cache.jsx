@@ -233,7 +233,7 @@ export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finish
   };
 
   const value = {
-    cache, dataStore, nameStore, icons, versions, maps, custom, customDesc, baseData, mapData, meta, parser, 
+    cache, dataStore, nameStore, icons, versions, custom, customDesc, baseData, mapData, meta, parser, 
     metaRaw, fetchMeta, isLocal, fetchData, hasData, fetchIcon, fetchIconByName, fetchImage, fetchBinary, loadMap, abortMap, unloadMap 
   };
   return (
