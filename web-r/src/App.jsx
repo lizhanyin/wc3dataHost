@@ -1,20 +1,60 @@
+import { useState, useRef, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 // import { fontSans } from "@/lib/fonts"
 import { setMainNav, useAppDispatch } from "@/store/store";
 import { RootLayout } from "@/components/app/layout";
-import { AppCacheProvider } from "@/hooks/use-cache";
+import { AppCacheProvider, useAppCache } from "@/hooks";
 
 import { cn } from "@/lib/utils"
 
 function App() {
 
-  const dispatch = useAppDispatch();
-  dispatch(setMainNav([]))
+  const { abortMap } = useAppCache();
+  const [mapLoadName, setMapLoadName] = useState(null);
+  const [mapLoadProgress, setMapLoadProgress] = useState(-1);
+  const [mapLoadStatus, setMapLoadStatus] = useState(null);
+  const [mapLoadError, setMapLoadError] = useState(null);
+  const routerRef = useRef(null);
+
+  const navigateTo = (url) => {
+    if (routerRef.current) {
+      routerRef.current.history.push(url);
+    }
+  };
+
+  const beginMapLoad = (name) => {
+    setMapLoadName(name);
+    setMapLoadProgress(-1);
+    setMapLoadStatus(null);
+    setMapLoadError(null);
+  };
+
+  const onMapProgress = (stage) => {
+    setMapLoadProgress(stage);
+  };
+
+  const finishMapLoad = (id) => {
+    setMapLoadStatus(id);
+  };
+
+  const failMapLoad = (error) => {
+    setMapLoadStatus(false);
+    setMapLoadError(error);
+  };
+
+  const onCloseMapDialog = () => {
+    abortMap();
+    setMapLoadName(null);
+    setMapLoadProgress(-1);
+    setMapLoadStatus(null);
+    setMapLoadError(null);
+  };
+
   return (
     <BrowserRouter basename="/">
       {/* <Title title="Warcraft III Data Viewer"> */}
         {/* <Options> */}
-          <AppCacheProvider>
+          <AppCacheProvider beginMapLoad={beginMapLoad} onMapProgress={onMapProgress} finishMapLoad={finishMapLoad} failMapLoad={failMapLoad}>
             {/* <div className="App">
               <MapDialog name={mapLoadName} status={mapLoadStatus} progress={mapLoadProgress} error={mapLoadError} onHide={this.onCloseMapDialog}/>
               <Routes>

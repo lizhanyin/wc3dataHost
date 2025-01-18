@@ -1,13 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDownIcon, ChevronRightIcon } from "@radix-ui/react-icons"
+import { ChevronDownIcon, ChevronRightIcon, DotFilledIcon } from "@radix-ui/react-icons"
 import { Card, CardContent, Container, Label } from "@/components/ui";
-import { useAppCache, useMapsContext } from "@/hooks/use-cache";
+import { useAppCache, MapsProviderContext } from "@/hooks";
 
 const Home = (props) => {
-  const { custom, customDesc } = useAppCache();
-  const {maps} = useMapsContext();
-
+  const { custom, customDesc, isLocal, unloadMap } = useAppCache();
   const [message, setMessage] = useState(null);
   const [messageType, setMessageType] = useState("info");
 
@@ -19,12 +17,15 @@ const Home = (props) => {
         </Card>
       )}
       <Label className="text-lg">Warcraft III Data</Label>
-
       <PatchList/>
-      
-      <MapList name="Standard Maps" items={maps || {}} paths={custom || {}} descs={customDesc || {}}/>
-      
-      <Label className="text-lg">Custom Maps</Label>
+      <MapsProviderContext.Consumer>
+        {maps => (
+          <>
+            <MapList name="Standard Maps" items={maps || {}} paths={custom || {}} descs={customDesc || {}}/>
+            <CustomMapList name="Custom Maps" items={maps || {}} paths={custom || {}} descs={customDesc || {}} isLocal={isLocal} unloadMap={unloadMap}/>
+          </>
+        )}
+      </MapsProviderContext.Consumer>
     </Container>
   )
 }
@@ -37,7 +38,7 @@ const PatchList = () => {
   return (
     <ul>
       {Object.entries(versions).sort((a, b) => parseInt(b[0], 10) - parseInt(a[0], 10)).map(([id, name]) => (
-        <li key={id}><Label className="mx-3">-</Label><Link to={`/${id}`}>Patch {name}</Link></li>
+        <li key={id} className="flex row items-center"><Label className="mx-3"><DotFilledIcon/></Label><Link to={`/${id}`}>Patch {name}</Link></li>
       ))}
     </ul>
   )
@@ -101,6 +102,22 @@ const MapList = ({ level = 0, name, items, paths, descs, Comp = "div" }) => {
   );
 };
 
-
+const CustomMapList = ({ name, items, paths, isLocal, unloadMap }) => {
+  return (
+    <>
+      <Label className="text-lg">{name}</Label>
+      <ul>
+        {Object.entries(items).filter(([id]) => !paths[id] || !paths[id].match(/^maps\//))
+                .sort((a, b) => a[1].localeCompare(a[2])).map(([id, name]) => {
+          let unload = null;
+          if (isLocal(id)) {
+            unload = <span className="ml-2 text-gray-11" onClick={() => unloadMap(id)}>(unload)</span>;
+          }
+          return <li key={id} className="flex row items-center"><Label className="mx-3"><DotFilledIcon/></Label><Link to={`/${id}`}>{name}</Link>{unload}</li>;
+        })}
+      </ul>
+    </>
+  );
+}
 export { Home }
 

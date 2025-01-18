@@ -59,7 +59,7 @@ const Trigger = ({ ref, className, icon, iconClassName, children, ...props }) =>
     {icon &&
       <CaretDownIcon
         className={cn(
-          "relative top-px transition-transform duration-[250] ease-in group-data-[state=open]:-rotate-180",
+          "relative top-px transition-transform duration-200 ease-in group-data-[state=open]:-rotate-180",
           iconClassName,
         )}
         aria-hidden

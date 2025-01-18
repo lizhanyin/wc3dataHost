@@ -1,19 +1,12 @@
 import React, { createContext, use, useEffect, useState } from "react";
-import { IdbKvStore } from "idb-kv-store";
+import IdbKvStore from "idb-kv-store";
 import { BaseData, Cache, fileId } from "@/hooks/useCache";
 import { makeUid, pathHash } from "@/utils/hash";
 import { notifyMessage } from "@/utils/notify";
 import loadArchive from "@/components/maps/archive";
+import { AppCacheProviderContext, MapsProviderContext } from "@/hooks";
 
-const CacheContext = createContext(null);
-const DataContext = createContext(null);
-const MapsContext = createContext({});
-
-export const useAppCache = () => use(CacheContext);
-export const useDataContext = () => use(DataContext);
-export const useMapsContext = () => use(MapsContext);
-
-export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finishMapLoad, forceUpdate }) => {
+export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finishMapLoad, failMapLoad, ...props }) => {
   const [cache] = useState(new Cache());
   const [dataStore, setDataStore] = useState(null);
   const [nameStore, setNameStore] = useState(null);
@@ -36,20 +29,22 @@ export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finish
   });
 
   useEffect(() => {
+    let mapData = null , mapNames = null;
     try {
-      setDataStore(new IdbKvStore("mapData"));
-      setNameStore(new IdbKvStore("mapNames"));
+      mapData = new IdbKvStore("mapData");
+      mapNames = new IdbKvStore("mapNames");
     } catch (e) {
-      setDataStore(null);
-      setNameStore(null);
+      console.error(e)
     }
+    setDataStore(mapData);
+    setNameStore(mapNames);
 
     const proms = [
       cache.fetch("/api/images.dat", { type: "binary" }),
       cache.fetch("/api/versions.json"),
     ];
-    if (nameStore) {
-      proms.push(nameStore.json());
+    if (mapNames) {
+      proms.push(mapNames.json());
     }
     Promise.all(proms).then(([images, versions, names]) => {
       const imageList = new Uint32Array(images);
@@ -76,7 +71,7 @@ export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finish
       setCustom(newCustom);
       setCustomDesc(newCustomDesc);
     });
-  }, [cache, nameStore]);
+  }, []);
 
   const metaRaw = () => cache.fetch("/api/meta.gzx", { type: "binary", global: true });
 
@@ -227,20 +222,20 @@ export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finish
           dataStore.remove(id);
           nameStore.remove(id);
         }
-        forceUpdate();
+        //forceUpdate();
       }
     }
   };
 
   const value = {
-    cache, dataStore, nameStore, icons, versions, custom, customDesc, baseData, mapData, meta, parser, 
-    metaRaw, fetchMeta, isLocal, fetchData, hasData, fetchIcon, fetchIconByName, fetchImage, fetchBinary, loadMap, abortMap, unloadMap 
+    versions, custom, customDesc, 
+    abortMap, isLocal, unloadMap
   };
   return (
-    <CacheContext value={value}>
-      <MapsContext value={maps}>
+    <AppCacheProviderContext value={value}>
+      <MapsProviderContext value={maps} {...props}>
         {children}
-      </MapsContext>
-    </CacheContext>
+      </MapsProviderContext>
+    </AppCacheProviderContext>
   );
 };

@@ -6,7 +6,6 @@ import { setBuild } from "@/store/store";
 import { MainHeader } from "@/components/main-header";
 import { Container } from "@/components/ui";
 import { Home, EditorComponent } from "@/components/app";
-import { useAppCache } from "@/hooks/use-cache";
 
 export function RootLayout({ build }) {
 
