@@ -4,9 +4,16 @@ const initialState = {
   versions: {}, 
   custom: {}, 
   customDesc: {}, 
-  abortMap: () => null,
-  isLocal: () => null,
+  abortMap: () => null, 
+  isLocal: () => null, 
+  loadMap: () => null, 
   unloadMap: () => null,
+  fetchMeta: () => null, 
+  fetchData: () => null, 
+  hasData: () => null, 
+  fetchIconByName: () => null, 
+  fetchImage: () => null, 
+  fetchBinary: () => null
 };
 
 export const AppCacheProviderContext = createContext(initialState);

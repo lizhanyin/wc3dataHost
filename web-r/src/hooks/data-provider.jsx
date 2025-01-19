@@ -229,7 +229,8 @@ export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finish
 
   const value = {
     versions, custom, customDesc, 
-    abortMap, isLocal, unloadMap
+    abortMap, isLocal, loadMap, unloadMap,
+    fetchMeta, fetchData, hasData, fetchIconByName, fetchImage, fetchBinary
   };
   return (
     <AppCacheProviderContext value={value}>

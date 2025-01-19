@@ -106,7 +106,7 @@ const Indicator = ({ ref, className, ...props }) => (
     )}
     {...props}
   >
-    <div className="relative top-[70%] size-2.5 rotate-45 rounded-tl-sm bg-white" />
+    <div className="relative top-[70%] size-2.5 rotate-45 rounded-tl-sm bg-white border" />
   </NavigationMenu.Indicator>
 );
 Indicator.displayName = NavigationMenu.Indicator.displayName

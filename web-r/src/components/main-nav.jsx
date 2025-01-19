@@ -71,7 +71,7 @@ export function MainNav() {
           <Nav.Indicator className=""/> 
         </Nav.List>
 
-        <Nav.Viewport className="bg-blue-app"/>
+        <Nav.Viewport className="bg-blue-app shadow-[0_2px_10px] shadow-blackA4"/>
       </Nav.Root>
     </>
   )
