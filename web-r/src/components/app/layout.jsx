@@ -6,12 +6,12 @@ import PropTypes from "prop-types";
 // import { fontSans } from "@/lib/fonts"
 import { MainHeader } from "@/components/main-header";
 import { Container } from "@/components/ui";
-import { Home, EditorComponent } from "@/components/app";
+import { Home, EditorComponent, MapHome } from "@/components/app";
 import { DataProviderContext, useAppCache } from "@/hooks";
 
 export function RootLayout() {
   const { build } = useParams();
-  const { fetchData } = useAppCache();
+  const { fetchData, maps } = useAppCache();
 
   const [mapData, setMapData] = useState(null);
 
@@ -21,18 +21,17 @@ export function RootLayout() {
       return;
     }
     setMapData(fetchData(build));
-  }, [build]);
+  }, [build, maps]);
 
   return (
     <Container className="flex-col flex-1 p-0">
-      <MainHeader build={build}/>
-      {build ? 
-        <DataProviderContext value={mapData}>
-          
-        </DataProviderContext>
-
-        : <Home></Home>
-      }
+      <DataProviderContext value={mapData}>
+        <MainHeader/>
+        {build ? 
+            <MapHome/>
+            : <Home></Home>
+          }
+      </DataProviderContext>
       {/* <EditorComponent/> */}
     </Container>
   )

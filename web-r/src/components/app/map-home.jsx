@@ -1,16 +1,24 @@
-import React from 'react';
-import AppCache from './data/cache';
-import tagString from './data/tagString';
+import React, { use } from 'react';
+import { useData } from "@/hooks";
+import tagString from '@/components/common/tag-string';
+import { Container, Label } from "@/components/ui";
 
-const MapHome = ({ data, info, image }) => {
-  const tagString = (str) => {
-    // 假设 tagString 是一个函数，在这里定义它
-    return str;
-  };
+const MapHome = ({}) => {
+  const data = useData();
+  if (!data)
+    return <></>;
+  
+  let info = data.file("info.json");
+  info = info ? JSON.parse(info) : null;
+  
+  let image = null;
+  if (data.archive) {
+    image = data.archive.loadImage("war3mapPreview.tga") || data.archive.loadImage("war3mapMap.blp");
+  }
 
   return (
-    <div>
-      <h4>{data.core ? "Warcraft III Patch " : ""}{data.name}</h4>
+    <Container className="flex-1 p-4">
+      <Label className="text-lg">{data.core ? "Warcraft III Patch " : ""}{data.name}</Label>
       {info != null && (
         <ul className="mapInfo">
           <li><b>Name:</b> <span>{tagString(info.name)}</span></li>
@@ -20,8 +28,8 @@ const MapHome = ({ data, info, image }) => {
         </ul>
       )}
       {image != null && <img src={image} alt="Map preview"/>}
-    </div>
+    </Container>
   );
 };
 
-export default MapHome;
+export { MapHome };

@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 // import { fontSans } from "@/lib/fonts"
 import { setMainNav, useAppDispatch } from "@/store/store";
 import { RootLayout } from "@/components/app/layout";
-import { AppCacheProvider, useAppCache } from "@/hooks";
+import { AppCacheProvider, useAppCache, OptionsProvider } from "@/hooks";
 
 import { cn } from "@/lib/utils"
 
@@ -53,7 +53,7 @@ function App() {
   return (
     <BrowserRouter basename="/">
       {/* <Title title="Warcraft III Data Viewer"> */}
-        {/* <Options> */}
+        <OptionsProvider>
           <AppCacheProvider beginMapLoad={beginMapLoad} onMapProgress={onMapProgress} finishMapLoad={finishMapLoad} failMapLoad={failMapLoad}>
             {/* <div className="App">
               <MapDialog name={mapLoadName} status={mapLoadStatus} progress={mapLoadProgress} error={mapLoadError} onHide={this.onCloseMapDialog}/>
@@ -71,7 +71,7 @@ function App() {
               </Routes>
             </main>
           </AppCacheProvider>
-        {/* </Options> */}
+        </OptionsProvider>
       {/* </Title> */}
     </BrowserRouter>
   )

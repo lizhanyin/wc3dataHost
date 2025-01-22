@@ -2,15 +2,16 @@ import { use, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronDownIcon, ChevronRightIcon, DotFilledIcon } from "@radix-ui/react-icons"
 import { Card, CardContent, Container, Label } from "@/components/ui";
-import { useAppCache, MapsProviderContext } from "@/hooks";
+import { useAppCache, useMaps, MapsProviderContext } from "@/hooks";
 
 const Home = (props) => {
   const { custom, customDesc, isLocal, unloadMap } = useAppCache();
+  const maps = useMaps();
   const [message, setMessage] = useState(null);
   const [messageType, setMessageType] = useState("info");
 
   return (
-    <Container className="block flex-1 p-3 shadow-none">
+    <Container className="block flex-1 p-4 shadow-none">
       {message != null && (
         <Card bsStyle={messageType}>
           <CardContent>{message}</CardContent>
@@ -18,14 +19,8 @@ const Home = (props) => {
       )}
       <Label className="text-lg">Warcraft III Data</Label>
       <PatchList/>
-      <MapsProviderContext.Consumer>
-        {maps => (
-          <>
-            <MapList name="Standard Maps" items={maps || {}} paths={custom || {}} descs={customDesc || {}}/>
-            <CustomMapList name="Custom Maps" items={maps || {}} paths={custom || {}} descs={customDesc || {}} isLocal={isLocal} unloadMap={unloadMap}/>
-          </>
-        )}
-      </MapsProviderContext.Consumer>
+      <MapList name="Standard Maps" items={maps || {}} paths={custom || {}} descs={customDesc || {}}/>
+      <CustomMapList name="Custom Maps" items={maps || {}} paths={custom || {}} descs={customDesc || {}} isLocal={isLocal} unloadMap={unloadMap}/>
     </Container>
   )
 }

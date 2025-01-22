@@ -228,7 +228,7 @@ export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finish
   };
 
   const value = {
-    versions, custom, customDesc, 
+    versions, custom, customDesc, maps,
     abortMap, isLocal, loadMap, unloadMap,
     fetchMeta, fetchData, hasData, fetchIconByName, fetchImage, fetchBinary
   };

@@ -4,6 +4,7 @@ const initialState = {
   versions: {}, 
   custom: {}, 
   customDesc: {}, 
+  maps: {},
   abortMap: () => null, 
   isLocal: () => null, 
   loadMap: () => null, 
