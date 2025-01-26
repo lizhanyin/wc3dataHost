@@ -1,7 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import plugin from "tailwindcss/plugin";
 import animate from "tailwindcss-animate";
-import tailwindcssRadixColors from "tailwindcss-radix-colors";
 import { blackA, blueA, grayA, slateA } from "@radix-ui/colors";
 
 export default {
@@ -78,8 +77,7 @@ export default {
         }),
       });
     }),
-    animate,
-    tailwindcssRadixColors
+    animate
   ],
 }
 

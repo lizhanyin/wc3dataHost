@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 const Container = ({ ref, className, ...props }) => (
   <div
     ref={ref}
-    className={cn("flex w-full p-2 shadow", className)}
+    className={cn("flex w-full p-2 shadow-sm", className)}
     {...props} />
 )
 

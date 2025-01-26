@@ -4,6 +4,7 @@ import react from "@vitejs/plugin-react-swc";
 import { defineConfig } from "vite";
 import { VitePWA } from 'vite-plugin-pwa';
 import Inspect from 'vite-plugin-inspect';
+import tailwindcss from "@tailwindcss/vite";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -21,6 +22,7 @@ export default defineConfig({
   plugins: [
     react(),
     Inspect(),
+    tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
@@ -58,7 +60,7 @@ export default defineConfig({
         ]
       }
     }),
-    
+
   ],
   optimizeDeps: {
     /** vite >= 2.3.0 */

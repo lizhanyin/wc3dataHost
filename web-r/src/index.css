@@ -1,8 +1,12 @@
-@tailwind base;
+@import "tailwindcss";
+@config "../tailwind.config.js";
+@theme {
+  --color-*: initial;
+}
 
-@tailwind components;
-
-@tailwind utilities;
+@import "tailwindcss-radix-colors/dist/blue.css"; /* [!code ++] */
+@import "tailwindcss-radix-colors/dist/bluep3.css"; /* [!code ++] */
+@import "tailwindcss-radix-colors/dist/bluep3a.css"; /* [!code ++] */
 
 @layer base {
   :root {
@@ -12,13 +16,13 @@
 
 @layer base {
   * {
-    @apply border-blue-dim	
+    @apply border-blue-6 dark:border-bluedark-6;
   }
 
   body {
-    @apply bg-blue-app text-blue-dim;
+    @apply bg-blue-1 dark:bg-bluedark-1 text-blue-11 dark:text-bluedark-11;
     @apply text-base;
-  }
+  } 
 }
 
 .scrollbar{

@@ -50,7 +50,7 @@ const Trigger = ({ ref, className, icon, iconClassName, children, ...props }) =>
   <NavigationMenu.Trigger 
     ref={ref}
     className={cn(
-      "group flex select-none items-center justify-between gap-0.5 rounded mx-1 px-3 py-2 text-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]",
+      "group flex select-none items-center justify-between gap-0.5 rounded-sm mx-1 px-3 py-2 text-[15px] font-medium leading-none outline-hidden focus:shadow-[0_0_0_2px]",
       className,
     )}
     {...props}
@@ -144,7 +144,7 @@ const DropMenu = ({ ref, className, children, ...props }) => (
     <RLink
       ref={ref}
       className={cn(
-        "block select-none rounded-md p-3 text-[15px] leading-none no-underline outline-none transition-colors hover:bg-mauve3 focus:shadow-[0_0_0_2px] focus:shadow-blue7",
+        "block select-none rounded-md p-3 text-[15px] leading-none no-underline outline-hidden transition-colors hover:bg-mauve3 focus:shadow-[0_0_0_2px] focus:shadow-blue7",
         className,
       )}
       {...props}
