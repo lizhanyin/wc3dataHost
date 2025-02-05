@@ -67,7 +67,7 @@ function App() {
               // fontSans.variable
             )}>
               <Routes>
-                <Route path="/:build?" element={<RootLayout/>}/>
+                <Route path="/:build?/*" element={<RootLayout/>}/>
               </Routes>
             </main>
           </AppCacheProvider>

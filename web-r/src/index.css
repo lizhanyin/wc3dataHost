@@ -1,5 +1,6 @@
 @import "tailwindcss";
-@config "../tailwind.config.js";
+@import "./tailwindcss-animate.css";
+
 @theme {
   --color-*: initial;
 }
@@ -7,6 +8,7 @@
 @import "tailwindcss-radix-colors/dist/blue.css"; /* [!code ++] */
 @import "tailwindcss-radix-colors/dist/bluep3.css"; /* [!code ++] */
 @import "tailwindcss-radix-colors/dist/bluep3a.css"; /* [!code ++] */
+
 
 @layer base {
   :root {
