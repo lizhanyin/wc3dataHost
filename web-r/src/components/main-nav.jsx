@@ -11,7 +11,7 @@ const ObjectMenuInner = () => {
   const { build, type } = useParams();
   return (
     <Nav.Item>
-      <Nav.Trigger className="bg-blue-ghost	" icon={true} iconClassName={""}>
+      <Nav.Trigger className="bg-blue-ghost" icon={true} iconClassName={""}>
         Objects{" "}
       </Nav.Trigger>
       <Nav.Content>
@@ -69,7 +69,7 @@ export function MainNav() {
         <Nav.Indicator/> 
       </Nav.List>
 
-      <Nav.Viewport className="bg-blue-app shadow-[0_2px_10px] shadow-blackA4"/>
+      <Nav.Viewport className="shadow-[0_10px_38px_-10px]"/>
     </Nav.Root>
   )
 }

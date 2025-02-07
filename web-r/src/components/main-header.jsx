@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-
 import { siteConfig } from "@/config/site"
 import { Icons } from "@/components/icons"
 import { MainNav } from "@/components/main-nav"
+import { MainMenu } from "@/components/main-menu"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { buttonVariants } from "@/lib/utils"
 
@@ -38,6 +38,7 @@ export function MainHeader() {
             </Link>
             
             <ThemeToggle />
+            <MainMenu/>
           </nav>
         </div>
       </div>

@@ -106,17 +106,17 @@ const Indicator = ({ ref, className, ...props }) => (
     )}
     {...props}
   >
-    <div className="relative top-[35%] size-2.5 rotate-45 rounded-tl-sm bg-white border" />
+    <div className="relative top-[35%] size-2.5 rotate-45 rounded-tl-sm border bg-blue-app" />
   </NavigationMenu.Indicator>
 );
 Indicator.displayName = NavigationMenu.Indicator.displayName
 
 const Viewport = ({ ref, className, ...props }) => (
-  <div className="perspective-[2000px] absolute left-0 top-full flex w-full justify-center">    
+  <div className="absolute left-0 top-full flex w-full justify-center">    
     <NavigationMenu.Viewport 
       ref={ref}
       className={cn(
-        "relative mt-2.5 h-[var(--radix-navigation-menu-viewport-height)] w-full origin-[top_center] overflow-hidden rounded-md bg-white transition-[width,_height] duration-300 data-[state=closed]:slide-out-to-top-48% data-[state=open]:slide-in-from-top-48% sm:w-[var(--radix-navigation-menu-viewport-width)]",
+        "relative mt-2.5 h-[var(--radix-navigation-menu-viewport-height)] w-full origin-[top_center] overflow-hidden rounded-md bg-white transition-[width,_height] duration-300 data-[state=closed]:slide-out-to-top-48% data-[state=open]:slide-in-from-top-48% sm:w-[var(--radix-navigation-menu-viewport-width)] bg-blue-app",
         className,
       )}
       {...props}

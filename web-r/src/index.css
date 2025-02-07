@@ -1,14 +1,27 @@
 @import "tailwindcss";
-@import "./tailwindcss-animate.css";
-
 @theme {
   --color-*: initial;
 }
+@import "tailwindcss-radix-colors/dist/blue.css";
+@import "tailwindcss-radix-colors/dist/bluep3.css";
+@import "tailwindcss-radix-colors/dist/bluep3a.css";
 
-@import "tailwindcss-radix-colors/dist/blue.css"; /* [!code ++] */
-@import "tailwindcss-radix-colors/dist/bluep3.css"; /* [!code ++] */
-@import "tailwindcss-radix-colors/dist/bluep3a.css"; /* [!code ++] */
+@import "tailwindcss-radix-colors/dist/sky.css";
+@import "tailwindcss-radix-colors/dist/skyp3.css";
+@import "tailwindcss-radix-colors/dist/skyp3a.css";
 
+@import "tailwindcss-radix-colors/dist/gray.css";
+@import "tailwindcss-radix-colors/dist/grayp3.css";
+@import "tailwindcss-radix-colors/dist/grayp3a.css";
+
+@import "tailwindcss-radix-colors/dist/whitea.css";
+@import "tailwindcss-radix-colors/dist/whitep3a.css";
+
+@import "tailwindcss-radix-colors/dist/blacka.css";
+@import "tailwindcss-radix-colors/dist/blackp3a.css";
+
+
+@import "./tailwindcss-animate.css";
 
 @layer base {
   :root {
