@@ -1,6 +1,12 @@
 import PropTypes from 'prop-types';
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
 import { Check, ChevronRight, Circle } from "lucide-react"
+import {
+  HamburgerMenuIcon,
+  DotFilledIcon,
+  CheckIcon,
+  ChevronRightIcon,
+} from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils"
 
@@ -16,29 +22,39 @@ const DropdownMenuSub = DropdownMenuPrimitive.Sub
 
 const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup
 
+const DropdownMenuArrow = DropdownMenuPrimitive.Arrow
+
 const DropdownMenuSubTrigger = ({ref, className, inset, children, ...props}) => (
   <DropdownMenuPrimitive.SubTrigger
     ref={ref}
     className={cn(
-      "flex cursor-default gap-2 select-none items-center rounded-xs px-2 py-1.5 text-sm outline-hidden focus:bg-accent data-[state=open]:bg-accent [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+      "flex cursor-default gap-2 relative select-none items-center rounded-xs leading-none text-sm outline-hidden h-[25px] pl-[25px] pr-[5px]",
+      "focus:bg-accent data-[state=open]:bg-accent [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+      "data-[disabled]:pointer-events-none data-[highlighted]:bg-blue-9 data-[highlighted]:data-[state=open]:bg-blue-9 data-[state=open]:bg-blue-4 data-[disabled]:text-gray-8 data-[highlighted]:data-[state=open]:text-blue-1 data-[highlighted]:text-blue-1 data-[state=open]:text-blue-11",
       inset && "pl-8",
       className
     )}
     {...props}>
     {children}
-    <ChevronRight className="ml-auto" />
+    <div className="ml-auto pl-5 text-gray-11 group-data-[disabled]:text-gray-8 group-data-[highlighted]:text-whitea-12">
+      <ChevronRightIcon />
+    </div>
   </DropdownMenuPrimitive.SubTrigger>
 )
 DropdownMenuSubTrigger.displayName = DropdownMenuPrimitive.SubTrigger.displayName
 
 const DropdownMenuSubContent = ({ref, className, ...props}) => (
-  <DropdownMenuPrimitive.SubContent
-    ref={ref}
-    className={cn(
-      "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-      className
-    )}
-    {...props} />
+  <DropdownMenuPrimitive.Portal>
+    <DropdownMenuPrimitive.SubContent
+      ref={ref}
+      className={cn(
+        "min-w-[14rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg",
+        "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+        "bg-whitea-12 p-[5px] shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]",
+        className
+      )}
+      {...props} />
+  </DropdownMenuPrimitive.Portal>
 )
 DropdownMenuSubContent.displayName = DropdownMenuPrimitive.SubContent.displayName
 
@@ -48,8 +64,9 @@ const DropdownMenuContent = ({ref, className, sideOffset = 4, ...props}) => (
       ref={ref}
       sideOffset={sideOffset}
       className={cn(
-        "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md",
+        "min-w-[14rem] overflow-hidden rounded-md border bg-popover p-[5px] text-popover-foreground shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]",
         "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+        "bg-whitea-1",
         className
       )}
       {...props} />
@@ -61,7 +78,9 @@ const DropdownMenuItem = ({ref, className, inset, ...props}) => (
   <DropdownMenuPrimitive.Item
     ref={ref}
     className={cn(
-      "relative flex cursor-default select-none items-center gap-2 rounded-xs px-2 py-1.5 text-sm outline-hidden transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0",
+      "relative flex cursor-default select-none items-center gap-2 rounded-xs h-[25px] pl-[25px] pr-[5px] text-sm leading-none outline-hidden transition-colors",
+      "focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0",
+      "data-[highlighted]:bg-blue-9 data-[disabled]:text-gray-8 data-[highlighted]:text-blue-1",
       inset && "pl-8",
       className
     )}
@@ -73,16 +92,16 @@ const DropdownMenuCheckboxItem = ({ref, className, children, checked, ...props})
   <DropdownMenuPrimitive.CheckboxItem
     ref={ref}
     className={cn(
-      "relative flex cursor-default select-none items-center rounded-xs py-1.5 pl-8 pr-2 text-sm outline-hidden transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      "relative flex cursor-default select-none items-center rounded-xs h-[25px] pl-[25px] pr-[5px] text-sm outline-hidden leading-none transition-colors",
+      "focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      "data-[highlighted]:bg-blue-9 data-[disabled]:text-gray-8 data-[highlighted]:text-blue-1",
       className
     )}
     checked={checked}
     {...props}>
-    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-      <DropdownMenuPrimitive.ItemIndicator>
-        <Check className="h-4 w-4" />
-      </DropdownMenuPrimitive.ItemIndicator>
-    </span>
+    <DropdownMenuPrimitive.ItemIndicator className="absolute left-0 inline-flex w-[25px] items-center justify-center">
+      <CheckIcon />
+    </DropdownMenuPrimitive.ItemIndicator>
     {children}
   </DropdownMenuPrimitive.CheckboxItem>
 )
@@ -92,15 +111,15 @@ const DropdownMenuRadioItem = ({ref, className, children, ...props}) => (
   <DropdownMenuPrimitive.RadioItem
     ref={ref}
     className={cn(
-      "relative flex cursor-default select-none items-center rounded-xs py-1.5 pl-8 pr-2 text-sm outline-hidden transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      "relative flex cursor-default select-none items-center rounded-xs h-[25px] pl-[25px] pr-[5px] text-sm leading-none outline-hidden transition-colors",
+      "focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      "data-[highlighted]:bg-blue-9 data-[disabled]:text-gray-8 data-[highlighted]:text-blue-1",
       className
     )}
     {...props}>
-    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-      <DropdownMenuPrimitive.ItemIndicator>
-        <Circle className="h-2 w-2 fill-current" />
-      </DropdownMenuPrimitive.ItemIndicator>
-    </span>
+    <DropdownMenuPrimitive.ItemIndicator className="absolute left-0 inline-flex w-[25px] items-center justify-center">
+      <DotFilledIcon />
+    </DropdownMenuPrimitive.ItemIndicator>
     {children}
   </DropdownMenuPrimitive.RadioItem>
 )
@@ -109,7 +128,7 @@ DropdownMenuRadioItem.displayName = DropdownMenuPrimitive.RadioItem.displayName
 const DropdownMenuLabel = ({ref, className, inset, ...props}) => (
   <DropdownMenuPrimitive.Label
     ref={ref}
-    className={cn("px-2 py-1.5 text-sm font-semibold", inset && "pl-8", className)}
+    className={cn("pl-[25px] text-xs leading-[25px] text-gray-11", inset && "pl-8", className)}
     {...props} />
 )
 DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName
@@ -117,7 +136,7 @@ DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName
 const DropdownMenuSeparator = ({ref, className, ...props}) => (
   <DropdownMenuPrimitive.Separator
     ref={ref}
-    className={cn("-mx-1 my-1 h-px bg-muted", className)}
+    className={cn("m-[5px] h-px bg-blue-6", className)}
     {...props} />
 )
 DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName
@@ -129,7 +148,18 @@ const DropdownMenuShortcut = ({className, ...props}) => {
       {...props} />)
   );
 }
-DropdownMenuShortcut.displayName = "DropdownMenuShortcut"
+DropdownMenuShortcut.displayName = "DropdownMenuIcon"
+
+const DropdownMenuIcon = ({className, children, ...props}) => {
+  return (
+    <div 
+      className={cn("ml-auto pl-5 text-gray-11 group-data-[disabled]:text-gray-8 group-data-[highlighted]:text-whitea-1", className)} 
+      {...props} >
+        {children}
+    </div>
+  );
+}
+DropdownMenuIcon.displayName = "DropdownMenuIcon"
 
 export {
   DropdownMenu,
@@ -147,6 +177,8 @@ export {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuRadioGroup,
+  DropdownMenuArrow,
+  DropdownMenuIcon
 }
 
 DropdownMenuSubTrigger.propTypes = {
@@ -199,4 +231,10 @@ DropdownMenuSeparator.propTypes = {
 
 DropdownMenuShortcut.propTypes = {
   className: PropTypes.string,
+};
+
+DropdownMenuIcon.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.node,
+  ref: PropTypes.any,
 };

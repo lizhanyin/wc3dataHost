@@ -3,7 +3,7 @@ import { siteConfig } from "@/config/site"
 import { Icons } from "@/components/icons"
 import { MainNav } from "@/components/main-nav"
 import { MainMenu } from "@/components/main-menu"
-import { ThemeToggle } from "@/components/theme-toggle"
+//import { ThemeToggle } from "@/components/theme-toggle"
 import { buttonVariants } from "@/lib/utils"
 
 export function MainHeader() {
@@ -37,7 +37,7 @@ export function MainHeader() {
               </div>
             </Link>
             
-            <ThemeToggle />
+            {/* <ThemeToggle /> */}
             <MainMenu/>
           </nav>
         </div>
