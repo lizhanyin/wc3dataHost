@@ -1,49 +1,41 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { RawNames, RawNamesSwitch, BuildCtx, TypeCtx, IdCtx } from './ObjectCtx';
 
-import Panel from 'react-flex-panel';
-import { withAsync } from '../utils';
-import AppCache from '../data/cache';
-import Options from '../data/options';
+import Panel from '@/components/common/panel';
+// import { withAsync } from '../utils';
+// import AppCache from '../data/cache';
+import { useAppCache } from '@/hooks/use-cache';
+import { useOptions } from '@/hooks/use-options';
 
 import { ObjectList } from './ObjectList';
 import { ObjectData } from './ObjectData';
 
 import './ObjectView.scss';
 
-class ObjectViewComponent extends React.Component {
-  static contextType = Options.Context;
+const ObjectViewComponent = ({ build, type, id }) => {
 
-  setRawNames = () => this.context.update("rawNames", !this.context.rawNames);
+  const { baseData } = useAppCache();
+  const { rawNames, setRawNames } = useOptions();
 
-  render() {
-    const {match: {params: {build, type, id}}, data} = this.props;
-    return (
-      <RawNames.Provider value={!!this.context.rawNames}>
-        <RawNamesSwitch.Provider value={this.setRawNames}>
-          <BuildCtx.Provider value={build}>
-            <TypeCtx.Provider value={type}>
-              <IdCtx.Provider value={id}>
-                <div className="ObjectView">
-                  <Panel cols>
-                    <ObjectList size={300} minSize={100} resizable className="LeftPanel" data={data} type={type} id={id} key={type}/>
-                    <ObjectData minSize={100} className="RightPanel" data={data}/>
-                  </Panel>
-                </div>
-              </IdCtx.Provider>
-            </TypeCtx.Provider>
-          </BuildCtx.Provider>
-        </RawNamesSwitch.Provider>
-      </RawNames.Provider>
-    );
-  }
+  return (
+    <RawNames.Provider value={!!rawNames}>
+      <RawNamesSwitch.Provider value={setRawNames}>
+        <BuildCtx.Provider value={build}>
+          <TypeCtx.Provider value={type}>
+            <IdCtx.Provider value={id}>
+              <div className="ObjectView">
+                <Panel cols>
+                  <ObjectList size={300} minSize={100} resizable className="LeftPanel" data={baseData} type={type} id={id} key={type}/>
+                  <ObjectData minSize={100} className="RightPanel" data={baseData}/>
+                </Panel>
+              </div>
+            </IdCtx.Provider>
+          </TypeCtx.Provider>
+        </BuildCtx.Provider>
+      </RawNamesSwitch.Provider>
+    </RawNames.Provider>
+  );
 }
 
-const ObjectViewInner = withAsync({
-  data: ({match}, cache) => cache.objects()
-}, ObjectViewComponent, undefined, undefined);
-
-ObjectViewInner.contextType = AppCache.DataContext;
-
-export const ObjectView = () => <Route path={`/:build/:type/:id?`} component={ObjectViewInner}/>;
+export const ObjectView = () => <Routes><Route path={`/:build/:type/:id?`} element={<ObjectViewInner/>}/></Routes>;

@@ -5,8 +5,10 @@ import PropTypes from "prop-types";
 // import { setBuild } from "@/store/store";
 // import { fontSans } from "@/lib/fonts"
 import { MainHeader } from "@/components/main-header";
+import { DataView } from "@/components/data-view";
 import { Container } from "@/components/ui";
 import { Home, EditorComponent, MapHome } from "@/components/app";
+
 import { DataProviderContext, useAppCache } from "@/hooks";
 
 export function RootLayout() {
@@ -28,7 +30,7 @@ export function RootLayout() {
       <DataProviderContext value={mapData}>
         <MainHeader/>
         {build ? 
-            <MapHome/>
+            <DataView/>
             : <Home></Home>
           }
       </DataProviderContext>

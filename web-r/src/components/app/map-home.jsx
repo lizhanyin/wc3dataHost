@@ -18,7 +18,7 @@ const MapHome = ({}) => {
 
   return (
     <Container className="flex-1 p-4">
-      <Label className="text-lg">{data.core ? "Warcraft III Patch " : ""}{data.name}</Label>
+      <Label className="text-lg">{data.core ? "Warcraft III Patch " : ""}<span className='text-sky-11 dark:text-sky-11'>{data.name}</span></Label>
       {info != null && (
         <ul className="mapInfo">
           <li><b>Name:</b> <span>{tagString(info.name)}</span></li>

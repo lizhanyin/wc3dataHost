@@ -33,7 +33,10 @@ const PatchList = () => {
   return (
     <ul>
       {Object.entries(versions).sort((a, b) => parseInt(b[0], 10) - parseInt(a[0], 10)).map(([id, name]) => (
-        <li key={id} className="flex row items-center"><Label className="mx-3"><DotFilledIcon/></Label><Link to={`/${id}`}>Patch {name}</Link></li>
+        <li key={id} className="flex row items-center">
+          <Label className="mx-3"><DotFilledIcon/></Label>
+          <Link to={`/${id}`}>Patch {name}</Link>
+        </li>
       ))}
     </ul>
   )

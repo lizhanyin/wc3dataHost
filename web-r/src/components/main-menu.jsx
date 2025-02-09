@@ -3,17 +3,17 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSub,
-  DropdownMenuSubTrigger,
-  DropdownMenuSubContent,
-  DropdownMenuSeparator,
-  DropdownMenuCheckboxItem,
+  // DropdownMenuItem,
+  // DropdownMenuSub,
+  // DropdownMenuSubTrigger,
+  // DropdownMenuSubContent,
+  // DropdownMenuSeparator,
+  // DropdownMenuCheckboxItem,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuLabel,
   DropdownMenuArrow,
-  DropdownMenuIcon
+  // DropdownMenuIcon
 } from "@/components/ui/dropdown-menu";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { useTheme } from "@/hooks/use-theme"
@@ -25,26 +25,27 @@ export function MainMenu() {
   // const [urlsChecked, setUrlsChecked] = React.useState(false);
 
   return (
-    <DropdownMenu>
+    <DropdownMenu className="z-99">
       <DropdownMenuTrigger asChild>
         <button
-          className="inline-flex size-[35px] items-center justify-center rounded-full bg-whitea-12 shadow-[0_2px_10px] shadow-blacka-4 outline-none hover:bg-blue-3 focus:shadow-[0_0_0_2px] focus:shadow-blacka-1"
+          className="inline-flex size-[20px] items-center justify-center rounded-full bg-whitea-12 dark:bg-blacka-12 shadow-[0_2px_10px] shadow-blacka-4 dark:shadow-whitea-4 outline-none hover:bg-blue-3 dark:hover:bg-bluedark-3 focus:shadow-[0_0_0_2px] focus:shadow-blacka-1 dark:focus:shadow-whitea-1"
           aria-label="Customise options"
         >
           <HamburgerMenuIcon />
         </button>
       </DropdownMenuTrigger>
-
+      
       <DropdownMenuContent className="" sideOffset={5} >
+      {/* 
         <DropdownMenuItem className="group">
           New{" "}
           <DropdownMenuIcon>
             ⌘+N
           </DropdownMenuIcon>
         </DropdownMenuItem>
-        {/* 
+        
         <DropdownMenuItem
-          className="group data-[highlighted]:bg-blue-9 data-[disabled]:text-gray-8 data-[highlighted]:text-blue-1"
+          className="group"
           disabled
         >
           New Private Window{" "}
@@ -103,9 +104,9 @@ export function MainMenu() {
         >
           Show Full URLs
         </DropdownMenuCheckboxItem>
-        */}
-        <DropdownMenuSeparator />
         
+        <DropdownMenuSeparator />
+        */}
         <DropdownMenuLabel className="">
           Theme
         </DropdownMenuLabel>
@@ -121,7 +122,7 @@ export function MainMenu() {
           </DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
 
-        <DropdownMenuArrow className="fill-whitea-12" />
+        <DropdownMenuArrow className="" />
       </DropdownMenuContent>
       
     </DropdownMenu>

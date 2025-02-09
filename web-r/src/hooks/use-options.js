@@ -1,7 +1,8 @@
 import { createContext, use } from "react";
 
 const initialState = {
-
+  rawNames: '',
+  setRawNames: () => {},
 };
 
 export const OptionsProviderContext = createContext(initialState);

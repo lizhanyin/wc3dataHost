@@ -1,9 +1,9 @@
 import React from 'react';
 import { RawNames, IdCtx, listObjectData } from './ObjectCtx';
-import Panel from 'react-flex-panel';
+import Panel from '@/components/common/panel';
 import classNames from 'classnames';
 
-import Title from '../data/title';
+// import Title from '../data/title';
 import { ObjectValue, PopupCell } from './ObjectValue';
 
 const ObjectDataBodyEx = ({object, data, rawNames}) => {
@@ -103,7 +103,7 @@ export class ObjectData extends React.Component {
     return (
       <Panel className={classNames(className, "ObjectData")} {...props}>
         <DragHandle pos={sliderPos} onChange={this.setSliderPos}/>
-        <Title title={object.name}/>
+        {/* <Title title={object.name}/> */}
         <div className="nonscrollable">
           <table>
             <thead>

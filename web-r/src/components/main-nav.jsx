@@ -2,10 +2,45 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Routes, Route } from 'react-router-dom';
-import store from "@/store/store";
 import { useData } from "@/hooks";
 import * as Nav from "@/components/ui";
-import objectTypes from "@/components/app/objects/types";
+import { objectTypes } from "@/components/app";
+
+import AbilityIcon from "@/components/app/objects/assets/objecteditor-customability.png";
+import BuffIcon from "@/components/app/objects/assets/objecteditor-customability.png";
+import DestructibleIcon from "@/components/app/objects/assets/objecteditor-customdestructible.png";
+import DoodadIcon from "@/components/app/objects/assets/objecteditor-customdoodad.png";
+import ItemIcon from "@/components/app/objects/assets/objecteditor-customitem.png";
+import UnitIcon from "@/components/app/objects/assets/objecteditor-customunit.png";
+import UpgradeIcon from "@/components/app/objects/assets/objecteditor-customupgrade.png";
+
+const Icon = ({className, name, ...props}) => {
+  let Icon = AbilityIcon;
+  switch (name) {
+    case "ability":
+      Icon = AbilityIcon;
+      break;
+    case "buff":
+      Icon = BuffIcon;
+      break;
+    case "destructible":
+      Icon = DestructibleIcon;
+      break;
+    case "doodad":
+      Icon = DoodadIcon;
+      break;
+    case "item":
+      Icon = ItemIcon;
+      break;
+    case "unit":
+      Icon = UnitIcon;
+      break;
+    case "upgrade":
+      Icon = UpgradeIcon;
+      break;
+  }
+  return <img src={Icon} className={className} {...props}/>;
+}
 
 const ObjectMenuInner = () => {
   const { build, type } = useParams();
@@ -18,8 +53,8 @@ const ObjectMenuInner = () => {
         <Nav.DropMenuList>
           {Object.keys(objectTypes).map(t => (
             <Nav.DropMenu key={t} to={`/${build}/${t}`}>
-              <Nav.DropMenuTitle eventKey={`objects.${t}`}>
-                <span className={`ObjectIcon ${t}`} />{objectTypes[t]}
+              <Nav.DropMenuTitle eventKey={`objects.${t}`} className="flex">
+                <Icon name={t} className="mr-1.5"/>{objectTypes[t]}
               </Nav.DropMenuTitle>
               <Nav.DropMenuDesc></Nav.DropMenuDesc>
             </Nav.DropMenu>
@@ -32,7 +67,6 @@ const ObjectMenuInner = () => {
 
 export function MainNav() {
   const globalState = useSelector((state) => state.global);
-  // console.log(globalState.mainNav);
   const data = useData();
   if (!data)
     return <></>;

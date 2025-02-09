@@ -6,7 +6,7 @@ import { FormControl, Button, Glyphicon } from 'react-bootstrap';
 import { AutoSizer, List } from 'react-virtualized';
 import DataDownload from './DataDownload';
 
-import Panel from 'react-flex-panel';
+import Panel from '@/components/common/panel';
 
 import './ObjectList.scss';
 

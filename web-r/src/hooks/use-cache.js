@@ -5,6 +5,7 @@ const initialState = {
   custom: {}, 
   customDesc: {}, 
   maps: {},
+  baseData: {},
   abortMap: () => null, 
   isLocal: () => null, 
   loadMap: () => null, 

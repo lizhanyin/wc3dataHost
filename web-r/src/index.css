@@ -6,6 +6,10 @@
 @import "tailwindcss-radix-colors/dist/bluep3.css";
 @import "tailwindcss-radix-colors/dist/bluep3a.css";
 
+@import "tailwindcss-radix-colors/dist/red.css";
+@import "tailwindcss-radix-colors/dist/redp3.css";
+@import "tailwindcss-radix-colors/dist/redp3a.css";
+
 @import "tailwindcss-radix-colors/dist/sky.css";
 @import "tailwindcss-radix-colors/dist/skyp3.css";
 @import "tailwindcss-radix-colors/dist/skyp3a.css";
@@ -22,6 +26,8 @@
 
 
 @import "./tailwindcss-animate.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
   :root {

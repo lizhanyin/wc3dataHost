@@ -1,5 +1,4 @@
 import React from 'react';
-import { withAsync } from '../utils';
 import AppCache from '../data/cache';
 
 export const RawNames = React.createContext(false);

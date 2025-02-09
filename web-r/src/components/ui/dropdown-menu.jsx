@@ -22,8 +22,6 @@ const DropdownMenuSub = DropdownMenuPrimitive.Sub
 
 const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup
 
-const DropdownMenuArrow = DropdownMenuPrimitive.Arrow
-
 const DropdownMenuSubTrigger = ({ref, className, inset, children, ...props}) => (
   <DropdownMenuPrimitive.SubTrigger
     ref={ref}
@@ -48,9 +46,9 @@ const DropdownMenuSubContent = ({ref, className, ...props}) => (
     <DropdownMenuPrimitive.SubContent
       ref={ref}
       className={cn(
-        "min-w-[14rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg",
+        "z-50 min-w-[14rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg",
         "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-        "bg-whitea-12 p-[5px] shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]",
+        "bg-blue-1 dark:bg-bluedark-1 p-[5px] shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]",
         className
       )}
       {...props} />
@@ -64,9 +62,9 @@ const DropdownMenuContent = ({ref, className, sideOffset = 4, ...props}) => (
       ref={ref}
       sideOffset={sideOffset}
       className={cn(
-        "min-w-[14rem] overflow-hidden rounded-md border bg-popover p-[5px] text-popover-foreground shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]",
+        "z-50 min-w-[14rem] overflow-hidden rounded-md border bg-popover p-[5px] text-popover-foreground shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]",
         "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-        "bg-whitea-1",
+        "bg-blue-1 dark:bg-bluedark-1",
         className
       )}
       {...props} />
@@ -136,7 +134,7 @@ DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName
 const DropdownMenuSeparator = ({ref, className, ...props}) => (
   <DropdownMenuPrimitive.Separator
     ref={ref}
-    className={cn("m-[5px] h-px bg-blue-6", className)}
+    className={cn("m-[5px] h-px bg-blue-6 dark:bg-bluedark-6", className)}
     {...props} />
 )
 DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName
@@ -160,6 +158,18 @@ const DropdownMenuIcon = ({className, children, ...props}) => {
   );
 }
 DropdownMenuIcon.displayName = "DropdownMenuIcon"
+
+const DropdownMenuArrow = ({ref, className, ...props}) => (
+  <DropdownMenuPrimitive.Arrow
+    ref={ref}
+    className={cn(
+      "fill-whitea-12 dark:fill-blacka-12",
+      className
+    )}
+    {...props}>
+  </DropdownMenuPrimitive.Arrow>
+)
+DropdownMenuArrow.displayName = DropdownMenuPrimitive.Arrow.displayName
 
 export {
   DropdownMenu,
