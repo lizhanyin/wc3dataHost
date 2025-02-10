@@ -1,13 +1,8 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useParams } from 'react-router-dom';
 import { RawNames, RawNamesSwitch, BuildCtx, TypeCtx, IdCtx } from './ObjectCtx';
-
 import Panel from '@/components/common/panel';
-// import { withAsync } from '../utils';
-// import AppCache from '../data/cache';
-import { useAppCache } from '@/hooks/use-cache';
-import { useOptions } from '@/hooks/use-options';
-
+import { useAppCache, useData, useOptions } from '@/hooks';
 import { ObjectList } from './ObjectList';
 import { ObjectData } from './ObjectData';
 
@@ -15,9 +10,26 @@ import './ObjectView.scss';
 
 const ObjectViewComponent = ({ build, type, id }) => {
 
-  const { baseData } = useAppCache();
+  const dataObject = useData();
+  const params = useParams();
   const { rawNames, setRawNames } = useOptions();
+  const [data, setData] = React.useState(null);
+  
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const data = await dataObject.objects();
+      setData(data);  
+    }
+    fetchData();
+  }, [dataObject]);
 
+  if (!data) return <></>;
+
+
+  build = build || params.build;
+  type = type || params.type;
+  id = id || params.id;
+  
   return (
     <RawNames.Provider value={!!rawNames}>
       <RawNamesSwitch.Provider value={setRawNames}>
@@ -26,8 +38,8 @@ const ObjectViewComponent = ({ build, type, id }) => {
             <IdCtx.Provider value={id}>
               <div className="ObjectView">
                 <Panel cols>
-                  <ObjectList size={300} minSize={100} resizable className="LeftPanel" data={baseData} type={type} id={id} key={type}/>
-                  <ObjectData minSize={100} className="RightPanel" data={baseData}/>
+                  <ObjectList size={300} minSize={100} resizable className="LeftPanel" data={data} type={type} id={id} key={type}/>
+                  <ObjectData minSize={100} className="RightPanel" data={data}/>
                 </Panel>
               </div>
             </IdCtx.Provider>
@@ -38,4 +50,14 @@ const ObjectViewComponent = ({ build, type, id }) => {
   );
 }
 
-export const ObjectView = () => <Routes><Route path={`/:build/:type/:id?`} element={<ObjectViewInner/>}/></Routes>;
+// export const ObjectView = ({key}) => {
+//   const { build, type } = useParams();
+//   console.log(build, type)
+//   return (
+//     <Routes>
+//       <Route path={`/:build/${key}/:id?`} element={<ObjectViewComponent3/>}/>
+//       <Route path={`/:build/${key}?`} element={<ObjectViewComponent2/>}/>
+//     </Routes>
+//   );
+// };
+export const ObjectView = ObjectViewComponent;

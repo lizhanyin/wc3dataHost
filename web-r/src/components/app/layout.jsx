@@ -13,7 +13,7 @@ import { DataProviderContext, useAppCache } from "@/hooks";
 
 export function RootLayout() {
   const { build } = useParams();
-  const { fetchData, maps } = useAppCache();
+  const { data, maps } = useAppCache();
 
   const [mapData, setMapData] = useState(null);
 
@@ -22,7 +22,7 @@ export function RootLayout() {
       setMapData(null);
       return;
     }
-    setMapData(fetchData(build));
+    setMapData(data(build));
   }, [build, maps]);
 
   return (

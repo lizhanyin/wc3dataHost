@@ -25,12 +25,16 @@
     "@radix-ui/react-toast": "^1.2.6",
     "axios": "^1.7.9",
     "classnames": "^2.5.1",
+    "gl-matrix": "^3.4.3",
     "idb-kv-store": "^4.5.0",
+    "keycode": "^2.2.1",
     "monaco-editor": "^0.52.2",
     "react": "^19.0.0",
+    "react-bootstrap": "^2.10.9",
     "react-dom": "^19.0.0",
     "react-icons": "^5.4.0",
     "react-redux": "^9.2.0",
+    "react-virtualized": "^9.22.6",
     "text-encoding": "^0.7.0"
   },
   "devDependencies": {

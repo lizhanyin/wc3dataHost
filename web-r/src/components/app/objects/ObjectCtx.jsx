@@ -1,5 +1,5 @@
 import React from 'react';
-import AppCache from '../data/cache';
+import { DataProviderContext } from "@/hooks/use-data";
 
 export const RawNames = React.createContext(false);
 export const SortNames = React.createContext(true);
@@ -9,7 +9,7 @@ export const IdCtx = React.createContext("");
 export const RawNamesSwitch = React.createContext(undefined); 
 
 export const ObjectIcon = ({object}) => (
-  <AppCache.DataContext.Consumer>
+  <DataProviderContext.Consumer>
     {cache => {
       if (!object || object.icon == null) {
         return null;
@@ -17,7 +17,7 @@ export const ObjectIcon = ({object}) => (
       const icon = cache.icon(object.icon);
       return <span className="Icon" style={icon}/>;
     }}
-  </AppCache.DataContext.Consumer>
+  </DataProviderContext.Consumer>
 );
 
 export function nextComma(str, c) {

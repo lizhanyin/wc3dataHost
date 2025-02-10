@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Link as RLink } from 'react-router-dom';
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
-import { CaretDownIcon } from "@radix-ui/react-icons";
+import { Icons } from "@/components/icons";
 import { cn } from "@/lib/utils"
 
 const Root = ({ ref, className, children, ...props }) => (
@@ -57,7 +57,7 @@ const Trigger = ({ ref, className, icon, iconClassName, children, ...props }) =>
   >
     {children}
     {icon &&
-      <CaretDownIcon
+      <Icons.CaretDownIcon
         className={cn(
           "relative top-px transition-transform duration-200 ease-in group-data-[state=open]:-rotate-180",
           iconClassName,

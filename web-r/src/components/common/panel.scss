@@ -1,5 +1,7 @@
+@use "sass:math";
+
 $resize-width: 7px;
-$resize-offset: -(ceil($resize-width / 2));
+$resize-offset: -(math.ceil(calc($resize-width / 2)));
 
 .Panel {
   position: absolute;

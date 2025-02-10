@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
-import AppCache from '../data/cache';
-// import { tagString } from '../data/tagString';
+import { useAppCache } from '@/hooks';
+import tagString from "@/components/common/tag-string";
 
 // 假定已经存在的辅助函数或组件
 import { ObjectIcon } from './ObjectCtx';
 // import { getObjectById } from './dataUtils'; // 假定这是一个实用函数，用于根据ID获取对象详情
 
 const TooltipContent = ({ objectId }) => {
+  const { image } = useAppCache();
   const [object, setObject] = useState(null);
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const TooltipContent = ({ objectId }) => {
         {object.description || "No description available."}
         {object.icon && (
           <img
-            src={AppCache.image(object.icon)}
+            src={image(object.icon)}
             alt={`${object.name} Icon`}
             className="object-icon"
           />

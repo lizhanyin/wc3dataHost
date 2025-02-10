@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import pathHash, { makeUid } from '../data/hash';
+import { pathHash, makeUid } from '@/utils/hash';
 import FileModelView from '../files/FileModel';
-import AppCache from '../data/cache';
+import { DataProviderContext } from "@/hooks/use-data";
 import keycode from 'keycode';
 
 export default class ObjectModel extends React.Component {
   state = {show: false};
-  static contextType = AppCache.DataContext;
+  static contextType = DataProviderContext;
 
   show = e => {
     this.setState({show: true});

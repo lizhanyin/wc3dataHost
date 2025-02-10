@@ -1,8 +1,8 @@
 import { use, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDownIcon, ChevronRightIcon, DotFilledIcon } from "@radix-ui/react-icons"
+import { Icons } from "@/components/icons";
 import { Card, CardContent, Container, Label } from "@/components/ui";
-import { useAppCache, useMaps, MapsProviderContext } from "@/hooks";
+import { useAppCache, useMaps } from "@/hooks";
 
 const Home = (props) => {
   const { custom, customDesc, isLocal, unloadMap } = useAppCache();
@@ -34,7 +34,7 @@ const PatchList = () => {
     <ul>
       {Object.entries(versions).sort((a, b) => parseInt(b[0], 10) - parseInt(a[0], 10)).map(([id, name]) => (
         <li key={id} className="flex row items-center">
-          <Label className="mx-3"><DotFilledIcon/></Label>
+          <Label className="mx-3"><Icons.DotFilledIcon/></Label>
           <Link to={`/${id}`}>Patch {name}</Link>
         </li>
       ))}
@@ -82,8 +82,8 @@ const MapList = ({ level = 0, name, items, paths, descs, Comp = "div" }) => {
     <Comp className={collapsed ? "collapsed map-list" : "map-list"}>
       <Label className="text-lg flex items-center" onClick={toggle}>
         {collapsed 
-          ? <ChevronRightIcon className="w-5 h-5"/> 
-          : <ChevronDownIcon className="w-5 h-5"/>}
+          ? <Icons.ChevronRightIcon className="w-5 h-5"/> 
+          : <Icons.ChevronDownIcon className="w-5 h-5"/>}
         {name}
       </Label>
       <ul>
@@ -111,7 +111,7 @@ const CustomMapList = ({ name, items, paths, isLocal, unloadMap }) => {
           if (isLocal(id)) {
             unload = <span className="ml-2 text-gray-11" onClick={() => unloadMap(id)}>(unload)</span>;
           }
-          return <li key={id} className="flex row items-center"><Label className="mx-3"><DotFilledIcon/></Label><Link to={`/${id}`}>{name}</Link>{unload}</li>;
+          return <li key={id} className="flex row items-center"><Label className="mx-3"><Icons.DotFilledIcon/></Label><Link to={`/${id}`}>{name}</Link>{unload}</li>;
         })}
       </ul>
     </>

@@ -15,7 +15,7 @@ import {
   DropdownMenuArrow,
   // DropdownMenuIcon
 } from "@/components/ui/dropdown-menu";
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
+import { Icons } from "@/components/icons";
 import { useTheme } from "@/hooks/use-theme"
 
 export function MainMenu() {
@@ -31,7 +31,7 @@ export function MainMenu() {
           className="inline-flex size-[20px] items-center justify-center rounded-full bg-whitea-12 dark:bg-blacka-12 shadow-[0_2px_10px] shadow-blacka-4 dark:shadow-whitea-4 outline-none hover:bg-blue-3 dark:hover:bg-bluedark-3 focus:shadow-[0_0_0_2px] focus:shadow-blacka-1 dark:focus:shadow-whitea-1"
           aria-label="Customise options"
         >
-          <HamburgerMenuIcon />
+          <Icons.MenuIcon/>
         </button>
       </DropdownMenuTrigger>
       

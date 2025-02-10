@@ -2,10 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { BuildCtx, ObjectIcon, TileSets, DestructableCategory, DoodadCategory, TechList } from './ObjectCtx';
 import { Popover, OverlayTrigger } from 'react-bootstrap';
-import ObjectTooltip from './Tooltip';
 import classNames from 'classnames';
-import AppCache from '../data/cache';
-import tagString from '../data/tagString';
+import { DataProviderContext } from "@/hooks/use-data";
+import tagString from "@/components/common/tag-string";
+import ObjectTooltip from './Tooltip';
 import ObjectModel from './ObjectModel';
 
 const ObjectLink = ({object}) => (
@@ -116,7 +116,7 @@ class StringIconPopup extends React.Component {
 }
 
 const StringIcon = ({path}) => (
-  <AppCache.DataContext.Consumer>
+  <DataProviderContext.Consumer>
     {cache => {
       const icon = cache.iconByName(path);
       return (
@@ -128,7 +128,7 @@ const StringIcon = ({path}) => (
         </OverlayTrigger>
       );
     }}
-  </AppCache.DataContext.Consumer>
+  </DataProviderContext.Consumer>
 );
 
 const ObjectSubValue = ({value, meta, data}) => {

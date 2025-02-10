@@ -1,10 +1,10 @@
 import React from 'react';
 import encoding from 'text-encoding';
-import { Modal, Button, Radio, FormGroup, ControlLabel, FormControl, Checkbox } from 'react-bootstrap';
+import { Modal, Button, Form, FormGroup, FormLabel, FormControl } from 'react-bootstrap';
 import objectTypes from './types';
 import { listObjectData, TileSets, DestructableCategory, DoodadCategory, TechList } from './ObjectCtx';
-import { downloadBlob } from '../utils';
-import Options from '../data/options';
+import { downloadBlob } from '@/utils/downloadBlob';
+import { OptionsProviderContext } from '@/hooks/use-options';
 
 class DataCompiler {
   constructor(type, json, names) {
@@ -145,7 +145,7 @@ class DataCompiler {
 }
 
 export default class DataDownload extends React.PureComponent {
-  static contextType = Options.Context;
+  static contextType = OptionsProviderContext;
   static defaultState = {type: "all", json: 0, names: 0};
   state = {}
 
@@ -194,33 +194,33 @@ export default class DataDownload extends React.PureComponent {
         <Modal.Body>
           <form>
             <FormGroup controlId="formType">
-              <ControlLabel>Object type</ControlLabel>
+              <FormLabel>Object type</FormLabel>
               <FormControl componentClass="select" value={type} onChange={this.setType}>
                 {Object.keys(objectTypes).map(t => <option key={t} value={t}>{objectTypes[t]}</option>)}
                 <option value="all">All (Combined)</option>
               </FormControl>
             </FormGroup>
             <FormGroup>
-              <Radio name="json" inline checked={json === 0} onChange={() => this.setOption("json", 0)}>
+              <Form.Check type="radio" name="json" inline checked={json === 0} onChange={() => this.setOption("json", 0)}>
                 Text
-              </Radio>{' '}
-              <Radio name="json" inline checked={json === 1} onChange={() => this.setOption("json", 1)}>
+              </Form.Check>{' '}
+              <Form.Check type="radio" name="json" inline checked={json === 1} onChange={() => this.setOption("json", 1)}>
                 JSON
-              </Radio>
-              <Radio name="json" inline checked={json === 2} onChange={() => this.setOption("json", 2)}>
+              </Form.Check>
+              <Form.Check type="radio" name="json" inline checked={json === 2} onChange={() => this.setOption("json", 2)}>
                 Indented JSON
-              </Radio>
+              </Form.Check>
             </FormGroup>
             <FormGroup>
-              <Radio name="names" inline checked={names === 0} onChange={() => this.setOption("names", 0)}>
+              <Form.Check type="radio" name="names" inline checked={names === 0} onChange={() => this.setOption("names", 0)}>
                 Editor names
-              </Radio>{' '}
-              <Radio name="names" inline checked={names === 1} onChange={() => this.setOption("names", 1)}>
+              </Form.Check>{' '}
+              <Form.Check type="radio" name="names" inline checked={names === 1} onChange={() => this.setOption("names", 1)}>
                 Code names
-              </Radio>
-              <Radio name="names" inline checked={names === 2} onChange={() => this.setOption("names", 2)}>
+              </Form.Check>
+              <Form.Check type="radio" name="names" inline checked={names === 2} onChange={() => this.setOption("names", 2)}>
                 Raw data
-              </Radio>
+              </Form.Check>
             </FormGroup>
           </form>
           <div className="dataPreview">

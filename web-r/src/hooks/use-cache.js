@@ -10,12 +10,12 @@ const initialState = {
   isLocal: () => null, 
   loadMap: () => null, 
   unloadMap: () => null,
-  fetchMeta: () => null, 
-  fetchData: () => null, 
+  meta: () => null, 
+  data: (build) => null, 
   hasData: () => null, 
-  fetchIconByName: () => null, 
-  fetchImage: () => null, 
-  fetchBinary: () => null
+  iconByName: (name) => null, 
+  image: (name, tileset) => null, 
+  binary: () => null
 };
 
 export const AppCacheProviderContext = createContext(initialState);

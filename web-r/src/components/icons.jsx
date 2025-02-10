@@ -3,6 +3,12 @@ import {
   SunMedium,
 } from "lucide-react"
 import AppLogo from '@/assets/icon.png'; 
+import { 
+  ChevronDownIcon, ChevronRightIcon, 
+  DownloadIcon, DotFilledIcon,
+  GearIcon,
+  HamburgerMenuIcon, CaretDownIcon
+} from "@radix-ui/react-icons";
 
 export const Icons = {
   sun: SunMedium,
@@ -18,4 +24,11 @@ export const Icons = {
       ></path>
     </svg>
   ),
+  MenuIcon: HamburgerMenuIcon,
+  ChevronDownIcon: ChevronDownIcon,
+  ChevronRightIcon: ChevronRightIcon,
+  GearIcon: GearIcon,
+  DownloadIcon: DownloadIcon,
+  DotFilledIcon: DotFilledIcon,
+  CaretDownIcon: CaretDownIcon,
 }

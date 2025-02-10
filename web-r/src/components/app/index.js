@@ -6,4 +6,5 @@ export * from "@/components/app/language-select";
 export * from "@/components/app/layout";
 export * from "@/components/app/map-home";
 
-export * as objectTypes from '@/components/app/objects/types';
+import objectTypes from '@/components/app/objects/types';
+export { objectTypes };

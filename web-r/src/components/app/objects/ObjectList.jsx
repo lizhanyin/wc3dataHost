@@ -2,11 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { RawNames, RawNamesSwitch, SortNames, BuildCtx, TypeCtx, IdCtx, ObjectFilters, ObjectIcon } from './ObjectCtx';
-import { FormControl, Button, Glyphicon } from 'react-bootstrap';
+import { FormControl, Button } from 'react-bootstrap';
 import { AutoSizer, List } from 'react-virtualized';
 import DataDownload from './DataDownload';
-
 import Panel from '@/components/common/panel';
+import { Icons } from "@/components/icons";
 
 import './ObjectList.scss';
 
@@ -368,11 +368,11 @@ export class ObjectList extends React.PureComponent {
         <DataDownload data={data} show={showDownload} onHide={this.onCloseDownload}/>
         <div className="search-box">
           <FormControl type="text" value={search} placeholder="Search" onKeyDown={this.onSearchKeyDown} onChange={this.onSearch}/>
-          <Button active={!!showDownload} onClick={this.onDownload} bsSize="small"><Glyphicon glyph="download-alt"/></Button>
+          <Button active={!!showDownload} onClick={this.onDownload} bsSize="small"><Icons.DownloadIcon/></Button>
           <RawNames.Consumer>
             {rawNames => (
               <RawNamesSwitch.Consumer>
-                {onSwitch => <Button active={rawNames} onClick={onSwitch} bsSize="small"><Glyphicon glyph="cog"/></Button>}
+                {onSwitch => <Button active={rawNames} onClick={onSwitch} bsSize="small"><Icons.GearIcon/></Button>}
               </RawNamesSwitch.Consumer>
             )}
           </RawNames.Consumer>

@@ -17,7 +17,7 @@ export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finish
   const [customDesc, setCustomDesc] = useState({});
   const [baseData, setBaseData] = useState({});
   const [mapData, setMapData] = useState({});
-  const [meta, setMeta] = useState(null);
+  const [meta1, setMeta1] = useState(null);
   const [parser, setParser] = useState(null);
 
   const readFile = file => new Promise((resolve, reject) => {
@@ -75,16 +75,16 @@ export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finish
 
   const metaRaw = () => cache.fetch("/api/meta.gzx", { type: "binary", global: true });
 
-  const fetchMeta = () => {
-    if (meta) {
-      return meta;
+  const meta = () => {
+    if (meta1) {
+      return meta1;
     }
-    return metaRaw().then(data => loadArchive(data)).then(setMeta);
+    return metaRaw().then(data => loadArchive(data)).then(setMeta1);
   };
 
   const isLocal = build => !!(maps[build] && !custom[build]);
 
-  const fetchData = build => {
+  const data = build => {
     if (maps[build]) {
       if (mapData[build]) {
         return mapData[build];
@@ -136,9 +136,9 @@ export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finish
     }
   };
 
-  const fetchIconByName = name => fetchIcon(pathHash(name));
+  const iconByName = name => fetchIcon(pathHash(name));
 
-  const fetchImage = (name, tileset) => {
+  const image = (name, tileset) => {
     let id = fileId(name, true);
     const uid = makeUid(id);
     let path = `/api/images/${uid}`;
@@ -148,7 +148,7 @@ export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finish
     return path;
   };
 
-  const fetchBinary = (name, tileset) => {
+  const binary = (name, tileset) => {
     let id = fileId(name, true);
     const uid = makeUid(id);
     let path = `/api/files/${uid}`;
@@ -230,7 +230,7 @@ export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finish
   const value = {
     versions, custom, customDesc, maps, baseData,
     abortMap, isLocal, loadMap, unloadMap,
-    fetchMeta, fetchData, hasData, fetchIconByName, fetchImage, fetchBinary
+    meta, data, hasData, iconByName, image, binary
   };
   return (
     <AppCacheProviderContext value={value}>
