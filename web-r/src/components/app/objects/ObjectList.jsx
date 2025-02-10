@@ -268,7 +268,6 @@ export class ObjectList extends React.PureComponent {
   onSearch = (e) => {
     const {data, type} = this.props;
     const search = e.target.value.trim();
-    console.log(search)
     let found = 0;
 
      // reset

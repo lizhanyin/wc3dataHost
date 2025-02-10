@@ -1,8 +1,8 @@
 import React from 'react';
-import { Routes, Route, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { RawNames, RawNamesSwitch, BuildCtx, TypeCtx, IdCtx } from './ObjectCtx';
 import Panel from '@/components/common/panel';
-import { useAppCache, useData, useOptions } from '@/hooks';
+import { useData, useOptions } from '@/hooks';
 import { ObjectList } from './ObjectList';
 import { ObjectData } from './ObjectData';
 
@@ -16,6 +16,8 @@ const ObjectViewComponent = ({ build, type, id }) => {
   const [data, setData] = React.useState(null);
   
   React.useEffect(() => {
+    if (!dataObject) return;
+
     const fetchData = async () => {
       const data = await dataObject.objects();
       setData(data);  
@@ -50,14 +52,4 @@ const ObjectViewComponent = ({ build, type, id }) => {
   );
 }
 
-// export const ObjectView = ({key}) => {
-//   const { build, type } = useParams();
-//   console.log(build, type)
-//   return (
-//     <Routes>
-//       <Route path={`/:build/${key}/:id?`} element={<ObjectViewComponent3/>}/>
-//       <Route path={`/:build/${key}?`} element={<ObjectViewComponent2/>}/>
-//     </Routes>
-//   );
-// };
 export const ObjectView = ObjectViewComponent;

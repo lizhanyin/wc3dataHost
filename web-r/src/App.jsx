@@ -1,8 +1,5 @@
-import { useState, useRef, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-// import { fontSans } from "@/lib/fonts"
-import { setMainNav, useAppDispatch } from "@/store/store";
-import { RootLayout } from "@/components/app/layout";
+import { useState, useRef } from "react";
+import { Outlet } from 'react-router-dom';
 import { AppCacheProvider, useAppCache, OptionsProvider } from "@/hooks";
 
 import { cn } from "@/lib/utils"
@@ -51,29 +48,21 @@ function App() {
   };
 
   return (
-    <BrowserRouter basename="/">
+    <>
       {/* <Title title="Warcraft III Data Viewer"> */}
         <OptionsProvider>
           <AppCacheProvider beginMapLoad={beginMapLoad} onMapProgress={onMapProgress} finishMapLoad={finishMapLoad} failMapLoad={failMapLoad}>
-            {/* <div className="App">
-              <MapDialog name={mapLoadName} status={mapLoadStatus} progress={mapLoadProgress} error={mapLoadError} onHide={this.onCloseMapDialog}/>
-              <Routes>
-                <Route path="/:build?" element={<AppLoader/>}/>
-              </Routes>
-            </div> */}
             <main className={cn(
               "flex flex-col min-h-screen bg-background font-sans antialiased gap-1",
               // min-h-full p-3 gap-1 flex flex-col
               // fontSans.variable
             )}>
-              <Routes>
-                <Route path="/:build?/*" element={<RootLayout/>}/>
-              </Routes>
+              <Outlet />
             </main>
           </AppCacheProvider>
         </OptionsProvider>
       {/* </Title> */}
-    </BrowserRouter>
+    </>
   )
 }
 

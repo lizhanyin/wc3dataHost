@@ -344,7 +344,7 @@ export default class Panel extends Component {
       let result = React.cloneElement(child, {flexStyle: style});
       if (resizable || prevResizable) {
         if (firstResizable < index && lastResizable >= index) {
-          result = [<Resizer row={rows} col={cols} onResize={delta => this.onResize(index, delta)}/>, result];
+          result = [<Resizer key={index} row={rows} col={cols} onResize={delta => this.onResize(index, delta)}/>, result];
         }
       }
       prevResizable = resizable;
