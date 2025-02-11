@@ -1,11 +1,10 @@
 import { useState, useRef, useEffect } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { Editor } from "@monaco-editor/react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
 import { CodeRunner, LanguageSelect } from "@/components/app";
-import { supportedLanguages } from "@/utils/monaco-supported-languages";
-import { fetchRuntimes } from "@/utils/fetch-runtimes";
-import { codeSnippets } from "@/utils/hello-world";
+import { supportedLanguages } from "@/utils";
+import { fetchRuntimes, codeSnippets } from "@/utils/fetch-runtimes";
 import { useTheme } from "@/hooks/use-theme";
 
 export function EditorComponent(){

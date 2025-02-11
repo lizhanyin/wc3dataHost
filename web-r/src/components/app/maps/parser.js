@@ -1,4 +1,4 @@
-import encoding from 'text-encoding';
+import encoding from "@sinonjs/text-encoding";
 import Worker from './parser.worker.js?worker';
 
 const parseMapPromise = (worker, meta, map, progress) => new Promise((resolve, reject) => {

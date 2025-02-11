@@ -23,13 +23,14 @@ export const router = createBrowserRouter([
     element: <App/>,
     children: [
       { index: true, element: <RootLayout /> }, 
-      { path: ":build?/*", element: <RootLayout />, 
-        children: [
+      { path: ":build?/*", element: <RootLayout />, children: [
           { index: true, element: <MapHome/>},
           ...objectRoutes,
           // { path: "script", element: <JassView/>},
           { path: "map", element: <MapHome/>},
-          // { path: "files",  element: <FileView/>},
+          { path: "files",  element: <FileView/>, children: [
+            { path: ":id?",  element: <FileView/>}
+          ]},
         ]
       },
     ]

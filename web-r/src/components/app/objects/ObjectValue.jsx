@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BuildCtx, ObjectIcon, TileSets, DestructableCategory, DoodadCategory, TechList } from './ObjectCtx';
-import { Popover, OverlayTrigger } from 'react-bootstrap';
+import * as Tooltip from "@radix-ui/react-tooltip";
 import classNames from 'classnames';
+import { BuildCtx, ObjectIcon, TileSets, DestructableCategory, DoodadCategory, TechList } from './ObjectCtx';
 import { AppCacheProviderContext } from "@/hooks/use-cache";
 import tagString from "@/components/common/tag-string";
 import ObjectTooltip from './Tooltip';
@@ -10,13 +10,13 @@ import ObjectModel from './ObjectModel';
 
 const ObjectLink = ({object}) => (
   <BuildCtx.Consumer>
-    {build => <ObjectTooltip id={object.id}><Link to={`/${build}/${object.type}/${object.id}`}><ObjectIcon object={object}/>{object.name}</Link></ObjectTooltip>}
+    {build => <ObjectTooltip objectId={object.id}><Link to={`/${build}/${object.type}/${object.id}`}><ObjectIcon object={object}/>{object.name}</Link></ObjectTooltip>}
   </BuildCtx.Consumer>
 );
 
 const ObjectLinkRaw = ({object}) => (
   <BuildCtx.Consumer>
-    {build => <ObjectTooltip id={object.id}><Link to={`/${build}/${object.type}/${object.id}`}>{object.id}</Link></ObjectTooltip>}
+    {build => <ObjectTooltip objectId={object.id}><Link to={`/${build}/${object.type}/${object.id}`}>{object.id}</Link></ObjectTooltip>}
   </BuildCtx.Consumer>
 );
 
@@ -108,9 +108,7 @@ class StringIconPopup extends React.Component {
       return null;
     }
     return (
-      <Popover id="icon-preview" {...props} className={classNames(className, {loading: !this.state.visible})}>
-        <img src={image} onLoad={this.onLoad} alt="icon"/>
-      </Popover>
+      <img src={image} onLoad={this.onLoad} alt="icon"/>
     );
   }
 }
@@ -120,12 +118,25 @@ const StringIcon = ({path}) => (
     {cache => {
       const icon = cache.iconByName(path);
       return (
-        <OverlayTrigger placement="top" overlay={<StringIconPopup path={path} cache={cache}/>}>
-          <span>
-            {icon != null && <span className="Icon" style={icon}/>}
-            {path}
-          </span>
-        </OverlayTrigger>
+        <Tooltip.Provider>
+          <Tooltip.Root>
+            <Tooltip.Trigger asChild>
+              <span>
+                {icon != null && <span className="Icon" style={icon}/>}
+                {path}
+              </span>
+            </Tooltip.Trigger>
+            <Tooltip.Portal>
+              <Tooltip.Content
+                className="select-none rounded bg-whitea-12 dark:bg-blacka-12 px-[15px] py-2.5 text-[15px] leading-none text-blue-11 border-1 shadow-gray-7 will-change-[transform,opacity] data-[state=delayed-open]:data-[side=bottom]:animate-slide-in-from-bottom-400 data-[state=delayed-open]:data-[side=left]:animate-slide-in-from-left-400 data-[state=delayed-open]:data-[side=right]:animate-slide-in-from-right-400 data-[state=delayed-open]:data-[side=top]:animate-slide-in-from-top-400"
+                sideOffset={5}
+              >
+                <StringIconPopup path={path} cache={cache}/>
+                <Tooltip.Arrow className="fill-blue-11 dark:fill-blue-11" />
+              </Tooltip.Content>
+            </Tooltip.Portal>
+          </Tooltip.Root>
+        </Tooltip.Provider>
       );
     }}
   </AppCacheProviderContext.Consumer>
@@ -133,7 +144,7 @@ const StringIcon = ({path}) => (
 
 const ObjectSubValue = ({value, meta, data}) => {
   if (meta.type.indexOf("Flags") >= 0) {
-    debugger;
+    // debugger;
   }
   let type = meta.type;
   if (type === "lightningList") {

@@ -1,20 +1,22 @@
-import React from 'react';
-import { AutoSizer } from 'react-virtualized';
-import { SearchBox } from '../utils';
-import TextView from '../text/TextView';
-import AppCache from '../data/cache';
-import { withAsync } from '../utils';
-import parseKeywords from '../jass/keywords';
+import React from "react";
+import { AutoSizer } from "react-virtualized";
+import { SearchBox } from "@/components/common/SearchBox";
+import { AppCacheProviderContext } from "@/hooks/use-cache";
+import TextView from "../text/TextView";
+import parseKeywords from "../jass/keywords";
 
 const tokenRe = /([a-z_]\w*)|(0x[0-9a-z]+|\d+\.?|\d*\.\d+)|('[^'\\]*(?:\\.[^'\\]*)*')|("[^"\\]*(?:\\.[^"\\]*)*")|(\/\/.*)/gi;
 const RowHeight = 16;
 
 class FileJassInner extends React.PureComponent {
+
+  static contextType = AppCacheProviderContext;
+
   onSearch = (text, dir) => this._list ? this._list.search(text, dir) : null;
 
   constructor(props) {
     super(props);
-    this.keywords = parseKeywords(props.meta);
+    this.keywords = parseKeywords(this.context.meta());
   }
 
   tokenFunc = (text, [all, id, num, chr, str, com]) => {
@@ -61,9 +63,6 @@ class FileJassInner extends React.PureComponent {
   }
 }
 
-const FileJassView = withAsync({
-  meta: (props, context) => context.meta(),
-}, FileJassInner, undefined, undefined);
-FileJassView.contextType = AppCache.Context;
+const FileJassView = FileJassInner;
 
 export default FileJassView;

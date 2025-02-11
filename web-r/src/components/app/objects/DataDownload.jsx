@@ -1,9 +1,9 @@
 import React from 'react';
-import encoding from 'text-encoding';
+import encoding from "@sinonjs/text-encoding";
 import { Modal, Button, Form, FormGroup, FormLabel, FormControl } from 'react-bootstrap';
 import objectTypes from './types';
 import { listObjectData, TileSets, DestructableCategory, DoodadCategory, TechList } from './ObjectCtx';
-import { downloadBlob } from '@/utils/downloadBlob';
+import { downloadBlob } from '@/utils';
 import { OptionsProviderContext } from '@/hooks/use-options';
 
 class DataCompiler {

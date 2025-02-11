@@ -1,14 +1,13 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import classNames from 'classnames';
-import { FormControl } from 'react-bootstrap';
-import { AutoSizer, List } from 'react-virtualized';
-import pathHash, { makeUid, parseUid, equalUid } from '../data/hash';
-import { IdCtx } from './FileCtx';
-import AppCache from '../data/cache';
-import { withAsync } from '../utils';
+import React from "react";
+import { Link } from "react-router-dom";
+import { FormControl } from "react-bootstrap";
+import { AutoSizer, List } from "react-virtualized";
+import classNames from "classnames";
+import { equalUid, makeUid, parseUid, pathHash } from "@/utils";
+import { DataProviderContext } from "@/hooks/use-data";
+import Panel from "@/components/common/panel";
+import { IdCtx } from "./FileCtx";
 
-import Panel from 'react-flex-panel';
 
 const processFiles = (listfile, imExt) => {
   const root = {
@@ -53,7 +52,7 @@ const processFiles = (listfile, imExt) => {
 }
 
 const FileLink = ({file}) => (
-  <AppCache.DataContext.Consumer>
+  <DataProviderContext.Consumer>
     {data => (
       <IdCtx.Consumer>
         {id => (
@@ -64,7 +63,7 @@ const FileLink = ({file}) => (
         )}
       </IdCtx.Consumer>
     )}
-  </AppCache.DataContext.Consumer>
+  </DataProviderContext.Consumer>
 );
 
 class FileItem {
@@ -98,7 +97,7 @@ class FileDirectory {
   constructor(dir, parent) {
     this.parent = parent;
     this.level = (parent ? parent.level + 1 : 0);
-    this.title = dir.name || '__ROOT__';
+    this.title = dir.name || "__ROOT__";
     this.count = dir.files.length;
     this.dirs = {};
     this.children = [];
@@ -203,7 +202,7 @@ class FileDirectory {
       <div onClick={this.preSelect} className={classNames("ObjectGroup", { expanded: this.expanded, searched: this.searched })}>
         <span className="toggle" onClick={this.toggle}/>
         <span onDoubleClick={this.toggle}><span className="Icon" />
-          <span className='title'>
+          <span className="title">
             {this.title}
           </span>
         </span>
@@ -267,6 +266,8 @@ class FileDirectory {
 class FileListInner extends React.PureComponent {
   state = { search: "", searchResults: null, searched: false };
 
+  static contextType = DataProviderContext;
+
   constructor(props) {
     super(props);
 
@@ -288,7 +289,7 @@ class FileListInner extends React.PureComponent {
     let hasSearchResult = false;
     //reset
     this.root.downSearchVisit(node => node.searched = false);
-    if (search != '' && this.files) {
+    if (search != "" && this.files) {
       const re = new RegExp(search.replace(/[|\\{}()[\]^$+*?.]/g, "\\$&"), "i");
       this.files.forEach((file, i) => {
         let searched = !!file.path.match(re);
@@ -305,7 +306,7 @@ class FileListInner extends React.PureComponent {
       this.root.downSearchVisit(node => node.searched = false);
       this.setState({ search: e.target.value, searchResults: null, searched: hasSearchResult });
     }
-     // console.log('forceUpdateGrid')
+     // console.log("forceUpdateGrid")
      if (this._list) {
       this._list.forceUpdateGrid();
     }
@@ -386,6 +387,9 @@ class FileListInner extends React.PureComponent {
 
 const EmptyPanel = ({id, listFile, className, ...props}) => <Panel className={classNames(className, "ObjectList")} {...props}/>;
 
-export const FileList = withAsync({
-  listFile: ({data}) => data.listFile(),
-}, ({data, ...props}) => <FileListInner key={data.id} isMap={data.isMap} {...props}/>, EmptyPanel, EmptyPanel);
+// export const FileList = withAsync({
+//   listFile: ({data}) => data.listFile(),
+// }, ({data, ...props}) => <FileListInner key={data.id} isMap={data.isMap} {...props}/>, EmptyPanel, EmptyPanel);
+
+
+export const FileList = FileListInner;

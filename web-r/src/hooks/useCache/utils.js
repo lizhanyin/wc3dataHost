@@ -1,5 +1,5 @@
 
-import { pathHash } from "@/utils/hash";
+import { pathHash } from "@/utils";
 
 const fileId = (name, imExt) => {
   if (typeof name === "string") {

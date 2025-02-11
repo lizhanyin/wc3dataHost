@@ -1,6 +1,6 @@
 import React from 'react';
 import { AutoSizer } from 'react-virtualized';
-import { SearchBox } from '../utils';
+import { SearchBox } from '@/components/common/SearchBox';
 import TextView from '../text/TextView';
 
 export default class FileTextView extends React.PureComponent {

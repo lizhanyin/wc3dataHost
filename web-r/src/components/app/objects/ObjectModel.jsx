@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { pathHash, makeUid } from '@/utils/hash';
+import { pathHash, makeUid } from '@/utils';
 import FileModelView from '../files/FileModel';
 import { DataProviderContext } from "@/hooks/use-data";
 import keycode from 'keycode';

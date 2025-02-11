@@ -1,11 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
-import pathHash, { parseUid, equalUid } from '../data/hash';
+import encoding from "@sinonjs/text-encoding";
+
+import { downloadBlob, equalUid, pathHash, parseUid } from '@/utils';
 import { Icons } from "@/components/icons";
-import { downloadBlob, withAsync } from '../utils';
+
 import SlkFile from '../mdx/parsers/slk/file';
-import encoding from 'text-encoding';
-import Title from '../data/title';
+// import Title from '../data/title';
 
 import FileSlkView from './FileSlk';
 import FileHexView from './FileHex';
@@ -93,7 +94,7 @@ class GameFileInner extends React.Component {
   render() {
     return (
       <div className="FileData">
-        <Title title={this.props.name}/>
+        {/* <Title title={this.props.name}/> */}
         <ul className="tab-line">
           <li key="dl" className="tab-xbutton" onClick={this.onDownload}>Download <Icons.DownloadIcon/></li>
           {this.makePanel("hex", "Hex")}
@@ -110,10 +111,11 @@ class GameFileInner extends React.Component {
   }
 }
 
-const GameFileLoader = withAsync({
-  data: ({data}) => data,
-}, GameFileInner, undefined, undefined);
+// const GameFileLoader = withAsync({
+//   data: ({data}) => data,
+// }, GameFileInner, undefined, undefined);
 
+const GameFileLoader = GameFileInner;
 class GameFileDataFinder extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -150,6 +152,8 @@ class GameFileDataFinder extends React.PureComponent {
   }
 }
 
-export const GameFileData = withAsync({
-  listFile: ({data}) => data.listFile(),
-}, GameFileDataFinder, undefined, undefined);
+// export const GameFileData = withAsync({
+//   listFile: ({data}) => data.listFile(),
+// }, GameFileDataFinder, undefined, undefined);
+
+export const GameFileData = GameFileDataFinder;

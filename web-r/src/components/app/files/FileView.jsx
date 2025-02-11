@@ -1,20 +1,19 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import { IdCtx } from './FileCtx';
+import React from "react";
+import { Route } from "react-router-dom";
+import Panel from "@/components/common/panel";
 
-import Panel from 'react-flex-panel';
-import AppCache from '../data/cache';
+import { AppCacheProviderContext } from "@/hooks";
+import { parseUid } from "@/utils";
 
-import { parseUid } from '../data/hash';
+import { IdCtx } from "./FileCtx";
+import { FileList } from "./FileList";
+import { FileData } from "./FileData";
+import { GameFileData } from "./GameFileData";
 
-import { FileList } from './FileList';
-import { FileData } from './FileData';
-import { GameFileData } from './GameFileData';
-
-import './FileView.scss';
+import "./FileView.scss";
 
 class FileViewComponent extends React.Component {
-  static contextType = AppCache.DataContext;
+  static contextType = AppCacheProviderContext;
 
   render() {
     const data = this.context;
@@ -43,4 +42,4 @@ class FileViewComponent extends React.Component {
   }
 }
 
-export const FileView = () => <Route path={`/:build/files/:id?`} component={FileViewComponent}/>;
+export const FileView = () => FileViewComponent;//<Route path={`/:build/files/:id?`} component={FileViewComponent}/>;

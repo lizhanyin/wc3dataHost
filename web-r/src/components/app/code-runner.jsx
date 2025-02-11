@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
-import { runCode } from "@/utils/run-code";
+import { runCode } from "@/utils";
 import { useToast } from "@/hooks/use-toast";
 import {
   Card,

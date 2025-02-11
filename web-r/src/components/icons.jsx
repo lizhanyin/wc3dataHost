@@ -5,6 +5,7 @@ import {
 import AppLogo from '@/assets/icon.png'; 
 import { 
   ChevronDownIcon, ChevronRightIcon, 
+  ChevronUpIcon, Cross2Icon,
   DownloadIcon, DotFilledIcon,
   GearIcon,
   HamburgerMenuIcon, CaretDownIcon
@@ -27,6 +28,8 @@ export const Icons = {
   MenuIcon: HamburgerMenuIcon,
   ChevronDownIcon: ChevronDownIcon,
   ChevronRightIcon: ChevronRightIcon,
+  ChevronUpIcon: ChevronUpIcon,
+  Cross2Icon: Cross2Icon,
   GearIcon: GearIcon,
   DownloadIcon: DownloadIcon,
   DotFilledIcon: DotFilledIcon,

@@ -1,17 +1,20 @@
-import React from 'react';
-import keycode from 'keycode';
-import { Link } from 'react-router-dom';
-import { Navbar, Nav, NavItem, FormGroup, Glyphicon, Popover } from 'react-bootstrap';
-import { AutoSizer } from 'react-virtualized';
-import AppCache from '../data/cache';
-import Options from '../data/options';
-import { withAsync, OverlayNav, ScrollSaver, downloadBlob } from '../utils';
-import parseKeywords from './keywords';
-import encoding from 'text-encoding';
+import React from "react";
+import keycode from "keycode";
+import { Link } from "react-router-dom";
+import { Navbar, Nav, NavItem, FormGroup, Popover } from "react-bootstrap";
+import { AutoSizer } from "react-virtualized";
+import encoding from "@sinonjs/text-encoding";
+import { Icons } from "@/components/icons";
+import { OverlayNav } from "@/components/common/OverlayNav";
+import { ScrollSaver } from "@/components/common/ScrollSaver";
+import AppCache from "../data/cache";
+import Options from "../data/options";
+import { downloadBlob } from "@/utils";
+import parseKeywords from "./keywords";
 
-import TextView from '../text/TextView';
+import TextView from "../text/TextView";
 
-import './JassView.scss';
+import "./JassView.scss";
 
 const tokenRe = /([a-z_]\w*)|(0x[0-9a-z]+|\d+\.?|\d*\.\d+)|('[^'\\]*(?:\\.[^'\\]*)*')|("[^"\\]*(?:\\.[^"\\]*)*")|(\/\/.*)/gi;
 
@@ -176,7 +179,7 @@ class JassViewer extends React.Component {
         <Navbar fluid className="JassHeader">
           <Nav>
             <NavItem eventKey="source" onClick={this.onDownload}>
-              Download <Glyphicon glyph="download-alt"/>
+              Download <Icons.DownloadIcon/>
             </NavItem>
             <OverlayNav trigger="click" rootClose placement="bottom" overlay={<JassOptions options={options} setOption={setOption}/>}>
               <NavItem eventKey="format">
@@ -194,8 +197,8 @@ class JassViewer extends React.Component {
                        onChange={this.onSearchChange}
                        onKeyDown={this.onSearchKeyDown}/>
                 {!!searchResults && <span className="search-tag">{(searchResults.pos + 1) + "/" + searchResults.count}</span>}
-                <button disabled={!results} onClick={this.findPrev} title="Previous"><Glyphicon glyph="chevron-up"/></button>
-                <button disabled={!results} onClick={this.findNext} title="Next"><Glyphicon glyph="chevron-down"/></button>
+                <button disabled={!results} onClick={this.findPrev} title="Previous"><Icons.ChevronUpIcon/></button>
+                <button disabled={!results} onClick={this.findNext} title="Next"><Icons.ChevronDownIcon/></button>
               </div>
             </FormGroup>
           </Navbar.Form>
@@ -222,9 +225,10 @@ class JassViewer extends React.Component {
   }
 }
 
-const JassViewerWithData = withAsync({
-  objects: ({data}) => data.objects(),
-}, JassViewer, undefined, undefined);
+// const JassViewerWithData = withAsync({
+//   objects: ({data}) => data.objects(),
+// }, JassViewer, undefined, undefined);
+const JassViewerWithData = JassViewer;
 
 class JassViewParser extends React.PureComponent {
   static contextType = AppCache.DataContext;
@@ -280,9 +284,10 @@ class JassViewInner extends React.Component {
   }
 }
 
-const JassView = withAsync({
-  meta: (props, context) => context.meta(),
-}, JassViewInner, undefined, undefined);
-JassView.contextType = AppCache.Context;
+// const JassView = withAsync({
+//   meta: (props, context) => context.meta(),
+// }, JassViewInner, undefined, undefined);
+// JassView.contextType = AppCache.Context;
+const JassView = JassViewInner;
 
 export default JassView;

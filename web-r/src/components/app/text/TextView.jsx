@@ -1,10 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import classNames from 'classnames';
-import { List, defaultCellRangeRenderer } from 'react-virtualized';
-import { createChainedFunction, replaceReact } from '../utils';
+import React from "react";
+import ReactDOM from "react-dom";
+import classNames from "classnames";
+import { List, defaultCellRangeRenderer } from "react-virtualized";
+import { createChainedFunction, replaceReact } from "@/utils";
 
-import './TextView.scss';
+import "./TextView.scss";
 
 function makeRegex(str) {
   str = str.replace(/[-[\]/{}()*+?.\\^$|]/g, "\\$&");

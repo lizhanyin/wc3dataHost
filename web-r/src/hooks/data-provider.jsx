@@ -1,8 +1,7 @@
 import React, { createContext, use, useEffect, useState } from "react";
 import IdbKvStore from "idb-kv-store";
 import { BaseData, Cache, fileId } from "@/hooks/useCache";
-import { makeUid, pathHash } from "@/utils/hash";
-import { notifyMessage } from "@/utils/notify";
+import { makeUid, pathHash, notifyMessage } from "@/utils";
 import loadArchive from "@/components/app/maps/archive";
 import { AppCacheProviderContext, MapsProviderContext } from "@/hooks";
 

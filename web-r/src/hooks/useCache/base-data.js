@@ -1,4 +1,4 @@
-import { postProcess } from "@/utils/hash";
+import { postProcess } from "@/utils";
 class BaseData {
   constructor(cache, build, name) {
     this.cache = cache;

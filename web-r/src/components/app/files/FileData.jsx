@@ -1,12 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
-import encoding from 'text-encoding';
-import pathHash, { makeUid, parseUid, equalUid } from '../data/hash';
+import encoding from "@sinonjs/text-encoding";
+import { makeUid, parseUid, pathHash, equalUid } from '@/utils';
 import { Icons } from "@/components/icons";
 
-import { downloadBlob } from '../utils';
+import { downloadBlob } from '@/utils';
 import SlkFile from '../mdx/parsers/slk/file';
-import Title from '../data/title';
+// import Title from '../data/title';
 
 import FileSlkView from './FileSlk';
 import FileHexView from './FileHex';
@@ -17,7 +17,7 @@ import FileModelView from './FileModel';
 import FileJassView from './FileJass';
 
 import Formats from '../mdx/parsers/w3x';
-import { ObjectInspector, ObjectRootLabel, ObjectLabel, ObjectName, ObjectValue } from 'react-inspector';
+// import { ObjectInspector, ObjectRootLabel, ObjectLabel, ObjectName, ObjectValue } from 'react-inspector';
 // import ObjectPreviewEx from '../ObjectPreviewEx';
 
 const gameFileTypes = {
@@ -137,7 +137,8 @@ export class FileData extends React.Component {
     case "audio": return <FileAudioView audio={this.audio}/>;
     case "model": return <FileModelView id={this.props.id}/>;
     case "image": return <FileImageView data={this.binary} image={this.image}/>;
-    case "data": return <ObjectInspector expandLevel={1} data={this.data}/>;
+    // case "data": return <ObjectInspector expandLevel={1} data={this.data}/>;
+    case "data": return <div>{JSON.stringify(this.data)}</div>;
     default: return null;
     }
   }
@@ -184,7 +185,7 @@ export class FileData extends React.Component {
 
     return (
       <div className="FileData">
-        <Title title={this.getName()}/>
+        {/* <Title title={this.getName()}/> */}
         <ul className="tab-line">
           <li key="dl" className="tab-xbutton" onClick={this.onDownload}>Download <Icons.DownloadIcon/></li>
           {this.makePanel("hex", "Hex")}

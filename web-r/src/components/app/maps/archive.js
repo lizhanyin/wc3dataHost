@@ -1,5 +1,5 @@
-import encoding from 'text-encoding';
-import { pathHash, makeUid } from '@/utils/hash';
+import encoding from "@sinonjs/text-encoding";
+import { pathHash, makeUid } from '@/utils';
 import LoaderModule from './ArchiveLoader';
 
 class ArchiveLoader {

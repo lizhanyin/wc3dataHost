@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { OverlayTrigger, Popover } from 'react-bootstrap';
+import * as Tooltip from "@radix-ui/react-tooltip";
 import { useAppCache } from '@/hooks';
 import tagString from "@/components/common/tag-string";
 
@@ -21,40 +21,41 @@ const TooltipContent = ({ objectId }) => {
     }
   }, [objectId]);
 
-  if (!object) return <Popover.Title>Loading...</Popover.Title>;
+  if (!object) return <div>Loading...</div>;
 
   return (
     <div>
-      <Popover.Title>{object.name}</Popover.Title>
-      <Popover.Content>
-        {object.description || "No description available."}
-        {object.icon && (
-          <img
-            src={image(object.icon)}
-            alt={`${object.name} Icon`}
-            className="object-icon"
-          />
-        )}
-      </Popover.Content>
+      {object.description || "No description available."}
+      {object.icon && (
+        <img
+          src={image(object.icon)}
+          alt={`${object.name} Icon`}
+          className="object-icon"
+        />
+      )}
     </div>
   );
 };
 
-const Tooltip = ({ objectId, children }) => {
+const TooltipComponent = ({ objectId, children }) => {
   return (
-    <OverlayTrigger
-      overlay={
-        <Popover id='objectId'>
-          <TooltipContent objectId={objectId} />
-        </Popover>
-      }>
-      {typeof children === 'string' ? (
-        <span>{children}</span>
-      ) : (
-        children
-      )}
-    </OverlayTrigger>
+    <Tooltip.Provider>
+      <Tooltip.Root>
+        <Tooltip.Trigger asChild>
+          {children}
+        </Tooltip.Trigger>
+        <Tooltip.Portal>
+          <Tooltip.Content
+            className="select-none rounded bg-whitea-12 dark:bg-blacka-12 px-[15px] py-2.5 text-[15px] leading-none text-blue-11 border-1 shadow-gray-7 will-change-[transform,opacity] data-[state=delayed-open]:data-[side=bottom]:animate-slide-in-from-bottom-400 data-[state=delayed-open]:data-[side=left]:animate-slide-in-from-left-400 data-[state=delayed-open]:data-[side=right]:animate-slide-in-from-right-400 data-[state=delayed-open]:data-[side=top]:animate-slide-in-from-top-400"
+            sideOffset={5}
+          >
+            <TooltipContent objectId={objectId} />
+            <Tooltip.Arrow className="fill-blue-11 dark:fill-blue-11" />
+          </Tooltip.Content>
+        </Tooltip.Portal>
+      </Tooltip.Root>
+    </Tooltip.Provider>
   );
 };
 
-export default Tooltip;
+export default TooltipComponent;
