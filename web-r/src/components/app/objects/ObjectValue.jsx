@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { BuildCtx, ObjectIcon, TileSets, DestructableCategory, DoodadCategory, TechList } from './ObjectCtx';
 import { Popover, OverlayTrigger } from 'react-bootstrap';
 import classNames from 'classnames';
-import { DataProviderContext } from "@/hooks/use-data";
+import { AppCacheProviderContext } from "@/hooks/use-cache";
 import tagString from "@/components/common/tag-string";
 import ObjectTooltip from './Tooltip';
 import ObjectModel from './ObjectModel';
@@ -116,7 +116,7 @@ class StringIconPopup extends React.Component {
 }
 
 const StringIcon = ({path}) => (
-  <DataProviderContext.Consumer>
+  <AppCacheProviderContext.Consumer>
     {cache => {
       const icon = cache.iconByName(path);
       return (
@@ -128,7 +128,7 @@ const StringIcon = ({path}) => (
         </OverlayTrigger>
       );
     }}
-  </DataProviderContext.Consumer>
+  </AppCacheProviderContext.Consumer>
 );
 
 const ObjectSubValue = ({value, meta, data}) => {

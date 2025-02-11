@@ -8,6 +8,7 @@ const initialState = {
   baseData: {},
   abortMap: () => null, 
   isLocal: () => null, 
+  icon: (id) => null,
   loadMap: () => null, 
   unloadMap: () => null,
   meta: () => null, 

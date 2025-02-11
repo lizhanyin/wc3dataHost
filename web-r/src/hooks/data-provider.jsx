@@ -3,7 +3,7 @@ import IdbKvStore from "idb-kv-store";
 import { BaseData, Cache, fileId } from "@/hooks/useCache";
 import { makeUid, pathHash } from "@/utils/hash";
 import { notifyMessage } from "@/utils/notify";
-import loadArchive from "@/components/maps/archive";
+import loadArchive from "@/components/app/maps/archive";
 import { AppCacheProviderContext, MapsProviderContext } from "@/hooks";
 
 export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finishMapLoad, failMapLoad, ...props }) => {
@@ -121,7 +121,7 @@ export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finish
 
   const hasData = build => !!(maps[build] || versions[build]);
 
-  const fetchIcon = id => {
+  const icon = id => {
     const index = icons.get(makeUid(id));
     if (index) {
       const col = index % 16;
@@ -136,7 +136,7 @@ export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finish
     }
   };
 
-  const iconByName = name => fetchIcon(pathHash(name));
+  const iconByName = name => icon(pathHash(name));
 
   const image = (name, tileset) => {
     let id = fileId(name, true);
@@ -230,7 +230,7 @@ export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finish
   const value = {
     versions, custom, customDesc, maps, baseData,
     abortMap, isLocal, loadMap, unloadMap,
-    meta, data, hasData, iconByName, image, binary
+    icon, meta, data, hasData, iconByName, image, binary
   };
   return (
     <AppCacheProviderContext value={value}>

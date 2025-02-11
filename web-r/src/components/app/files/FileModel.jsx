@@ -2,7 +2,7 @@ import React from 'react';
 import { vec3, mat4 } from 'gl-matrix';
 import ModelViewer from '../mdx';
 import { AutoSizer } from 'react-virtualized';
-import { DataProviderContext } from "@/hooks/use-data";
+import { AppCacheProviderContext } from "@/hooks/use-cache";
 import { pathHash } from '@/utils/hash';
 const v3pos = vec3.create(), v3dir = vec3.create(), v3up = vec3.create(), v3sub = vec3.create();
 const m4rot = mat4.create();
@@ -44,7 +44,7 @@ export default class FileModelView extends React.PureComponent {
     teamColor: 0
   }
 
-  static contextType = DataProviderContext;
+  static contextType = AppCacheProviderContext;
 
   yaw = -Math.PI / 2;
   pitch = -Math.PI / 4;

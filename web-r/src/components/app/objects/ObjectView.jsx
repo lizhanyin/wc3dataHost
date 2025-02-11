@@ -41,7 +41,7 @@ const ObjectViewComponent = ({ build, type, id }) => {
               <div className="ObjectView">
                 <Panel cols>
                   <ObjectList size={300} minSize={100} resizable className="LeftPanel" data={data} type={type} id={id} key={type}/>
-                  <ObjectData minSize={100} className="RightPanel" data={data}/>
+                  <ObjectData key={`${type}-${id}`} minSize={100} className="RightPanel" data={data}/>
                 </Panel>
               </div>
             </IdCtx.Provider>

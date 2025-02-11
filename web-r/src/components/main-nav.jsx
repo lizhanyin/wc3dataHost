@@ -53,7 +53,7 @@ const ObjectMenuInner = () => {
         <Nav.DropMenuList>
           {Object.keys(objectTypes).map(t => (
             <Nav.DropMenu key={t} to={`/${build}/${t}`}>
-              <Nav.DropMenuTitle eventKey={`objects.${t}`} className="flex">
+              <Nav.DropMenuTitle event-key={`objects.${t}`} className="flex">
                 <Icon key={t} name={t} className="mr-1.5"/>{objectTypes[t]}
               </Nav.DropMenuTitle>
               <Nav.DropMenuDesc></Nav.DropMenuDesc>

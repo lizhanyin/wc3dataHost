@@ -367,11 +367,11 @@ export class ObjectList extends React.PureComponent {
         <DataDownload data={data} show={showDownload} onHide={this.onCloseDownload}/>
         <div className="search-box">
           <FormControl type="text" value={search} placeholder="Search" onKeyDown={this.onSearchKeyDown} onChange={this.onSearch}/>
-          <Button active={!!showDownload} onClick={this.onDownload} bsSize="small"><Icons.DownloadIcon/></Button>
+          <Button active={!!showDownload} onClick={this.onDownload}><Icons.DownloadIcon/></Button>
           <RawNames.Consumer>
             {rawNames => (
               <RawNamesSwitch.Consumer>
-                {onSwitch => <Button active={rawNames} onClick={onSwitch} bsSize="small"><Icons.GearIcon/></Button>}
+                {onSwitch => <Button active={rawNames} onClick={onSwitch}><Icons.GearIcon/></Button>}
               </RawNamesSwitch.Consumer>
             )}
           </RawNames.Consumer>
