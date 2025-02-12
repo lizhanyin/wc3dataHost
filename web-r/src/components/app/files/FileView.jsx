@@ -1,7 +1,7 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import Panel from "@/components/common/panel";
-
+import { withRouter } from "@/components/common/withRouter";
 import { AppCacheProviderContext } from "@/hooks";
 import { parseUid } from "@/utils";
 
@@ -17,7 +17,7 @@ class FileViewComponent extends React.Component {
 
   render() {
     const data = this.context;
-    const uid = this.props.match.params.id;
+    const uid = this.props.params.id;
     const key = uid == null ? null : parseUid(uid);
     return (
       <IdCtx.Provider value={key}>
@@ -42,4 +42,4 @@ class FileViewComponent extends React.Component {
   }
 }
 
-export const FileView = () => FileViewComponent;//<Route path={`/:build/files/:id?`} component={FileViewComponent}/>;
+export const FileView = () => withRouter(<FileViewComponent/>);//<Route path={`/:build/files/:id?`} component={FileViewComponent}/>;

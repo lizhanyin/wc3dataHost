@@ -19,7 +19,7 @@ Object.keys(objectTypes).map(t => (
 
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/*",
     element: <App/>,
     children: [
       { index: true, element: <RootLayout /> }, 
@@ -28,7 +28,7 @@ export const router = createBrowserRouter([
           ...objectRoutes,
           // { path: "script", element: <JassView/>},
           { path: "map", element: <MapHome/>},
-          { path: "files",  element: <FileView/>, children: [
+          { path: "files?/*",  element: <FileView/>, children: [
             { path: ":id?",  element: <FileView/>}
           ]},
         ]

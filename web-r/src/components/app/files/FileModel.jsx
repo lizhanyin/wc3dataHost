@@ -2,7 +2,7 @@ import React from 'react';
 import { vec3, mat4 } from 'gl-matrix';
 import ModelViewer from '../mdx';
 import { AutoSizer } from 'react-virtualized';
-import { AppCacheProviderContext } from "@/hooks/use-cache";
+import { AppCacheProviderContext, DataProviderContext } from "@/hooks";
 import { pathHash } from '@/utils';
 const v3pos = vec3.create(), v3dir = vec3.create(), v3up = vec3.create(), v3sub = vec3.create();
 const m4rot = mat4.create();
@@ -248,12 +248,13 @@ export default class FileModelView extends React.PureComponent {
       if ([".blp", ".dds", ".gif", ".jpg", ".jpeg", ".png", ".tga"].indexOf(ext) >= 0) {
         return [data.image(path), ".png", true];
       } else {
-        const bin = data.binary(path);
-        if (bin) {
-          return [bin.data.buffer, ext, false];
-        } else {
-          return [data.cache.binary(path), ext, true];
-        }
+        // const bin = data.binary(path);
+        // if (bin) {
+        //   return [bin.data.buffer, ext, false];
+        // } else {
+        //   return [data.cache.binary(path), ext, true];
+        // }
+        return [data.binary(path), ext, true];
       }
     };
 
