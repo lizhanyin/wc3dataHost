@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import * as Tooltip from "@radix-ui/react-tooltip";
+import { TooltipRoot, TooltipTrigger, TooltipContent } from "@/components/ui";
 import classNames from 'classnames';
 import { BuildCtx, ObjectIcon, TileSets, DestructableCategory, DoodadCategory, TechList } from './ObjectCtx';
 import { AppCacheProviderContext } from "@/hooks/use-cache";
@@ -118,25 +118,17 @@ const StringIcon = ({path}) => (
     {cache => {
       const icon = cache.iconByName(path);
       return (
-        <Tooltip.Provider>
-          <Tooltip.Root>
-            <Tooltip.Trigger asChild>
+          <TooltipRoot>
+            <TooltipTrigger>
               <span>
                 {icon != null && <span className="Icon" style={icon}/>}
                 {path}
               </span>
-            </Tooltip.Trigger>
-            <Tooltip.Portal>
-              <Tooltip.Content
-                className="select-none rounded bg-whitea-12 dark:bg-blacka-12 px-[15px] py-2.5 text-[15px] leading-none text-blue-11 border-1 shadow-gray-7 will-change-[transform,opacity] data-[state=delayed-open]:data-[side=bottom]:animate-slide-in-from-bottom-400 data-[state=delayed-open]:data-[side=left]:animate-slide-in-from-left-400 data-[state=delayed-open]:data-[side=right]:animate-slide-in-from-right-400 data-[state=delayed-open]:data-[side=top]:animate-slide-in-from-top-400"
-                sideOffset={5}
-              >
-                <StringIconPopup path={path} cache={cache}/>
-                <Tooltip.Arrow className="fill-blue-11 dark:fill-blue-11" />
-              </Tooltip.Content>
-            </Tooltip.Portal>
-          </Tooltip.Root>
-        </Tooltip.Provider>
+            </TooltipTrigger>
+            <TooltipContent>
+              <StringIconPopup path={path} cache={cache}/>
+            </TooltipContent>
+          </TooltipRoot>
       );
     }}
   </AppCacheProviderContext.Consumer>

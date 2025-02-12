@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
+import { useData } from "@/hooks/use-data";
 import encoding from "@sinonjs/text-encoding";
 
 import { downloadBlob, equalUid, pathHash, parseUid } from '@/utils';
@@ -156,4 +157,18 @@ class GameFileDataFinder extends React.PureComponent {
 //   listFile: ({data}) => data.listFile(),
 // }, GameFileDataFinder, undefined, undefined);
 
-export const GameFileData = GameFileDataFinder;
+export const GameFileData = ({...props}) => {
+  const data = useData();
+  const [listFile, setListFile] = React.useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      const listFile = await data.listFile();
+      setListFile(listFile);  
+    }
+    data && fetchData();
+  }, [data]);
+
+  if (!listFile) return <></>;
+
+  return <GameFileDataFinder id={data.id} data={data} listFile={listFile} {...props} />;
+}

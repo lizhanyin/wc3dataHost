@@ -1,10 +1,10 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import { FormControl } from "react-bootstrap";
 import { AutoSizer, List } from "react-virtualized";
 import classNames from "classnames";
 import { equalUid, makeUid, parseUid, pathHash } from "@/utils";
-import { DataProviderContext } from "@/hooks/use-data";
+import { DataProviderContext, useData } from "@/hooks/use-data";
 import Panel from "@/components/common/panel";
 import { IdCtx } from "./FileCtx";
 
@@ -392,4 +392,20 @@ const EmptyPanel = ({id, listFile, className, ...props}) => <Panel className={cl
 // }, ({data, ...props}) => <FileListInner key={data.id} isMap={data.isMap} {...props}/>, EmptyPanel, EmptyPanel);
 
 
-export const FileList = FileListInner;
+export const FileList = ({...props}) => {
+  const params = useParams();
+  const data = useData();
+  const [listFile, setListFile] = React.useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const listFile = await data.listFile();
+      setListFile(listFile);  
+    }
+    data && fetchData();
+  }, [data]);
+
+  if (!listFile) return <EmptyPanel/>;
+
+  return <FileListInner key={data.id} isMap={data.isMap} listFile={listFile} params={params} {...props} />;
+}

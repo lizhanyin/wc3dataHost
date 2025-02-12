@@ -1,8 +1,8 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Panel from "@/components/common/panel";
 import { withRouter } from "@/components/common/withRouter";
-import { AppCacheProviderContext } from "@/hooks";
+import { AppCacheProviderContext, DataProviderContext } from "@/hooks";
 import { parseUid } from "@/utils";
 
 import { IdCtx } from "./FileCtx";
@@ -13,10 +13,11 @@ import { GameFileData } from "./GameFileData";
 import "./FileView.scss";
 
 class FileViewComponent extends React.Component {
-  static contextType = AppCacheProviderContext;
+  static contextType = DataProviderContext;
 
   render() {
     const data = this.context;
+    if (!data) return <></>;
     const uid = this.props.params.id;
     const key = uid == null ? null : parseUid(uid);
     return (
@@ -24,7 +25,7 @@ class FileViewComponent extends React.Component {
         <div className="FileView">
           <Panel cols>
             <FileList size={300} minSize={100} resizable className="LeftPanel" data={data} id={key}/>
-            <Panel className="RightPanel" minSize={100}>
+            <Panel key={key} className="RightPanel" minSize={100}>
               {key == null ? (
                 <span className="message">Select a file to view its contents</span>
               ) : (data.hasFile(key) ? (
@@ -42,4 +43,8 @@ class FileViewComponent extends React.Component {
   }
 }
 
-export const FileView = () => withRouter(<FileViewComponent/>);//<Route path={`/:build/files/:id?`} component={FileViewComponent}/>;
+// export const FileView = () => withRouter(FileViewComponent);//<Route path={`/:build/files/:id?`} component={FileViewComponent}/>;
+export const FileView = ({...props}) => {
+  const params = useParams();
+  return <FileViewComponent {...props} params={params} />;
+}

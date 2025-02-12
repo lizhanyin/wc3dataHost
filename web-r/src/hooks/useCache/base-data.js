@@ -1,5 +1,6 @@
 import { postProcess } from "@/utils";
 class BaseData {
+
   constructor(cache, build, name) {
     this.cache = cache;
     this.id = build;

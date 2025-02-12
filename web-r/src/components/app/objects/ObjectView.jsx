@@ -1,8 +1,8 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { RawNames, RawNamesSwitch, BuildCtx, TypeCtx, IdCtx } from './ObjectCtx';
 import Panel from '@/components/common/panel';
 import { useData, useOptions } from '@/hooks';
+import { RawNames, RawNamesSwitch, BuildCtx, TypeCtx, IdCtx } from './ObjectCtx';
 import { ObjectList } from './ObjectList';
 import { ObjectData } from './ObjectData';
 
@@ -16,13 +16,11 @@ const ObjectViewComponent = ({ build, type, id }) => {
   const [data, setData] = React.useState(null);
   
   React.useEffect(() => {
-    if (!dataObject) return;
-
     const fetchData = async () => {
       const data = await dataObject.objects();
       setData(data);  
     }
-    fetchData();
+    dataObject && fetchData();
   }, [dataObject]);
 
   if (!data) return <></>;
