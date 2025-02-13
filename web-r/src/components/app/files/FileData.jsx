@@ -1,12 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
 import encoding from "@sinonjs/text-encoding";
+import { useGlobal } from "@/hooks";
 import { makeUid, parseUid, pathHash, equalUid } from '@/utils';
 import { Icons } from "@/components/icons";
 
 import { downloadBlob } from '@/utils';
 import SlkFile from '../mdx/parsers/slk/file';
-// import Title from '../data/title';
 
 import FileSlkView from './FileSlk';
 import FileHexView from './FileHex';
@@ -182,6 +182,9 @@ export class FileData extends React.Component {
     if (!this.binary) {
       return null;
     }
+
+    const { setTitle } = useGlobal();
+    setTitle(this.getName());
 
     return (
       <div className="FileData">

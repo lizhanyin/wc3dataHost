@@ -7,7 +7,6 @@ import { downloadBlob, equalUid, pathHash, parseUid } from '@/utils';
 import { Icons } from "@/components/icons";
 
 import SlkFile from '../mdx/parsers/slk/file';
-// import Title from '../data/title';
 
 import FileSlkView from './FileSlk';
 import FileHexView from './FileHex';
@@ -31,8 +30,9 @@ class GameFileInner extends React.Component {
   constructor(props) {
     super(props);
     const {name, data} = props;
-
     const state = {panel: "hex"};
+    const { setTitle } = useGlobal();
+    setTitle(name);
 
     const ext = name.substr(name.lastIndexOf(".")).toLowerCase();
     if (ext === ".mdx") {
@@ -93,11 +93,6 @@ class GameFileInner extends React.Component {
   }
 
   render() {
-
-    useGlobal({
-      title: this.props.name,
-    });
-
     return (
       <div className="FileData">
         {/* <Title title={this.props.name}/> */}
@@ -120,8 +115,20 @@ class GameFileInner extends React.Component {
 // const GameFileLoader = withAsync({
 //   data: ({data}) => data,
 // }, GameFileInner, undefined, undefined);
+export const GameFileLoader = ({data, ...props}) => {
+  const [state, setState] = React.useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      await data.then(result => setState(result));
+    }
+    data && fetchData();
+  }, [data]);
 
-const GameFileLoader = GameFileInner;
+  if (!state) return <></>;
+
+  return <GameFileInner data={state} {...props} />;
+}
+
 class GameFileDataFinder extends React.PureComponent {
   constructor(props) {
     super(props);

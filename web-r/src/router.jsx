@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "@/App";
 import { MapHome, RootLayout, objectTypes, ObjectView } from "@/components/app";
 import { FileView } from '@/components/app/files/FileView';
-// import JassView from '@/components/app/jass/JassView';
+import JassView from '@/components/app/jass/JassView';
 
 const objectRoutes = [];
 Object.keys(objectTypes).map(t => (
@@ -26,7 +26,7 @@ export const router = createBrowserRouter([
       { path: ":build?/*", element: <RootLayout />, children: [
           { index: true, element: <MapHome/>},
           ...objectRoutes,
-          // { path: "script", element: <JassView/>},
+          { path: "script", element: <JassView/>},
           { path: "map", element: <MapHome/>},
           { path: "files?/*",  element: <FileView/>, children: [
             { path: ":id?",  element: <FileView/>}

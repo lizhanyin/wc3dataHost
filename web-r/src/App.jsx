@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { Outlet } from 'react-router-dom';
-import { GlobalProvider, AppCacheProvider, OptionsProvider, useGlobal, useAppCache } from "@/hooks";
+import { GlobalProvider, AppCacheProvider, OptionsProvider, useAppCache } from "@/hooks";
 
 import { cn } from "@/lib/utils"
 
@@ -48,21 +48,19 @@ function App() {
   };
 
   return (
-    <>
-      <GlobalProvider>
-        <OptionsProvider>
-          <AppCacheProvider beginMapLoad={beginMapLoad} onMapProgress={onMapProgress} finishMapLoad={finishMapLoad} failMapLoad={failMapLoad}>
-            <main className={cn(
-              "flex flex-col min-h-screen bg-background font-sans antialiased gap-1",
-              // min-h-full p-3 gap-1 flex flex-col
-              // fontSans.variable
-            )}>
-              <Outlet />
-            </main>
-          </AppCacheProvider>
-        </OptionsProvider>
-      </GlobalProvider>
-    </>
+    <GlobalProvider>
+      <OptionsProvider>
+        <AppCacheProvider beginMapLoad={beginMapLoad} onMapProgress={onMapProgress} finishMapLoad={finishMapLoad} failMapLoad={failMapLoad}>
+          <main className={cn(
+            "flex flex-col min-h-screen bg-background font-sans antialiased gap-1",
+            // min-h-full p-3 gap-1 flex flex-col
+            // fontSans.variable
+          )}>
+            <Outlet />
+          </main>
+        </AppCacheProvider>
+      </OptionsProvider>
+    </GlobalProvider>
   )
 }
 

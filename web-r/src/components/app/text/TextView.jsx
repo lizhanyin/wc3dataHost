@@ -19,6 +19,7 @@ function getChildIndex(node, child) {
   }
   return -1;
 }
+
 function getChildrenLength(node, count) {
   if (count >= node.childNodes.length) return node.textContent.length;
   let length = 0;
@@ -27,6 +28,7 @@ function getChildrenLength(node, count) {
   }
   return length;
 }
+
 function getNodeOffset(node, anchor, anchorOffset) {
   let offset = 0;
   if (anchor.childNodes.length) {
@@ -42,6 +44,7 @@ function getNodeOffset(node, anchor, anchorOffset) {
   if (anchor !== node) return 0;
   return offset;
 }
+
 function findNodeOffset(node, offset) {
   if (!node.childNodes.length) return {node, offset: Math.min(node.textContent.length, offset)};
   for (let i = 0; i < node.childNodes.length; ++i) {
@@ -66,6 +69,7 @@ function findMatches(text, regex, current, lineIndex) {
   }
   return matches;
 }
+
 function highlightMatches(text, matches, offset) {
   const result = [];
   let prev = 0;
@@ -96,6 +100,7 @@ export default class TextView extends React.Component {
     document.addEventListener("copy", this.onCopy);
     document.addEventListener("selectionchange", this.onSelect);
   }
+
   componentWillUnmount() {
     document.removeEventListener("copy", this.onCopy);
     document.removeEventListener("selectionchange", this.onSelect);
@@ -157,6 +162,7 @@ export default class TextView extends React.Component {
   nodeToPos2(node, offset) {
     return this.nodeToPos({node, offset});
   }
+  
   nodeToPos(data) {
     if (!data || !this._node) return;
     const {node, offset} = data;
@@ -413,9 +419,10 @@ export default class TextView extends React.Component {
       this._scrollTop = scrollTop;
     }
   }
+
   setList = e => {
     this._list = e;
-    this._node = ReactDOM.findDOMNode(e);
+    this._node = e ? e.Grid._scrollingContainer : null; //ReactDOM.findDOMNode(e);
     if (this._scrollTop != null) {
       this._list.scrollToPosition(this._scrollTop);
       delete this._scrollTop;

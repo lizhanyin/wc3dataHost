@@ -20,8 +20,6 @@ export function RootLayout() {
     setMapData(data(build));
   }, [build, maps]);
 
-  if (!mapData) return <></>;
-
   return (
     <Container className="flex-col flex-1 p-0">
       <DataProviderContext value={mapData}>

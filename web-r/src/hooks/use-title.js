@@ -12,25 +12,35 @@ export const title = () => {
 
   useEffect(() => {
     if (g){
-      setTitles([...titles, title]);
-      updateTitle(title);
+      setTitles((prev) => {
+        if (prev[0] === title) return prev;
+        
+        const titles = [...prev, title];
+        updateTitle(titles);
+        return titles;
+      });
     }
     
     return () => {
       let index = titles.indexOf(title);
       if (index >= 0) {
-        setTitles(titles.splice(index, 1));
-        if (index >= titles.length) {
-          updateTitle();
-        }
+        setTitles((prev) => {
+          const titles = prev.splice(index, 1);
+          if (index >= titles.length) {
+            updateTitle();
+          }
+          return titles;
+        });
       }
     }
   }, [title]);
 
-  const updateTitle = (title) => {
-    let finalTitle = title;
-    titles.forEach(e => combiner(finalTitle, e));
-    document.title = combiner(finalTitle, title);
+  const updateTitle = (titles) => {
+    let finalTitle = titles[0];
+    for(let i = 1; i < titles.length; i++){
+      finalTitle = combiner(finalTitle, titles[i]) ;
+    }
+    // document.title = finalTitle;
   }
 
   return {
