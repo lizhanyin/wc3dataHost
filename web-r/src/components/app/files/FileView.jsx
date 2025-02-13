@@ -1,8 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import Panel from "@/components/common/panel";
-import { withRouter } from "@/components/common/withRouter";
-import { AppCacheProviderContext, DataProviderContext } from "@/hooks";
+import { useData } from "@/hooks";
 import { parseUid } from "@/utils";
 
 import { IdCtx } from "./FileCtx";
@@ -13,10 +12,9 @@ import { GameFileData } from "./GameFileData";
 import "./FileView.scss";
 
 class FileViewComponent extends React.Component {
-  static contextType = DataProviderContext;
 
   render() {
-    const data = this.context;
+    const data = useData();
     if (!data) return <></>;
     const uid = this.props.params.id;
     const key = uid == null ? null : parseUid(uid);
@@ -43,7 +41,7 @@ class FileViewComponent extends React.Component {
   }
 }
 
-// export const FileView = () => withRouter(FileViewComponent);//<Route path={`/:build/files/:id?`} component={FileViewComponent}/>;
+// export const FileView = () => <Route path={`/:build/files/:id?`} component={FileViewComponent}/>;
 export const FileView = ({...props}) => {
   const params = useParams();
   return <FileViewComponent {...props} params={params} />;

@@ -1,6 +1,6 @@
-import React, { createContext, use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import IdbKvStore from "idb-kv-store";
-import { BaseData, Cache, fileId } from "@/hooks/useCache";
+import { BaseData, MapData, Cache, fileId } from "@/hooks/useCache";
 import { makeUid, pathHash, notifyMessage } from "@/utils";
 import loadArchive from "@/components/app/maps/archive";
 import { AppCacheProviderContext, MapsProviderContext } from "@/hooks";
@@ -92,7 +92,7 @@ export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finish
         return cache.fetch(`/api/${custom[build]}`, { type: "binary", global: true })
           .then(data => loadArchive(data))
           .then(arc => {
-            const newMapData = { ...mapData, [build]: new MapData(cache, arc, build, maps[build]) };
+            const newMapData = { ...mapData, [build]: new MapData(value, arc, build, maps[build]) };
             setMapData(newMapData);
             return newMapData[build];
           });
@@ -101,7 +101,7 @@ export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finish
           .then(blob => readFile(blob))
           .then(data => loadArchive(data))
           .then(arc => {
-            const newMapData = { ...mapData, [build]: new MapData(cache, arc, build, maps[build]) };
+            const newMapData = { ...mapData, [build]: new MapData(value, arc, build, maps[build]) };
             setMapData(newMapData);
             return newMapData[build];
           })
@@ -111,7 +111,7 @@ export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finish
       if (baseData[build]) {
         return baseData[build];
       }
-      const newBaseData = { ...baseData, [build]: new BaseData(cache, build, versions[build]) };
+      const newBaseData = { ...baseData, [build]: new BaseData(value, build, versions[build]) };
       setBaseData(newBaseData);
       return newBaseData[build];
     }
@@ -227,9 +227,10 @@ export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finish
   };
 
   const value = {
-    versions, custom, customDesc, maps, baseData,
+    versions, cache, custom, customDesc, maps, baseData,
     abortMap, isLocal, loadMap, unloadMap,
-    icon, meta, data, hasData, iconByName, image, binary
+    icon, meta, data, hasData, iconByName, image, binary,
+    fetch: cache.fetch
   };
   return (
     <AppCacheProviderContext value={value}>

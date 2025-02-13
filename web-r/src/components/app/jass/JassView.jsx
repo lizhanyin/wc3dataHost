@@ -7,8 +7,7 @@ import encoding from "@sinonjs/text-encoding";
 import { Icons } from "@/components/icons";
 import { OverlayNav } from "@/components/common/OverlayNav";
 import { ScrollSaver } from "@/components/common/ScrollSaver";
-import AppCache from "../data/cache";
-import Options from "../data/options";
+import { DataProviderContext, OptionsProviderContext } from "@/hooks";
 import { downloadBlob } from "@/utils";
 import parseKeywords from "./keywords";
 
@@ -228,10 +227,26 @@ class JassViewer extends React.Component {
 // const JassViewerWithData = withAsync({
 //   objects: ({data}) => data.objects(),
 // }, JassViewer, undefined, undefined);
-const JassViewerWithData = JassViewer;
+
+export const JassViewerWithData = ({...props}) => {
+  const data = useData();
+  const [objects, setObjects] = React.useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      const val = await data.objects();
+      setObjects(val);  
+    }
+    data && fetchData();
+  }, [data]);
+
+  if (!objects) return <></>;
+
+  return <JassViewer id={data.id} data={data} objects={objects} {...props} />;
+}
+
 
 class JassViewParser extends React.PureComponent {
-  static contextType = AppCache.DataContext;
+  static contextType = DataProviderContext;
 
   render() {
     const {options, setOption, meta} = this.props;
@@ -267,7 +282,7 @@ class JassViewInner extends React.Component {
     getObjectName: 1,
   }
 
-  static contextType = Options.Context;
+  static contextType = OptionsProviderContext;
 
   get options() {
     return this.context.jassFormatting || JassViewInner.defaultState;

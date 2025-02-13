@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import classNames from 'classnames';
-import { useData } from "@/hooks/use-data";
 import encoding from "@sinonjs/text-encoding";
 
+import { useData, useGlobal } from "@/hooks";
 import { downloadBlob, equalUid, pathHash, parseUid } from '@/utils';
 import { Icons } from "@/components/icons";
 
@@ -93,6 +93,11 @@ class GameFileInner extends React.Component {
   }
 
   render() {
+
+    useGlobal({
+      title: this.props.name,
+    });
+
     return (
       <div className="FileData">
         {/* <Title title={this.props.name}/> */}
@@ -153,17 +158,13 @@ class GameFileDataFinder extends React.PureComponent {
   }
 }
 
-// export const GameFileData = withAsync({
-//   listFile: ({data}) => data.listFile(),
-// }, GameFileDataFinder, undefined, undefined);
-
 export const GameFileData = ({...props}) => {
   const data = useData();
   const [listFile, setListFile] = React.useState(null);
   useEffect(() => {
     const fetchData = async () => {
-      const listFile = await data.listFile();
-      setListFile(listFile);  
+      const val = await data.listFile();
+      setListFile(val);  
     }
     data && fetchData();
   }, [data]);

@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { Outlet } from 'react-router-dom';
-import { AppCacheProvider, useAppCache, OptionsProvider } from "@/hooks";
+import { GlobalProvider, AppCacheProvider, OptionsProvider, useGlobal, useAppCache } from "@/hooks";
 
 import { cn } from "@/lib/utils"
 
@@ -49,7 +49,7 @@ function App() {
 
   return (
     <>
-      {/* <Title title="Warcraft III Data Viewer"> */}
+      <GlobalProvider>
         <OptionsProvider>
           <AppCacheProvider beginMapLoad={beginMapLoad} onMapProgress={onMapProgress} finishMapLoad={finishMapLoad} failMapLoad={failMapLoad}>
             <main className={cn(
@@ -61,7 +61,7 @@ function App() {
             </main>
           </AppCacheProvider>
         </OptionsProvider>
-      {/* </Title> */}
+      </GlobalProvider>
     </>
   )
 }

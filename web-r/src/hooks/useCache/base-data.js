@@ -9,14 +9,16 @@ class BaseData {
   }
 
   objects() {
-    return this.cache.fetch(`/api/${this.id}.json`, {
+    let cache = this.cache.cache;
+    return cache.fetch(`/api/${this.id}.json`, {
       global: true,
       process: postProcess,
     });
   }
 
   listFile() {
-    return this.cache.fetch(`/api/rootlist.txt`, {
+    let cache = this.cache.cache;
+    return cache.fetch(`/api/rootlist.txt`, {
       global: true,
       type: "text",
     });

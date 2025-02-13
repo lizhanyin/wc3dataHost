@@ -2,6 +2,7 @@ import { createContext, use } from "react";
 
 const initialState = {
   versions: {}, 
+  cache: {},
   custom: {}, 
   customDesc: {}, 
   maps: {},
