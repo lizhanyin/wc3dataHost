@@ -1,19 +1,19 @@
-import React, { useEffect } from 'react';
-import classNames from 'classnames';
+import React from "react";
+import classNames from "classnames";
 import encoding from "@sinonjs/text-encoding";
 
-import { useData, useGlobal } from "@/hooks";
-import { downloadBlob, equalUid, pathHash, parseUid } from '@/utils';
+import { useGlobal } from "@/hooks";
+import { downloadBlob, equalUid, pathHash, parseUid } from "@/utils";
 import { Icons } from "@/components/icons";
+import { withAsync } from "@/components/common/withAsync";
+import SlkFile from "../mdx/parsers/slk/file";
 
-import SlkFile from '../mdx/parsers/slk/file';
-
-import FileSlkView from './FileSlk';
-import FileHexView from './FileHex';
-import FileTextView from './FileText';
-import FileImageView from './FileImage';
-import FileModelView from './FileModel';
-import FileJassView from './FileJass';
+import FileSlkView from "./FileSlk";
+import FileHexView from "./FileHex";
+import FileTextView from "./FileText";
+import FileImageView from "./FileImage";
+import FileModelView from "./FileModel";
+import FileJassView from "./FileJass";
 
 const GameFileImage = ({image, name}) => (
   <div className="FileData">
@@ -42,7 +42,7 @@ class GameFileInner extends React.Component {
       const text = new encoding.TextDecoder().decode(data);
       this.jass = text.split(/\r\n?|\n/);
       state.panel = "jass";
-    } else if (ext === ".txt" || ext === ".slk" || ext=='.fdf' || ext=='.toc') {
+    } else if (ext === ".txt" || ext === ".slk" || ext==".fdf" || ext==".toc") {
       const text = new encoding.TextDecoder().decode(data);
       const lines = text.split(/\r\n?|\n/);
       this.text = [];
@@ -112,22 +112,9 @@ class GameFileInner extends React.Component {
   }
 }
 
-// const GameFileLoader = withAsync({
-//   data: ({data}) => data,
-// }, GameFileInner, undefined, undefined);
-export const GameFileLoader = ({data, ...props}) => {
-  const [state, setState] = React.useState(null);
-  useEffect(() => {
-    const fetchData = async () => {
-      await data.then(result => setState(result));
-    }
-    data && fetchData();
-  }, [data]);
-
-  if (!state) return <></>;
-
-  return <GameFileInner data={state} {...props} />;
-}
+const GameFileLoader = withAsync({
+  data: ({data}) => data,
+}, GameFileInner, undefined, undefined);
 
 class GameFileDataFinder extends React.PureComponent {
   constructor(props) {
@@ -165,18 +152,6 @@ class GameFileDataFinder extends React.PureComponent {
   }
 }
 
-export const GameFileData = ({...props}) => {
-  const data = useData();
-  const [listFile, setListFile] = React.useState(null);
-  useEffect(() => {
-    const fetchData = async () => {
-      const val = await data.listFile();
-      setListFile(val);  
-    }
-    data && fetchData();
-  }, [data]);
-
-  if (!listFile) return <></>;
-
-  return <GameFileDataFinder id={data.id} data={data} listFile={listFile} {...props} />;
-}
+export const GameFileData = withAsync({
+  listFile: ({data}) => data.listFile(),
+}, GameFileDataFinder, undefined, undefined);

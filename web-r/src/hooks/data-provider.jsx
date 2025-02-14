@@ -111,7 +111,7 @@ export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finish
       if (baseData[build]) {
         return baseData[build];
       }
-      const newBaseData = { ...baseData, [build]: new BaseData(value, build, versions[build]) };
+      const newBaseData = { ...baseData, [build]: Promise.resolve(new BaseData(value, build, versions[build])) };
       setBaseData(newBaseData);
       return newBaseData[build];
     }

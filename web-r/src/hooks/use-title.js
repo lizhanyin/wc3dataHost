@@ -36,10 +36,10 @@ export const title = () => {
   }, [title]);
 
   const updateTitle = (titles) => {
-    let finalTitle = titles[0];
-    for(let i = 1; i < titles.length; i++){
-      finalTitle = combiner(finalTitle, titles[i]) ;
-    }
+    // let finalTitle = titles[0];
+    // for(let i = 1; i < titles.length; i++){
+    //   finalTitle = combiner(finalTitle, titles[i]) ;
+    // }
     // document.title = finalTitle;
   }
 

@@ -13,11 +13,15 @@ export function RootLayout() {
   const [mapData, setMapData] = useState(null);
 
   useEffect(() => {
-    if (!build){
+    const p = data(build);
+    if (!p){
       setMapData(null);
       return;
     }
-    setMapData(data(build));
+    const fetchData = async () => {
+      await p.then(result => setMapData(result));
+    }
+    p && fetchData();
   }, [build, maps]);
 
   return (
