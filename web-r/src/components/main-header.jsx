@@ -8,7 +8,7 @@ import { buttonVariants } from "@/lib/utils"
 
 export function MainHeader() {
   return (
-    <header className="sticky top-0 z-40 w-full border-b pl-2 pr-2 shadow-sm">
+    <header className="sticky top-0 z-40 w-full border-b pl-2 pr-2 shadow-sm bg-blue-app">
       <div className="container flex h-14 max-w-full items-center space-x-4 sm:justify-between sm:space-x-0">
         <div className="flex items-center gap-2 md:gap-2">
           <Link to="/" className="text-xl">

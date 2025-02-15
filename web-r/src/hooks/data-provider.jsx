@@ -78,7 +78,9 @@ export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finish
     if (meta1) {
       return meta1;
     }
-    return metaRaw().then(data => loadArchive(data)).then(setMeta1);
+    const meta_ = metaRaw().then(data => loadArchive(data));
+    setMeta1(meta_);
+    return meta_;
   };
 
   const isLocal = build => !!(maps[build] && !custom[build]);
@@ -92,7 +94,7 @@ export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finish
         return cache.fetch(`/api/${custom[build]}`, { type: "binary", global: true })
           .then(data => loadArchive(data))
           .then(arc => {
-            const newMapData = { ...mapData, [build]: new MapData(value, arc, build, maps[build]) };
+            const newMapData = { ...mapData, [build]: Promise.resolve(new MapData(value, arc, build, maps[build])) };
             setMapData(newMapData);
             return newMapData[build];
           });
@@ -101,7 +103,7 @@ export const AppCacheProvider = ({ children, beginMapLoad, onMapProgress, finish
           .then(blob => readFile(blob))
           .then(data => loadArchive(data))
           .then(arc => {
-            const newMapData = { ...mapData, [build]: new MapData(value, arc, build, maps[build]) };
+            const newMapData = { ...mapData, [build]: Promise.resolve(new MapData(value, arc, build, maps[build])) };
             setMapData(newMapData);
             return newMapData[build];
           })

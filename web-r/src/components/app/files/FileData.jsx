@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 import encoding from "@sinonjs/text-encoding";
-import { useGlobal } from "@/hooks";
 import { makeUid, parseUid, pathHash, equalUid } from '@/utils';
 import { Icons } from "@/components/icons";
 
@@ -138,7 +137,7 @@ export class FileData extends React.Component {
     case "model": return <FileModelView id={this.props.id}/>;
     case "image": return <FileImageView data={this.binary} image={this.image}/>;
     // case "data": return <ObjectInspector expandLevel={1} data={this.data}/>;
-    case "data": return <div>{JSON.stringify(this.data)}</div>;
+    case "data": return <div>{JSON.stringify(this.data, null, 2)}</div>;
     default: return null;
     }
   }
@@ -182,9 +181,6 @@ export class FileData extends React.Component {
     if (!this.binary) {
       return null;
     }
-
-    const { setTitle } = useGlobal();
-    setTitle(this.getName());
 
     return (
       <div className="FileData">

@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import { useParams, Outlet } from 'react-router-dom';
+import { DataProviderContext, useAppCache } from "@/hooks";
 import { MainHeader } from "@/components/main-header";
 import { Container } from "@/components/ui";
 import { Home } from "@/components/app";
-import { DataProviderContext, useAppCache } from "@/hooks";
+import { cn } from "@/lib/utils"
 
 export function RootLayout() {
   const { build } = useParams();
@@ -18,20 +19,27 @@ export function RootLayout() {
       setMapData(null);
       return;
     }
-    const fetchData = async () => {
-      await p.then(result => setMapData(result));
-    }
-    p && fetchData();
+
+    (async () => await p.then(result => setMapData(result)))();
   }, [build, maps]);
 
+  if (build && !mapData) 
+    return <></>;
+
   return (
-    <Container className="flex-col flex-1 p-0">
-      <DataProviderContext value={mapData}>
-        <MainHeader/>
-        {build ? <Outlet/> : <Home/>}
-      </DataProviderContext>
-      {/* <EditorComponent/> */}
-    </Container>
+    <DataProviderContext value={mapData}>
+      <main className={cn(
+        "flex flex-col min-h-screen bg-background font-sans antialiased gap-1",
+        // min-h-full p-3 gap-1 flex flex-col
+        // fontSans.variable
+      )}>
+        <Container className="flex-col flex-1 p-0">
+            <MainHeader/>
+            {build ? <Outlet/> : <Home/>}
+          {/* <EditorComponent/> */}
+        </Container>
+      </main>
+    </DataProviderContext>
   )
 }
 

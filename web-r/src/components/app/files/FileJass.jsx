@@ -1,7 +1,8 @@
 import React from "react";
 import { AutoSizer } from "react-virtualized";
 import { SearchBox } from "@/components/common/SearchBox";
-import { AppCacheProviderContext } from "@/hooks/use-cache";
+import { withAsync } from "@/components/common/withAsync";
+import { AppCacheProviderContext, useAppCache } from "@/hooks/use-cache";
 import TextView from "../text/TextView";
 import parseKeywords from "../jass/keywords";
 
@@ -10,13 +11,11 @@ const RowHeight = 16;
 
 class FileJassInner extends React.PureComponent {
 
-  static contextType = AppCacheProviderContext;
-
   onSearch = (text, dir) => this._list ? this._list.search(text, dir) : null;
 
   constructor(props) {
     super(props);
-    this.keywords = parseKeywords(this.context.meta());
+    this.keywords = parseKeywords(props.meta);
   }
 
   tokenFunc = (text, [all, id, num, chr, str, com]) => {
@@ -63,6 +62,9 @@ class FileJassInner extends React.PureComponent {
   }
 }
 
-const FileJassView = FileJassInner;
+const FileJassView = withAsync({
+  meta: (props, context) => context.meta(),
+}, FileJassInner, undefined, undefined);
+FileJassView.contextType = AppCacheProviderContext;
 
 export default FileJassView;

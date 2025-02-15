@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "@/App";
 import { MapHome, RootLayout, objectTypes, ObjectView } from "@/components/app";
 import { FileView } from '@/components/app/files/FileView';
+import MapView from '@/components/app/map-view';
 import JassView from '@/components/app/jass/JassView';
 
 const objectRoutes = [];
@@ -27,7 +28,7 @@ export const router = createBrowserRouter([
           { index: true, element: <MapHome/>},
           ...objectRoutes,
           { path: "script", element: <JassView/>},
-          { path: "map", element: <MapHome/>},
+          { path: "map", element: <MapView/>},
           { path: "files?/*",  element: <FileView/>, children: [
             { path: ":id?",  element: <FileView/>}
           ]},

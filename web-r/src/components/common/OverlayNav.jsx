@@ -26,7 +26,7 @@ export default class OverlayNav extends React.Component {
     return (
       <TooltipRoot>
         <TooltipTrigger>
-          {React.cloneElement(child, {active: this.state.active})}
+          {React.cloneElement(child, {active: this.state.active.toString()})}
         </TooltipTrigger>
         <TooltipContent>
           <PopupWrap setActive={this.setActive}>{overlay}</PopupWrap>

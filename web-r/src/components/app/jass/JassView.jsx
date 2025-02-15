@@ -1,13 +1,14 @@
 import React from "react";
 import keycode from "keycode";
-import { Link } from "react-router-dom";
-import { Navbar, Nav, NavItem, FormGroup, Popover } from "react-bootstrap";
+import { Link, useParams } from "react-router-dom";
+import { Navbar, Nav, NavItem, FormGroup, Form, Popover } from "react-bootstrap";
 import { AutoSizer } from "react-virtualized";
 import encoding from "@sinonjs/text-encoding";
 import { Icons } from "@/components/icons";
 import { OverlayNav } from "@/components/common/OverlayNav";
 import { ScrollSaver } from "@/components/common/ScrollSaver";
-import { DataProviderContext, OptionsProviderContext } from "@/hooks";
+import { withAsync } from "@/components/common/withAsync";
+import { AppCacheProviderContext, DataProviderContext, OptionsProviderContext, useAppCache, useData } from "@/hooks";
 import { downloadBlob } from "@/utils";
 import parseKeywords from "./keywords";
 
@@ -175,7 +176,7 @@ class JassViewer extends React.Component {
     const results = searchResults && searchResults.count;
     return (
       <div className="JassView" onKeyDown={this.onKeyDown}>
-        <Navbar fluid className="JassHeader">
+        <Navbar fluid="true" className="JassHeader">
           <Nav>
             <NavItem eventKey="source" onClick={this.onDownload}>
               Download <Icons.DownloadIcon/>
@@ -186,7 +187,7 @@ class JassViewer extends React.Component {
               </NavItem>
             </OverlayNav>
           </Nav>
-          <Navbar.Form pullLeft>
+          <Navbar pullLeft>
             <FormGroup>
               <div className="form-control">
                 <input type="text"
@@ -200,7 +201,7 @@ class JassViewer extends React.Component {
                 <button disabled={!results} onClick={this.findNext} title="Next"><Icons.ChevronDownIcon/></button>
               </div>
             </FormGroup>
-          </Navbar.Form>
+          </Navbar>
         </Navbar>
         <ScrollSaver onRef={e => this._saver = e} callback={this.setScroll}/>
         <div className="JassSource" ref={node => this._node = node}>
@@ -224,28 +225,11 @@ class JassViewer extends React.Component {
   }
 }
 
-// const JassViewerWithData = withAsync({
-//   objects: ({data}) => data.objects(),
-// }, JassViewer, undefined, undefined);
+const JassViewerWithData = withAsync({
+  objects: ({data}) => data.objects(),
+}, JassViewer, undefined, undefined);
 
-export const JassViewerWithData = ({...props}) => {
-  const data = useData();
-  const [objects, setObjects] = React.useState(null);
-  useEffect(() => {
-    const fetchData = async () => {
-      const val = await data.objects();
-      setObjects(val);  
-    }
-    data && fetchData();
-  }, [data]);
-
-  if (!objects) return <></>;
-
-  return <JassViewer id={data.id} data={data} objects={objects} {...props} />;
-}
-
-
-class JassViewParser extends React.PureComponent {
+class JassViewParser extends React.Component {
   static contextType = DataProviderContext;
 
   render() {
@@ -299,10 +283,9 @@ class JassViewInner extends React.Component {
   }
 }
 
-// const JassView = withAsync({
-//   meta: (props, context) => context.meta(),
-// }, JassViewInner, undefined, undefined);
-// JassView.contextType = AppCache.Context;
-const JassView = JassViewInner;
+const JassView = withAsync({
+  meta: (props, context) => context.meta(),
+}, JassViewInner, undefined, undefined);
+JassView.contextType = AppCacheProviderContext;
 
 export default JassView;

@@ -183,12 +183,27 @@ const DropMenuDesc = ({ ref, className, children, ...props }) => (
 );
 DropMenuDesc.displayName = "DropMenuDesc"
 
+const ItemLink = ({ ref, className, children, ...props }) => (
+  <Item ref={ref}>
+    <Trigger className={cn(
+      "bg-blue-ghost",
+      className,
+    )}>
+      <Link {...props}>
+        {children}
+      </Link>
+    </Trigger>
+  </Item>
+);
+ItemLink.displayName = "ItemContainer"
+
 export { 
   Root, 
   Content, 
   Trigger, 
   Link, 
   Item, 
+  ItemLink,
   List, 
   Indicator, 
   Viewport, 

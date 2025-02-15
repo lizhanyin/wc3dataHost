@@ -16,10 +16,7 @@ const ObjectViewComponent = ({ build, type, id }) => {
   const [data, setData] = React.useState(null);
   
   React.useEffect(() => {
-    const fetchData = async () => {
-      const data = await dataObject.objects();
-      setData(data);  
-    }
+    const fetchData = async () => setData(await dataObject.objects());  
     dataObject && fetchData();
   }, [dataObject]);
 

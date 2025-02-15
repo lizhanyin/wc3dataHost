@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 const $history = "$history";
 
@@ -35,5 +35,5 @@ class ScrollSaverComponent extends React.Component {
   }
 }
 
-export const ScrollSaver = props => <Route render={({history}) => <ScrollSaverComponent {...props} {...{[$history]: history}}/>}/>;
+export const ScrollSaver = props => <Routes><Route render={({history}) => <ScrollSaverComponent {...props} {...{[$history]: history}}/>}/></Routes>;
 export default ScrollSaver;
