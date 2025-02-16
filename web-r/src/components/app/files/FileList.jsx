@@ -298,7 +298,7 @@ class FileListInner extends React.PureComponent {
           node.searched = node.searched || searched;
           if (node.searched) {
             hasSearchResult = true;
-    }
+          }
         })
       });
       this.setState({ search: e.target.value, searchResults: found, searched: hasSearchResult });

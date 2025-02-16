@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import classNames from "classnames";
 import { List, defaultCellRangeRenderer } from "react-virtualized";
 import { createChainedFunction, replaceReact } from "@/utils";

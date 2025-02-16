@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-import { RawNames, RawNamesSwitch, SortNames, BuildCtx, TypeCtx, IdCtx, ObjectFilters, ObjectIcon } from './ObjectCtx';
+import { RawNames, RawNamesSwitch, BuildCtx, TypeCtx, IdCtx, ObjectFilters, ObjectIcon } from './ObjectCtx';
 import { FormControl, Button } from 'react-bootstrap';
 import { AutoSizer, List } from 'react-virtualized';
 import DataDownload from './DataDownload';

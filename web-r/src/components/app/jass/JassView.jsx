@@ -1,7 +1,7 @@
 import React from "react";
 import keycode from "keycode";
-import { Link, useParams } from "react-router-dom";
-import { Navbar, Nav, NavItem, FormGroup, Form, Popover } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { Navbar, Nav, NavItem, FormGroup, Popover } from "react-bootstrap";
 import { AutoSizer } from "react-virtualized";
 import encoding from "@sinonjs/text-encoding";
 import { Icons } from "@/components/icons";
