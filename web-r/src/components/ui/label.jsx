@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import * as LabelPrimitive from "@radix-ui/react-label"
+import { Label as LabelPrimitive } from "radix-ui";
 import { cva } from "class-variance-authority";
 
 import { cn } from "@/lib/utils"

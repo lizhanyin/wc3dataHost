@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import * as TabsPrimitive from "@radix-ui/react-tabs"
+import { Tabs as TabsPrimitiv } from "radix-ui";
 
 import { cn } from "@/lib/utils"
 

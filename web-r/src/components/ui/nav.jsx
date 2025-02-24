@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Link as RLink } from 'react-router-dom';
-import * as NavigationMenu from "@radix-ui/react-navigation-menu";
+import { NavigationMenu } from "radix-ui";
 import { Icons } from "@/components/icons";
 import { cn } from "@/lib/utils"
 

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import * as TooltipComponent from "@radix-ui/react-tooltip";
+import { Tooltip as TooltipComponent } from "radix-ui";
 import { cn } from "@/lib/utils"
 
 const TooltipRoot = ({ref, children, className, ...props}) => {

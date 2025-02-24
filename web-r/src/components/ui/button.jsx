@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Slot } from "@radix-ui/react-slot"
+import { Slot } from "radix-ui";
 import { cn, buttonVariants } from "@/lib/utils"
 
 const Button = ({ref, className, variant, size, asChild = false, ...props}) => {

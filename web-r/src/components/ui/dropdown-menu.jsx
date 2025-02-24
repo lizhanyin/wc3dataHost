@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
+import { DropdownMenu as DropdownMenuPrimitive } from "radix-ui";
 import { Icons } from "@/components/icons";
 import { cn } from "@/lib/utils"
 
